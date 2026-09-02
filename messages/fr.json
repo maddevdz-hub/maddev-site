@@ -1,0 +1,336 @@
+{
+  "meta": {
+    "siteName": "MADDEV",
+    "tagline": "Des sites qui rapportent des commandes",
+    "home": {
+      "title": "MADDEV — Des sites qui rapportent des commandes",
+      "description": "Nous concevons des sites et des boutiques pour les commerçants en Algérie. La commande arrive complète par WhatsApp, et vous pilotez votre site depuis votre téléphone."
+    },
+    "services": {
+      "title": "Sites, boutiques et publicité — MADDEV",
+      "description": "Vos clients vous trouvent sur Google, la commande arrive complète par WhatsApp, et vous pilotez votre site depuis votre téléphone. Ce que vous obtenez, pour qui, en combien de temps."
+    },
+    "work": {
+      "title": "Réalisations — MADDEV",
+      "description": "Notre réalisation : un showroom de meubles à Bordj Bou Arréridj — 67 pages en ligne et la commande qui arrive complète par WhatsApp. Un projet réel, que vous pouvez visiter."
+    },
+    "process": {
+      "title": "Vous validez avant qu’on code — MADDEV",
+      "description": "Découverte, design, développement, lancement, suivi. Cinq étapes claires, de la première discussion à la mise en ligne."
+    },
+    "contact": {
+      "title": "Parlons de votre projet — MADDEV",
+      "description": "Parlons de votre projet. Première consultation gratuite, réponse rapide par WhatsApp ou email."
+    },
+    "about": {
+      "title": "Le studio derrière vos sites — MADDEV",
+      "description": "Le développeur derrière MADDEV. Maquette validée avant tout code, site qui vous appartient à 100 %, code et accès transférés à votre nom."
+    },
+    "compare": {
+      "title": "Site web ou page Facebook ? — MADDEV",
+      "description": "Comparatif honnête : propriété, visibilité Google, données clients, durée de vie, coût. Et les cas où une page Facebook suffit vraiment."
+    },
+    "quiz": {
+      "title": "Trouvez votre solution — MADDEV",
+      "description": "Quatre questions, une recommandation claire. Découvrez en une minute le service adapté à votre projet, et recevez une proposition chiffrée sous 24 h."
+    }
+  },
+  "nav": {
+    "home": "Accueil",
+    "services": "Services",
+    "work": "Réalisations",
+    "process": "Méthode",
+    "contact": "Contact",
+    "about": "Qui sommes-nous",
+    "compare": "Site ou Facebook ?",
+    "quiz": "Trouvez votre solution",
+    "cta": "Consultation gratuite",
+    "openMenu": "Ouvrir le menu",
+    "closeMenu": "Fermer le menu",
+    "switchLanguage": "Passer en arabe",
+    "skipToContent": "Aller au contenu principal"
+  },
+  "home": {
+    "hero": {
+      "eyebrow": "Studio digital · Algérie",
+      "titleLine1": "Des sites qui rapportent",
+      "titleAccent": "des commandes",
+      "subtitle": "Votre client trouve le produit, choisit ses options, et vous envoie une commande complète. Vous n’avez plus qu’à préparer le colis.",
+      "ctaPrimary": "Démarrer un projet",
+      "ctaSecondary": "Voir nos services",
+      "stats": {
+        "stack": {
+          "value": "0",
+          "label": "template utilisé"
+        },
+        "ratio": {
+          "value": "1:1",
+          "label": "contact direct, sans intermédiaire"
+        },
+        "response": {
+          "value": "24 h",
+          "label": "réponse à votre demande"
+        }
+      },
+      "logoAlt": "Symbole MADDEV : deux D entrelacés"
+    },
+    "trust": {
+      "title": "Ce sur quoi vous pouvez compter",
+      "fast": {
+        "title": "Livraison rapide",
+        "text": "Des délais annoncés dès le devis, et tenus."
+      },
+      "quality": {
+        "title": "Un site qui reste rapide",
+        "text": "Sites rapides, propres, faits pour durer et évoluer."
+      },
+      "direct": {
+        "title": "Contact direct",
+        "text": "Vous parlez au développeur, pas à un commercial."
+      },
+      "ownership": {
+        "title": "Le site est à vous",
+        "text": "Code, domaine et accès transférés à votre nom à la livraison."
+      }
+    },
+    "services": {
+      "eyebrow": "Nos services",
+      "title": "Ce que vous y gagnez",
+      "subtitle": "Quatre situations, quatre résultats concrets. Trouvez la vôtre.",
+      "cta": "Tout voir en détail",
+      "cardCta": "En savoir plus"
+    },
+    "featured": {
+      "eyebrow": "Réalisation vedette",
+      "cta": "Voir la réalisation"
+    },
+    "why": {
+      "eyebrow": "Pourquoi MADDEV",
+      "title": "Ce que vous n’aurez pas ailleurs",
+      "pillars": {
+        "builders": {
+          "title": "On construit et on fait vendre",
+          "text": "Développeurs et annonceurs à la fois. Quand on lance vos publicités, on connaît chaque ligne de code de la page d'arrivée — donc on mesure juste et on optimise vraiment."
+        },
+        "clarity": {
+          "title": "Pas de jargon, pas de surprise",
+          "text": "Un devis détaillé avant de commencer, et le montant ne bouge plus. Pas de ligne qui apparaît à la fin."
+        },
+        "validation": {
+          "title": "Vous validez avant qu’on code",
+          "text": "On vous montre la maquette d’abord. Tant qu’elle ne vous plaît pas, on la reprend. Aucune ligne de code n’est écrite avant votre accord."
+        }
+      }
+    },
+    "finalCta": {
+      "title": "Parlons de votre projet",
+      "text": "Première consultation gratuite. On regarde ensemble ce dont vous avez besoin — et si on n'est pas les bons, on vous le dit.",
+      "primary": "Nous contacter",
+      "secondary": "Voir notre méthode"
+    }
+  },
+  "services": {
+    "eyebrow": "Services",
+    "title": "Ce que vous obtenez",
+    "titleAccent": "selon ce que vous vendez",
+    "intro": "Chaque situation a son résultat. Voici ce que vous obtenez, pour qui c’est fait, et en combien de temps.",
+    "principle": {
+      "title": "Aucun template.",
+      "text": "Les quatre offres partent d’une page blanche : le site est dessiné pour votre marque, vos produits et votre façon de vendre. Rien n’est acheté tout fait puis rempli avec vos photos."
+    },
+    "labels": {
+      "promise": "La promesse",
+      "deliverables": "Ce que vous obtenez",
+      "audience": "Pour qui ?",
+      "result": "Le résultat",
+      "timeline": "Délai",
+      "quote": "Demander un devis"
+    },
+    "recurring": {
+      "eyebrow": "Suivi",
+      "title": "Et après la mise en ligne ?",
+      "subtitle": "Deux formules mensuelles, sans engagement long. À prendre ou à laisser — votre site vous appartient dans tous les cas.",
+      "maintenance": {
+        "title": "Maintenance mensuelle",
+        "text": "Mises à jour techniques, sauvegardes, corrections et petites évolutions. Votre site reste rapide et sécurisé sans que vous ayez à y penser.",
+        "items": [
+          "Mises à jour et sauvegardes",
+          "Corrections et petits ajouts",
+          "Surveillance des performances",
+          "Support prioritaire"
+        ]
+      },
+      "ads": {
+        "title": "Gestion publicitaire mensuelle",
+        "text": "On pilote vos campagnes au quotidien : ajustement des audiences, renouvellement des visuels, et un rapport mensuel qui relie chaque dinar dépensé aux résultats.",
+        "items": [
+          "Pilotage des campagnes",
+          "Nouveaux visuels chaque mois",
+          "Tests d'audiences et de messages",
+          "Rapport mensuel : dépensé → résultats"
+        ]
+      }
+    },
+    "finalCta": {
+      "title": "Pas sûr du service qu'il vous faut ?",
+      "text": "Décrivez-nous votre situation en deux lignes. On vous dit ce qui est pertinent — et ce qui ne l'est pas.",
+      "primary": "Demander conseil",
+      "secondary": "Voir nos réalisations"
+    }
+  },
+  "work": {
+    "eyebrow": "Réalisations",
+    "title": "Voyez le résultat avant de commander",
+    "intro": "Un projet client en ligne, puis des démonstrations que nous avons conçues pour montrer, métier par métier, ce que vous obtenez.",
+    "realTitle": "Nos réalisations",
+    "demos": {
+      "title": "Démonstrations",
+      "intro": "Des projets fictifs, conçus pour montrer concrètement ce que nous livrons dans chaque métier.",
+      "cta": "Voir la démonstration"
+    },
+    "labels": {
+      "result": "Résultat",
+      "visit": "Voir le site"
+    },
+    "finalCta": {
+      "title": "Votre projet, le prochain sur cette page",
+      "text": "On travaille avec un nombre limité de clients à la fois, pour que chaque projet reçoive l'attention qu'il mérite.",
+      "primary": "Démarrer un projet"
+    }
+  },
+  "process": {
+    "eyebrow": "Notre méthode",
+    "title": "Cinq étapes, dans cet ordre",
+    "intro": "Un projet réussi n'est pas un projet où on code vite. C'est un projet où on comprend d'abord, et où vous savez à chaque instant où on en est.",
+    "labels": {
+      "step": "Étape",
+      "whatHappens": "Ce qui se passe"
+    },
+    "finalCta": {
+      "title": "On commence par l'étape 1",
+      "text": "Une discussion, gratuite, sans engagement. On comprend votre besoin et on vous dit franchement si on peut aider.",
+      "primary": "Réserver la découverte"
+    }
+  },
+  "contact": {
+    "eyebrow": "Contact",
+    "title": "Parlons de votre projet",
+    "intro": "Première consultation gratuite. Décrivez votre besoin en quelques lignes — réponse sous 24 h.",
+    "freeBadge": "Première consultation gratuite",
+    "form": {
+      "name": "Nom complet",
+      "namePlaceholder": "Votre nom",
+      "contact": "Téléphone ou email",
+      "contactPlaceholder": "0X XX XX XX XX ou vous@domaine.com",
+      "service": "Service souhaité",
+      "servicePlaceholder": "Choisissez un service",
+      "serviceOther": "Autre / je ne sais pas encore",
+      "message": "Votre message",
+      "messagePlaceholder": "Décrivez votre activité et ce que vous voulez obtenir.",
+      "submit": "Envoyer la demande",
+      "sending": "Envoi en cours…",
+      "successTitle": "Message reçu",
+      "successText": "Merci — on vous répond sous 24 heures ouvrées. Pour une réponse immédiate, écrivez-nous sur WhatsApp.",
+      "errorTitle": "L'envoi a échoué",
+      "errorText": "Réessayez dans un instant, ou contactez-nous directement sur WhatsApp.",
+      "required": "Ce champ est obligatoire",
+      "sendAnother": "Envoyer un autre message",
+      "ownershipNote": "Vous restez propriétaire de vos photos, textes et marque."
+    },
+    "direct": {
+      "title": "Ou directement",
+      "whatsapp": "WhatsApp",
+      "whatsappHint": "Réponse la plus rapide",
+      "email": "Email",
+      "emailHint": "Pour les dossiers détaillés",
+      "hours": "Disponibles du dimanche au jeudi, 9h–18h (heure d'Alger)."
+    }
+  },
+  "about": {
+    "eyebrow": "Qui sommes-nous",
+    "title": "Un site, ça se construit avec quelqu’un",
+    "compareLink": "Site ou page Facebook : le comparatif",
+    "finalCta": {
+      "title": "Parlons de votre projet",
+      "text": "Une discussion, gratuite, sans engagement. Si un site n’est pas ce qu’il vous faut, on vous le dira franchement.",
+      "primary": "Prendre contact"
+    }
+  },
+  "compare": {
+    "eyebrow": "Comparatif",
+    "title": "Site web ou page Facebook ?",
+    "intro": "Les deux ont leur usage. Voici les différences réelles, sans exagération — et les cas où une page Facebook suffit largement.",
+    "criterionColumn": "Critère",
+    "facebookColumn": "Page Facebook",
+    "websiteColumn": "Site web",
+    "tableCaption": "Comparatif entre une page Facebook et un site web selon six critères",
+    "finalCta": {
+      "title": "Pas sûr de ce qu’il vous faut ?",
+      "text": "Quatre questions et vous saurez si un site est justifié dans votre situation — ou si vous pouvez attendre.",
+      "primary": "Répondre aux 4 questions"
+    }
+  },
+  "faq": {
+    "eyebrow": "Questions fréquentes",
+    "title": "Les questions qu’on nous pose",
+    "subtitle": "Celles que les commerçants posent réellement, avec des réponses directes."
+  },
+  "quiz": {
+    "eyebrow": "Configurateur",
+    "title": "Trouvez ce qu’il vous faut",
+    "intro": "Quatre questions, une minute, et vous saurez exactement quel service correspond à votre projet. Nous revenons ensuite vers vous sous 24 h avec une proposition chiffrée.",
+    "heroCtaTitle": "Vous ne savez pas par où commencer ?",
+    "heroCtaText": "Répondez à 4 questions, on vous oriente",
+    "start": "Commencer",
+    "nav": {
+      "progress": "Étape {current} sur {total}",
+      "back": "Retour",
+      "skip": "Passer cette question",
+      "questionLabel": "Question {current} sur {total}"
+    },
+    "result": {
+      "eyebrow": "Votre recommandation",
+      "titlePrefix": "Voici la solution idéale pour vous :",
+      "redesignBadge": "Refonte + optimisation",
+      "whyTitle": "Pourquoi ce choix",
+      "deliverablesTitle": "Ce que vous obtenez",
+      "exampleTitle": "Concrètement",
+      "exampleNoProject": "Voici à quoi ressemble le résultat que nous livrons.",
+      "seeProject": "Voir cette réalisation",
+      "timelineTitle": "Délai",
+      "nextStepTitle": "La suite",
+      "nextStep": "Nous revenons vers vous sous 24 h avec une proposition chiffrée.",
+      "alsoTitle": "On recommande aussi",
+      "alsoIntro": "Comme vous voulez faire venir des clients, un second volet fait la différence :",
+      "ctaPrimary": "Demander cette solution",
+      "ctaWhatsapp": "Discuter sur WhatsApp",
+      "restart": "Refaire le quiz",
+      "announce": "Recommandation prête : {service}"
+    },
+    "lead": {
+      "title": "Recevez votre recommandation détaillée",
+      "text": "Laissez-nous un contact et on vous envoie le détail par email ou WhatsApp — avec une estimation adaptée à votre cas. Facultatif : votre résultat reste affiché ci-dessus.",
+      "name": "Votre nom",
+      "namePlaceholder": "Nom complet",
+      "contact": "Email ou téléphone",
+      "contactPlaceholder": "vous@domaine.com ou 0X XX XX XX XX",
+      "submit": "Recevoir le détail",
+      "sending": "Envoi en cours…",
+      "successTitle": "C’est noté",
+      "successText": "On vous envoie votre recommandation détaillée très vite. À tout de suite.",
+      "errorText": "L’envoi a échoué. Réessayez, ou écrivez-nous directement sur WhatsApp.",
+      "required": "Renseignez votre nom et un moyen de vous joindre."
+    }
+  },
+  "footer": {
+    "tagline": "Studio digital algérien. On conçoit, on développe, et on fait venir les clients.",
+    "navTitle": "Navigation",
+    "servicesTitle": "Services",
+    "contactTitle": "Contact",
+    "rights": "Tous droits réservés.",
+    "builtWith": "Conçu et développé par MADDEV."
+  },
+  "common": {
+    "backHome": "Retour à l'accueil"
+  }
+}

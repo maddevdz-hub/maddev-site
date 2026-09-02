@@ -1,0 +1,158 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+ * Identité « Café Zitouna » — terre cuite et crème.
+ *
+ * Rien ici ne vient de la charte MADDEV : ni couleur, ni police, ni rayon.
+ * C'est le propos de la démonstration — montrer qu'on dessine une identité
+ * par métier, pas qu'on repeint un gabarit. Les jetons sont donc définis en
+ * local et ne doivent jamais migrer vers tailwind.config.ts.
+ *
+ * Contrastes vérifiés sur le fond crème #fbf3e7 :
+ *   --ink      #2a1d16  → 13,9:1
+ *   --ink-2    #5f4c3e  →  6,4:1
+ *   --clay-ink #7c3115  →  7,3:1
+ * et le blanc #ffffff sur --clay #b4532a → 4,6:1, réservé aux gros caractères
+ * et aux boutons (≥ 18,66 px gras), jamais au texte courant.
+ */
+
+@layer base {
+  :root {
+    --cream: #fbf3e7;
+    --cream-2: #f4e7d4;
+    --cream-3: #ecd9be;
+    --clay: #b4532a;
+    --clay-ink: #7c3115;
+    --ink: #2a1d16;
+    --ink-2: #5f4c3e;
+    --olive: #5c6b3f;
+    --gold: #b07d18;
+    --line: rgba(42, 29, 22, 0.12);
+
+    /* Une seule courbe, une seule durée — comme sur le site, valeurs à part. */
+    --ease: cubic-bezier(0.16, 1, 0.3, 1);
+    --duration: 320ms;
+
+    /* Hauteur de la barre collante : sert aux ancres de catégorie. */
+    --nav-height: 116px;
+  }
+
+  html[lang='fr'] {
+    --font-display: var(--font-fraunces);
+    --font-body: var(--font-karla);
+  }
+
+  html[lang='ar'] {
+    --font-display: var(--font-almarai);
+    --font-body: var(--font-almarai);
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+    background: var(--cream);
+  }
+
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+    /* Une carte se lit à bout de bras, dans un café bruyant. */
+    font-size: 17px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* L'arabe demande plus d'air entre les lignes pour rester lisible. */
+  html[lang='ar'] body {
+    line-height: 1.75;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display), ui-serif, Georgia, serif;
+    color: var(--ink);
+  }
+
+  /*
+   * Les titres arabes portent visuellement plus lourd que leur équivalent
+   * latin à taille égale : on les réduit d'environ 12 %.
+   */
+  html[lang='ar'] h1 {
+    font-size: 0.88em;
+  }
+
+  html[lang='ar'] h2 {
+    font-size: 0.9em;
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--clay);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+
+  ::selection {
+    background: rgba(180, 83, 42, 0.22);
+  }
+
+  /* Les chiffres restent en écriture latine, même en arabe. */
+  .numerals {
+    direction: ltr;
+    unicode-bidi: isolate;
+    font-feature-settings: 'tnum';
+  }
+
+  /* Les ancres de catégorie s'arrêtent sous la barre collante. */
+  [data-category] {
+    scroll-margin-top: var(--nav-height);
+  }
+}
+
+@layer components {
+  .zt-card {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+  }
+
+  /* Puce d'un marqueur (végétarien, épicé, nouveau). */
+  .zt-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    border-radius: 999px;
+    padding: 0.1rem 0.5rem;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.5;
+    white-space: nowrap;
+  }
+}
+
+@media print {
+  /* L'affiche du QR s'imprime seule, sans le reste de la page. */
+  .no-print {
+    display: none !important;
+  }
+
+  body {
+    background: #fff;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}

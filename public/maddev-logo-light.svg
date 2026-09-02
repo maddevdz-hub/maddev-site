@@ -1,0 +1,16 @@
+<!--
+  Logo complet MADDEV — version pour fonds CLAIRS (texte sombre).
+  Voir maddev-logo-dark.svg pour les notes d'usage.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 100" width="460" height="100" role="img" aria-label="MADDEV">
+  <title>MADDEV</title>
+  <defs>
+    <linearGradient id="maddev-light-grad" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0%" stop-color="#ff5a5f"/>
+      <stop offset="100%" stop-color="#ff8a5f"/>
+    </linearGradient>
+  </defs>
+  <path d="M18 12 H44 A38 38 0 0 1 44 88 H18 Z M32 26 H44 A24 24 0 0 1 44 74 H32 Z" fill="url(#maddev-light-grad)" fill-rule="evenodd"/>
+  <path d="M52 12 H78 A38 38 0 0 1 78 88 H52 Z M66 26 H78 A24 24 0 0 1 78 74 H66 Z" fill="url(#maddev-light-grad)" fill-rule="evenodd" opacity="0.72"/>
+  <text x="146" y="66" fill="#0e0f14" font-family="'Space Grotesk','Outfit','Segoe UI',Arial,sans-serif" font-size="48" font-weight="700" letter-spacing="-0.5">MADDEV</text>
+</svg>

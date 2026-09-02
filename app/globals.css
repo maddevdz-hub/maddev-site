@@ -1,0 +1,178 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  /*
+   * Les polices sont injectées par next/font sous forme de variables.
+   * On choisit la paire display/body en fonction de la langue du document :
+   * c'est ce qui permet à la bascule AR/FR de changer la typographie
+   * sans toucher à un seul composant.
+   */
+  html[lang='fr'] {
+    --font-display: var(--font-space-grotesk);
+    --font-body: var(--font-outfit);
+  }
+
+  html[lang='ar'] {
+    --font-display: var(--font-cairo);
+    --font-body: var(--font-tajawal);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+
+    /*
+     * Jetons de mouvement — une seule courbe, une seule durée pour tout le
+     * site. Leur équivalent JavaScript vit dans lib/motion.ts ; les deux
+     * doivent rester identiques, sinon deux éléments voisins ne bougent pas
+     * de la même façon et l'œil le remarque aussitôt.
+     */
+    --ease: cubic-bezier(0.16, 1, 0.3, 1);
+    --duration: 400ms;
+    --stagger: 60ms;
+  }
+
+  /*
+   * Révélation au défilement.
+   *
+   * L'état caché n'est JAMAIS rendu par le serveur : il est posé après coup,
+   * et uniquement sur les blocs situés sous la ligne de flottaison (voir
+   * components/ui/Reveal.tsx). Un bloc déjà à l'écran ne porte aucun de ces
+   * attributs et s'affiche donc immédiatement — c'est ce qui protège le LCP.
+   */
+  [data-reveal='armed'] {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+
+  [data-reveal='in'] {
+    opacity: 1;
+    transform: none;
+    transition:
+      opacity var(--duration) var(--ease),
+      transform var(--duration) var(--ease);
+    transition-delay: var(--reveal-delay, 0ms);
+  }
+
+  body {
+    @apply bg-ink font-body text-txt antialiased;
+    /* Évite le décalage horizontal dû aux halos décoratifs en position absolue */
+    overflow-x: hidden;
+  }
+
+  /* L'arabe a une hauteur de ligne plus généreuse pour rester lisible. */
+  html[lang='ar'] body {
+    line-height: 1.85;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-display;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /* Focus clavier visible partout, y compris sur fond sombre. */
+  :focus-visible {
+    outline: 2px solid #ff8a5f;
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  ::selection {
+    background: rgba(255, 90, 95, 0.3);
+    color: #f4f2ef;
+  }
+
+  /* Les chiffres restent en écriture latine même en arabe (prix, dates, stats). */
+  .numerals {
+    font-feature-settings: 'tnum';
+    direction: ltr;
+    unicode-bidi: isolate;
+  }
+}
+
+@layer components {
+  /* Texte en dégradé — la signature visuelle de la marque. */
+  .text-gradient {
+    @apply bg-brand bg-clip-text text-transparent;
+    /* Sécurise le rendu du dégradé sur les descendantes de lettres arabes */
+    padding-bottom: 0.08em;
+  }
+
+  /* Carte standard : fond ink3, bordure discrète, ombre profonde. */
+  .card {
+    @apply rounded-3xl border border-line bg-ink3/70 shadow-card backdrop-blur-sm;
+  }
+
+  /*
+   * Libellé « eyebrow ». En latin : petites capitales espacées.
+   * En arabe, l'écriture est liée : les majuscules n'existent pas et
+   * l'interlettrage disloque les ligatures — on neutralise les deux.
+   */
+  .eyebrow-label {
+    @apply text-xs font-semibold uppercase tracking-[0.18em];
+  }
+
+  html[lang='ar'] .eyebrow-label {
+    text-transform: none;
+    letter-spacing: normal;
+    @apply text-[13px];
+  }
+
+  /* Même correctif pour les titres serrés. */
+  html[lang='ar'] .tracking-tight,
+  html[lang='ar'] .tracking-tighter {
+    letter-spacing: normal;
+  }
+
+  /* Filet dégradé horizontal utilisé comme séparateur de sections. */
+  .hairline {
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.12),
+      transparent
+    );
+  }
+}
+
+@layer utilities {
+  /* Masque radial pour estomper les motifs de fond sur les bords. */
+  .mask-fade {
+    -webkit-mask-image: radial-gradient(
+      ellipse at center,
+      #000 35%,
+      transparent 78%
+    );
+    mask-image: radial-gradient(ellipse at center, #000 35%, transparent 78%);
+  }
+}
+
+/*
+ * Respect strict de prefers-reduced-motion : on neutralise les animations
+ * décoratives (anneaux, halo, respiration des dégradés) et on raccourcit
+ * les transitions. Framer Motion est court-circuité côté composant via
+ * le hook useReducedMotion.
+ */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
