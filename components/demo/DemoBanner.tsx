@@ -35,9 +35,9 @@ export function DemoBanner({
   return (
     <div
       role="note"
-      className="relative z-50 flex flex-wrap items-center justify-center gap-x-3 gap-y-0.5 bg-[#241a12] px-4 py-1.5 text-center text-[13px] font-medium leading-snug text-[#f6ece0] sm:text-sm"
+      className="relative z-50 flex flex-wrap items-center justify-center gap-x-3 gap-y-0 bg-[#241a12] px-4 py-1 text-center text-[13px] font-medium leading-snug text-[#f6ece0] sm:text-sm"
     >
-      <span className="inline-flex min-h-[44px] items-center gap-2">
+      <span className="inline-flex items-center gap-2 py-1">
         <span
           aria-hidden="true"
           className="inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-[#e0a44a]"
@@ -48,7 +48,7 @@ export function DemoBanner({
       {backLabel ? (
         <a
           href={backHref}
-          className="inline-flex min-h-[44px] items-center underline decoration-[#e0a44a] underline-offset-4 transition-opacity hover:opacity-80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#e0a44a]"
+          className="hidden min-h-[44px] items-center underline sm:inline-flex decoration-[#e0a44a] underline-offset-4 transition-opacity hover:opacity-80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#e0a44a]"
         >
           {backLabel}
         </a>

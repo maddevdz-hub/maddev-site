@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { ZitounaMark } from './ZitounaMark';
 import type { Locale } from '@/i18n/config';
 import {
   markerLabels,
@@ -122,8 +123,8 @@ export function MenuBoard({
         </nav>
 
         {/* Filtres */}
-        <div className="flex flex-wrap items-center gap-2 border-t border-[var(--line)] px-4 py-2.5">
-          <span className="text-[13px] font-bold text-[var(--ink-2)]">
+        <div className="flex items-center gap-2 overflow-x-auto border-t border-[var(--line)] px-4 py-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          <span className="shrink-0 text-[13px] font-bold text-[var(--ink-2)]">
             {menuUi.filtersLabel[locale]}
           </span>
           {MARKERS.map((marker) => {
@@ -135,7 +136,7 @@ export function MenuBoard({
                 aria-pressed={on}
                 onClick={() => toggle(marker)}
                 className={[
-                  'inline-flex min-h-[44px] items-center rounded-full border px-3.5 text-[14px] font-bold transition-colors',
+                  'inline-flex min-h-[44px] shrink-0 items-center whitespace-nowrap rounded-full border px-3.5 text-[14px] font-bold transition-colors',
                   on
                     ? 'border-[var(--clay)] bg-[var(--clay)] text-white'
                     : 'border-[var(--line)] bg-white text-[var(--ink-2)] hover:border-[var(--clay)]',
@@ -149,7 +150,7 @@ export function MenuBoard({
             <button
               type="button"
               onClick={() => setFilters([])}
-              className="inline-flex min-h-[44px] items-center px-2 text-[14px] font-bold text-[var(--clay-ink)] underline underline-offset-4"
+              className="inline-flex min-h-[44px] shrink-0 items-center whitespace-nowrap px-2 text-[14px] font-bold text-[var(--clay-ink)] underline underline-offset-4"
             >
               {menuUi.filtersClear[locale]}
             </button>
@@ -178,9 +179,9 @@ export function MenuBoard({
                 />
               </h2>
 
-              <ul className="flex flex-col gap-3">
+              <ul className="grid gap-3 md:grid-cols-2">
                 {category.dishes.map((dish) => (
-                  <li key={dish.slug}>
+                  <li key={dish.slug} className="h-full">
                     <DishRow dish={dish} locale={locale} />
                   </li>
                 ))}
@@ -198,7 +199,7 @@ export function MenuBoard({
 /** Une ligne de plat : photo, nom, description, marqueurs, prix. */
 function DishRow({ dish, locale }: { dish: Dish; locale: Locale }) {
   return (
-    <article className="zt-card flex gap-3.5 p-3">
+    <article className="zt-card flex h-full gap-3.5 p-3">
       <DishPhoto dish={dish} locale={locale} />
 
       <div className="flex min-w-0 flex-1 flex-col gap-1">
@@ -259,8 +260,9 @@ function DishPhoto({ dish, locale }: { dish: Dish; locale: Locale }) {
       aria-hidden="true"
       title={menuUi.photoSoon[locale]}
     >
+      <ZitounaMark className="absolute -bottom-3 -end-2 h-14 w-14 text-[var(--olive)] opacity-[.18]" />
       <span
-        className="text-[26px] font-bold text-[var(--clay)]/45"
+        className="relative text-[26px] font-bold text-[var(--clay)]/55"
         style={{ fontFamily: 'var(--font-display)' }}
       >
         {dish.name[locale].trim().charAt(0)}

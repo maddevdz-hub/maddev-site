@@ -19,6 +19,8 @@ export const cafe: DemoBrand & {
   tagline: Bilingual;
   address: Bilingual;
   hours: Bilingual;
+  opensAt: number;
+  closesAt: number;
   /** Le numéro affiché sur l'affiche du QR — fictif, jamais attribué. */
   phoneDisplay: string;
 } = {
@@ -35,6 +37,9 @@ export const cafe: DemoBrand & {
   },
   address: { fr: '12 rue des Oliviers, Alger', ar: '12 شارع الزيتون، الجزائر' },
   hours: { fr: 'Tous les jours, 7h – 23h', ar: 'كل يوم، من 7:00 إلى 23:00' },
+  /** Bornes réelles, en heures locales : l'indicateur d'ouverture les lit. */
+  opensAt: 7,
+  closesAt: 23,
   phoneDisplay: '+213 21 00 00 00',
 };
 
@@ -352,4 +357,6 @@ export const menuUi = {
   },
   photoSoon: { fr: 'Photo à venir', ar: 'التصويرة جاية' },
   poster: { fr: 'Affiche à imprimer', ar: 'إعلان للطباعة' },
+  open: { fr: 'Ouvert maintenant', ar: 'محلول دروك' },
+  closed: { fr: 'Fermé', ar: 'مسكّر' },
 } satisfies Record<string, Bilingual>;

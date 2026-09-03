@@ -99,6 +99,16 @@
     background: rgba(180, 83, 42, 0.22);
   }
 
+  /*
+   * L'écriture arabe ne se lettre-espace jamais : l'espacement casse la
+   * liaison entre les lettres et le mot cesse d'être lu comme un mot.
+   * La règle vaut aussi pour les libellés en petites capitales, qui
+   * contiennent parfois un mot latin (« QR ») au milieu d'un texte arabe.
+   */
+  html[lang='ar'] [class*='tracking-'] {
+    letter-spacing: normal;
+  }
+
   /* Les chiffres restent en écriture latine, même en arabe. */
   .numerals {
     direction: ltr;
