@@ -70,28 +70,42 @@ non mesurable.
 
 ### Arabe
 
-**Arabe algérien parlé, sur toutes les pages sans exception.** Un site à deux
-registres selon la page paraît assemblé, pas conçu.
+**Arabe standard moderne, partout.** Décidé en septembre 2026, après trois
+bascules. Une seule exception prévue : l'invitation de mariage (`/demo/mariage`),
+où le registre littéraire est celui du genre.
 
-On écrit `شنو`, `واش`, `علاش`, `كيفاش`, `إمتى`, `شحال`, `كلش`,
-`راك`, `اللي`, `ما ...ش`, `تيليفون`, `بلاش`, `غدوة`, `إيه`,
-`نبداو`, `نقدرو`, `بزاف`, `شوية`.
+On écrit `ماذا`, `لماذا`, `كيف`, `متى`, `الذي`, `التي`, `يمكنك`, `تُقدَّم` ;
+on évite le parlé algérien : `شنو`, `واش`, `علاش`, `كيفاش`, `إمتى`, `شحال`,
+`كلش`, `راك`, `اللي`, `ما ...ش`, `بزاف`, `دروك`, `بصح`.
 
-On évite l'arabe littéraire : `ماذا`, `لماذا`, `كيف`, `متى`, `الذي`,
-`التي`, `ليس`, `سوف`, `إنّ`, `لديك`, `نعم`, et les tournures
-ornementées.
-
-**État : conforme.** Vérifié page par page sur les huit pages arabes — zéro
-marqueur littéraire. Le contrôle se refait en une commande (voir §8).
-
-> **Historique de cette règle.** Elle a changé trois fois : parlé, puis
-> standard, puis parlé de nouveau — l'accueil et la page Services servant de
-> référence. C'est la version en vigueur. Ne pas rouvrir le débat sans
-> décision explicite : chaque bascule coûte une soixantaine de remplacements.
+> ⚠️ **La règle et l'état du code divergent aujourd'hui. Lire ceci avant de
+> toucher à une chaîne arabe.**
 >
-> Note de vocabulaire : le registre est de l'**arabe algérien parlé**
-> (darija), même si les échanges l'ont parfois appelé « arabe standard ». Le
-> site est en darija ; c'est cette réalité que décrit ce fichier.
+> | | Registre | |
+> | --- | --- | --- |
+> | Les 8 pages du site (`content/`, `messages/ar.json`) | **darija** | conversion à faire — voir §7 |
+> | La démo `/demo/menu` (`content/demos/menu.ts`) | **standard** | conforme |
+> | `/demo/mariage` | littéraire | à construire |
+>
+> Le site a été écrit en darija sur consigne, puis la règle a été inversée
+> alors que la conversion du site était explicitement remise à plus tard. Ce
+> n'est donc pas une incohérence oubliée : c'est un chantier ouvert, listé
+> dans §7. Tant qu'il n'est pas fait, un visiteur qui passe de `/ar/services`
+> à `/demo/menu/ar` change de registre.
+
+> **Historique.** La règle a changé quatre fois : parlé → standard → parlé →
+> standard. Chaque bascule coûte une soixantaine de remplacements sur six
+> fichiers. **Ne pas la rouvrir sans décision écrite**, et si elle est
+> rouverte, convertir d'un bloc plutôt que page par page — c'est le mélange
+> des registres qui fait paraître un site assemblé, pas le registre choisi.
+
+### Contrôle du registre
+
+    node -e "const fs=require('fs');const d=['شنو','واش','علاش','كيفاش','إمتى','شحال','كلش','اللي','بزاف','دروك'];for(const f of ['content/demos/menu.ts']){fs.readFileSync(f,'utf8').split('
+').forEach((l,i)=>{const h=d.filter(m=>l.includes(m));if(h.length)console.log(f+':'+(i+1)+' '+h)})}"
+
+Attention aux faux positifs : `بوراك` contient `راك`, `التيليفون` contient
+`التي`, `إمتى` contient `متى`.
 
 ### Ce qui ne doit jamais apparaître
 
@@ -382,70 +396,77 @@ chercher de l'arabe ou compter des motifs Unicode, passer par Node.
 
 ## 7. Ce qui reste à faire, par priorité
 
-### 1. Point 3 — rendre les trois différenciateurs explicites
+État au 4 septembre 2026. Ce qui figurait ici et n'y est plus a été fait :
+les trois différenciateurs sont explicites (« Aucun template » ouvre la page
+Services), la réassurance est sous le formulaire de contact, l'audit du ton
+français est passé, et la performance mobile a été corrigée à la racine —
+plus aucun élément n'est livré invisible (voir §6 et §8).
 
-Deux des trois sont **absents du site** :
+### 1. Les six démonstrations restantes
 
-| Différenciateur | État |
-| --- | --- |
-| Aucun template | **absent** — n'apparaît nulle part |
-| Vous validez avant qu'on code | présent — pilier de l'accueil, page Méthode, FAQ |
-| Une propriété, pas un abonnement | l'idée est là (« Le site est à vous ») mais **pas cette formulation** |
+Une seule à la fois, terminée et montrée avant de passer à la suivante :
+sept chantiers ouverts donnent sept moitiés de travail. Le tableau des sept,
+avec ce que chacune doit prouver, est en §9.
 
-Avant d'ajouter un bloc dédié, vérifier les recoupements : « vous validez »
-et « le site est à vous » sont déjà sur l'accueil. Le pilier « clarté » a
-d'ailleurs dû être recentré sur le prix parce qu'il répétait le délai (déjà
-dans la statistique 24 h et dans « Livraison rapide ») et l'interlocuteur
-unique (déjà dans « Contact direct »).
+Après chaque démo : captures desktop et mobile dans les deux langues, liste
+des photos à fournir, mise à jour de ce fichier.
 
-### 2. Point 4 — réassurance sous le formulaire de contact
+### 2. Convertir l'arabe du site en standard moderne
 
-**Absent.** À ajouter sous le formulaire, sobrement, sans badge :
+Les huit pages sont en darija ; la règle en vigueur est le standard (§2).
+Environ 110 chaînes dans `content/*.ts` et `messages/ar.json`. À faire d'un
+bloc, jamais page par page — c'est le mélange qui se voit.
 
-> Réponse sous 24 h · Un mois de corrections après livraison · Vous restez
-> propriétaire de vos photos, textes et marque
+Le travail a déjà été fait une fois dans l'autre sens : les remplacements
+sont mécaniques, mais la relecture ne l'est pas.
 
-### 3. Point 5 — le ton
+### 3. Refaire la page `/services`
 
-- **Arabe : terminé.** Registre parlé uniforme sur les huit pages.
-- **Français : audit passé.** Zéro occurrence des neuf termes bannis.
-  Seul « sur mesure » subsiste, trois fois dans `content/services.ts`
-  (service Application web). Ce n'est pas « sur-mesure premium », qui est le
-  terme banni — à trancher : le garder ou le remplacer par une formulation
-  concrète.
+Chaque service devient un bloc large et visuel : capture réelle de sa
+démonstration cadrée dans un mockup, le bénéfice en titre, deux lignes
+maximum, trois points concrets, un bouton « Voir la démonstration ». Les
+blocs alternent visuellement.
 
-### 4. Assets manquants
+**Des captures optimisées, jamais d'iframe ni de démo intégrée en direct** —
+la page doit rester sous 2 s. Elle attend donc que les démos existent : la
+faire maintenant obligerait à la refaire.
+
+### 4. Étendre l'offre
+
+Ajouter aux services et aux options du configurateur : QR Menu, prise de
+rendez-vous, invitation. Touche `content/services.ts`, `lib/configurator.ts`
+et les deux dictionnaires. À faire **une fois**, quand les démos existent.
+
+### 5. Captures des démos pour la galerie
+
+`/realisations` affiche aujourd'hui, pour chaque démo, une vignette aux
+couleurs de la démo et son nom — honnête, mais ce n'est pas une capture. Les
+prendre toutes en une passe une fois les sept prêtes : sept fichiers pris au
+même moment se tiennent, sept fichiers pris au fil de l'eau non.
+
+### 6. Assets manquants
 
 | Quoi | Où le déposer |
 | --- | --- |
 | Pack de marque (favicons, lockup SVG couleur et blanc) | `public/logo/` |
-| Icônes d'application 180 / 192 / 512 / maskable | `app/apple-icon.png`, `public/icons/` |
-| Capture du projet | `public/projects/showroom-meubles-bba.png` puis renseigner `image` |
+| Capture du projet client | `public/projects/showroom-meubles-bba.png` puis renseigner `image` |
 | Photo du fondateur | `public/about/` puis renseigner `about.photo` |
+| Photos des démonstrations | `public/demo/<démo>/` — listes fournies démo par démo |
 
-Les icônes actuelles ont été générées depuis le symbole reconstruit : elles
-fonctionnent, mais doivent être remplacées par celles du pack.
+Les icônes d'application sont en place et correctes (les 192 px et
+apple-touch étaient recadrées sur un fragment, régénérées depuis la 512).
 
-### 5. Performance mobile
+### 7. Avant publication
 
-Six scores sur huit sont sous 95 (86 à 97 selon la page). Cause identifiée et
-unique : les animations d'entrée (§6). Le correctif consiste à ne plus animer
-le contenu visible au chargement — hero et en-têtes de page — et à réserver
-`Reveal` à ce qui apparaît au défilement. Gain attendu : LCP autour de
-0,6–0,9 s, score 95 à 100. Coût : le hero perd son apparition orchestrée.
-**Arbitrage non tranché.**
-
-Desktop est à 100 / 100 / 100 / 100 partout.
-
-### 6. Avant publication
-
+- **Pousser sur GitHub.** Le dépôt local existe, les commits sont faits, mais
+  le projet ne vit encore que sur un disque dur. Procédure pas à pas dans le
+  README, section « Mettre le code sur GitHub ».
 - `RESEND_API_KEY` dans les variables Vercel — sans elle, le formulaire
   fonctionne mais les demandes restent dans les logs.
-- Relecture du contenu arabe par un locuteur natif : tout l'arabe du site a
-  été écrit sans relecture humaine, et il est maintenant en darija — un
-  registre où les maladresses se voient davantage.
+- Relecture de tout l'arabe par un locuteur natif, après la conversion en
+  standard : il a été écrit sans relecture humaine.
 - Test réel de l'ajout à l'écran d'accueil sur iOS et Android.
-- Brancher `maddev.dev` (procédure détaillée dans le README).
+- Brancher `maddev.dev` (procédure dans le README).
 
 ---
 
@@ -463,7 +484,20 @@ Ce qui a été mesuré et doit le rester :
 - **Langues** : aucune fuite de français sur les pages arabes et
   réciproquement, hormis le « ع » du sélecteur de langue.
 - **Chaînes interdites** : zéro *lorem*, *TODO*, *24 500*, *Super Meuble*,
-  *Rusicade*.
+  *Rusicade*, et aucune mention de *Next.js* côté visiteur.
+- **Contenu livré visible** : zéro élément rendu par le serveur en
+  `opacity: 0` sur les 16 pages. C'était la cause unique du LCP dégradé.
+
+      for p in "" services realisations process a-propos site-ou-facebook contact quiz; do
+        curl -s "http://localhost:3000/fr/$p" | grep -c 'opacity:0'
+      done
+
+- **Nombres en RTL** : les tranches de budget du configurateur et les
+  horaires sont isolés (`components/ui/Numerals.tsx`). Vérification par
+  l'ordre **visuel** — position X des nœuds de texte — et non par l'ordre du
+  DOM, qui est toujours correct et ne prouve rien.
+- **Démonstrations** : `noindex` sur chacune, absentes du `sitemap.xml`,
+  bande d'avertissement présente dans les deux langues.
 
 Commandes :
 
@@ -505,13 +539,8 @@ qui rend croyable le seul vrai client.
 
 ### Le registre arabe des démos
 
-**Arabe standard moderne**, décidé en septembre 2026 — et non la darija du
-site principal. Seule exception prévue : l'invitation de mariage, où le
-littéraire est de mise.
-
-> ⚠️ Le site principal reste en darija (§2). Les deux registres coexistent
-> donc volontairement : site en parlé, démos en standard. Si cela doit être
-> unifié un jour, c'est le site qu'il faudra trancher, pas les démos.
+Standard moderne, comme le reste — voir §2, qui porte la règle et l'état
+réel du code. L'invitation de mariage fait exception : littéraire.
 
 ### Routage
 
@@ -522,20 +551,64 @@ littéraire est de mise.
 L'adresse **courte**, sans langue, est la seule à communiquer : c'est elle
 qu'encode le QR code, et elle survit à un changement de langue par défaut.
 
-### État
+### Ce qu'une démonstration doit prouver
 
-| Démo | Route | État |
-| --- | --- | --- |
-| Café Zitouna — carte à QR | `/demo/menu` | **terminée** |
-| Atelier Nour — menuiserie | `/demo/vitrine` | à faire |
-| Zahra Cosmétiques — boutique | `/demo/boutique` | à faire |
-| Prise de rendez-vous | `/demo/rendezvous` | à faire |
-| Dar Immo — immobilier | `/demo/immobilier` | à faire |
-| Moncef & Lina — invitation | `/demo/mariage` | à faire |
-| Sofa Prestige — landing | `/demo/campagne` | à faire |
+Pas décrire : **prouver**. Le visiteur ouvre la démo et s'en sert. Les
+filtres filtrent, la recherche cherche, le calendrier refuse les créneaux
+pris, le panier calcule, le formulaire valide et confirme. Données locales,
+aucune base — mais comportement complet. Une démo dont les boutons ne font
+rien dessert plus qu'elle ne sert.
 
-Contenu dans `content/demos/`, registre des démos dans `content/demos/index.ts`
-(c'est lui qui alimente la galerie de `/realisations`).
+Deux exigences de fond, également non négociables :
+
+- **Identité propre à chaque démo.** Sept fois le même gabarit repeint se
+  repère en trois secondes et prouve l'inverse de ce qu'on veut montrer. Une
+  menuiserie d'art, une clinique et une agence immobilière n'ont ni les mêmes
+  couleurs, ni la même typographie, ni la même densité.
+- **Contenu crédible et local.** Vrais plats algériens, wilayas et quartiers
+  réels, produits plausibles. Prix ronds et manifestement illustratifs.
+  Jamais « Produit 1 », jamais « Lorem ».
+
+Cible de qualité : le niveau d'un studio européen. C'est l'écart avec ce que
+livre un prestataire local qui doit sauter aux yeux.
+
+### État des sept démonstrations
+
+| Démo | Route | Ce qu'elle doit prouver | État |
+| --- | --- | --- | --- |
+| Café Zitouna | `/demo/menu` | la carte change en 30 s, sans réimprimer | **terminée** |
+| Atelier Nour — menuiserie d'art | `/demo/vitrine` | le visiteur a envie de commander une pièce | à faire |
+| Zahra Cosmétiques | `/demo/boutique` | la commande arrive complète — produit, variante, quantité, wilaya — en un seul message WhatsApp | à faire |
+| Cabinet ou salon (au choix) | `/demo/rendezvous` | le téléphone cesse de sonner. Le cœur n'est PAS la prise de rendez-vous : c'est le rappel WhatsApp la veille et l'annulation autonome | à faire |
+| Dar Immo | `/demo/immobilier` | recherche wilaya / budget / type / pièces, fiche avec galerie et plan, demande de visite. Le client trouve sans appeler quinze fois | à faire |
+| Moncef & Lina | `/demo/mariage` | les invités confirment en un clic. **L'aperçu WhatsApp est vital** : des centaines de personnes le verront avant d'ouvrir. Registre littéraire | à faire |
+| Sofa Prestige | `/demo/campagne` | où mène une campagne publicitaire et pourquoi la page convertit. Une page, un objectif | à faire |
+
+### Ce qui existe pour la démo terminée
+
+    app/demo/menu/[locale]/           layout (html, polices, CSS local), page, affiche
+    components/demo/menu/             MenuBoard, OpenNow, ZitounaMark, PrintButton
+    content/demos/menu.ts             22 plats, 5 catégories, textes d'interface
+    lib/qr.ts                         QR en SVG, côté serveur, correction niveau Q
+
+Identité : terre cuite `#b4532a` et crème `#fbf3e7`, Fraunces + Karla en
+latin, Almarai en arabe — aucune de ces polices n'est utilisée ailleurs.
+Fonctionnel : filtres cumulatifs (ET, pas OU), suivi de lecture des
+catégories, appel du serveur avec confirmation honnêtement signalée comme
+sans effet, indicateur d'ouverture calculé sur l'heure du visiteur.
+
+### Les images des démos
+
+Aucune photo n'est encore fournie. Chaque démo prévoit ses emplacements et
+un état d'attente dessiné — **jamais un rectangle vide**. Pour le café :
+`public/demo/menu/<slug>.jpg` (22 plats, carré 800 px) et
+`cafe-interieur.jpg` (2000 × 1200). Il suffit de déposer le fichier et de
+renseigner `image:` / `cover:` dans `content/demos/menu.ts` ; `next/image`
+sert alors de l'AVIF ou du WebP, produit les tailles, diffère le chargement,
+et la place est déjà réservée — décalage de mise en page nul.
+
+La liste complète, avec les termes de recherche Unsplash ou Pexels, est
+donnée démo par démo au moment de la livraison.
 
 ---
 
@@ -555,3 +628,8 @@ Les tournants du projet, pour comprendre pourquoi le site est dans cet état.
 | Token `txt3` retiré | Échouait le contraste AA ; la hiérarchie passe par taille et graisse |
 | `dir="ltr"` sur le lockup | Le contenu du logo ne se retourne plus en arabe |
 | Helper `lib/metadata.ts` | 7 pages sur 9 partaient sans image de partage |
+| Hero et en-têtes désanimés | 26 éléments livrés invisibles sur l'accueil, 0 aujourd'hui ; `Reveal` réécrit en CSS, Framer Motion retiré de la révélation au défilement ; ~35 kB de JS en moins par page |
+| Next.js retiré de la vitrine | 3 mentions visiteur supprimées ; la statistique du hero devient « 0 template utilisé », qui est mesurable et sert le différenciateur |
+| Démonstrations autorisées | La règle « aucun projet fictif » devient « aucun projet fictif **non identifié** » ; la bande d'avertissement est la contrepartie |
+| Registre arabe : standard | Quatrième bascule. Les démos sont conformes, le site reste à convertir (§2, §7) |
+| Projet sous git | Dépôt local, `.gitattributes` pour figer les fins de ligne en LF, `engines: node >=18.17`. Reste à pousser |
