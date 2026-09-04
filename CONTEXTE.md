@@ -101,6 +101,12 @@ marqueur littéraire. Le contrôle se refait en une commande (voir §8).
   statistique non mesurée, de logo de partenaire, de chiffre de performance
   non constaté.
 
+  **Amendement (septembre 2026).** Les démonstrations font exception, sous
+  une condition qui ne se négocie pas : elles portent en permanence la bande
+  qui les identifie comme fictives (voir §10). Un projet fictif *signalé*
+  n'est pas une fausse référence ; c'est un échantillon. Sans la bande, la
+  règle initiale s'applique de nouveau et la page doit être retirée.
+
 ---
 
 ## 3. Identité visuelle
@@ -170,6 +176,7 @@ Huit pages, servies en arabe et en français sous un préfixe de langue
 | `/site-ou-facebook` | Comparatif 6 critères + « quand Facebook suffit » | terminé |
 | `/contact` | Formulaire, coordonnées, FAQ | terminé |
 | `/quiz` | Configurateur 4 questions + résultat | terminé |
+| `/demo/menu` | Démonstration Café Zitouna (hors chrome MADDEV) | terminée |
 
 Plus : `sitemap.xml` (16 URL avec hreflang), `robots.txt`,
 `manifest.webmanifest`, image Open Graph 1200×630 générée à la volée, 404 et
@@ -466,7 +473,73 @@ Commandes :
 
 ---
 
-## 9. Journal des décisions
+## 9. Les démonstrations
+
+Le studio n'a **qu'une seule réalisation cliente réelle**. Les démonstrations
+comblent cet écart : des projets fictifs, complets et utilisables, qui
+montrent le résultat métier par métier. Elles remplacent les maquettes
+gratuites qu'on offrait auparavant pour décrocher un client.
+
+### La bande, condition de tout le reste
+
+Chaque page de démonstration porte, en haut, avant tout autre contenu :
+
+    FR   Démonstration — projet fictif conçu par MADDEV
+    AR   نموذج توضيحي — مشروع افتراضي من تصميم MADDEV
+
+Source unique : `components/demo/DemoBanner.tsx`. Elle ne se retire pas, ne
+se réduit pas à une icône, ne disparaît pas au défilement. C'est elle qui
+distingue une démonstration d'une fausse référence — et c'est cette franchise
+qui rend croyable le seul vrai client.
+
+### Trois règles techniques
+
+1. **Hors de `app/[locale]/`.** Une démo rend son propre `<html>` : elle
+   n'hérite ni de l'en-tête, ni du pied de page, ni des polices du studio.
+   Le visiteur doit voir le site d'un café, pas une page MADDEV déguisée.
+2. **`noindex, nofollow`** dans ses métadonnées, et absence du `sitemap.xml`
+   (qui se construit depuis `routes`, où les démos ne figurent pas). Un
+   projet fictif indexé finirait par être pris pour un vrai.
+3. **Aucun jeton de la charte MADDEV.** Couleurs, polices et rayons vivent
+   dans le CSS local de la démo et ne migrent jamais vers `tailwind.config`.
+
+### Le registre arabe des démos
+
+**Arabe standard moderne**, décidé en septembre 2026 — et non la darija du
+site principal. Seule exception prévue : l'invitation de mariage, où le
+littéraire est de mise.
+
+> ⚠️ Le site principal reste en darija (§2). Les deux registres coexistent
+> donc volontairement : site en parlé, démos en standard. Si cela doit être
+> unifié un jour, c'est le site qu'il faudra trancher, pas les démos.
+
+### Routage
+
+    /demo/menu          → redirige vers la langue du visiteur (middleware)
+    /demo/menu/fr|ar    → la démo
+    /demo/menu/fr/affiche → l'affiche du QR, imprimable
+
+L'adresse **courte**, sans langue, est la seule à communiquer : c'est elle
+qu'encode le QR code, et elle survit à un changement de langue par défaut.
+
+### État
+
+| Démo | Route | État |
+| --- | --- | --- |
+| Café Zitouna — carte à QR | `/demo/menu` | **terminée** |
+| Atelier Nour — menuiserie | `/demo/vitrine` | à faire |
+| Zahra Cosmétiques — boutique | `/demo/boutique` | à faire |
+| Prise de rendez-vous | `/demo/rendezvous` | à faire |
+| Dar Immo — immobilier | `/demo/immobilier` | à faire |
+| Moncef & Lina — invitation | `/demo/mariage` | à faire |
+| Sofa Prestige — landing | `/demo/campagne` | à faire |
+
+Contenu dans `content/demos/`, registre des démos dans `content/demos/index.ts`
+(c'est lui qui alimente la galerie de `/realisations`).
+
+---
+
+## 10. Journal des décisions
 
 Les tournants du projet, pour comprendre pourquoi le site est dans cet état.
 

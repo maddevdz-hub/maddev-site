@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
@@ -31,7 +32,7 @@ export default function MenuDemoPage({
       <DemoBanner
         locale={locale}
         backHref={`/${locale}/realisations`}
-        backLabel={locale === 'ar' ? 'ارجع لـ MADDEV' : 'Retour à MADDEV'}
+        backLabel={locale === 'ar' ? 'العودة إلى MADDEV' : 'Retour à MADDEV'}
       />
 
       {/*
@@ -41,6 +42,32 @@ export default function MenuDemoPage({
         à un bandeau qui serait sinon plat.
       */}
       <header className="relative overflow-hidden border-b border-[var(--line)] bg-[var(--cream-2)]">
+        {cafe.cover ? (
+          <>
+            {/*
+              Photo d'ambiance. `fill` + `sizes` laissent Next produire les
+              tailles et servir de l'AVIF ou du WebP ; la hauteur du bandeau
+              est fixée par son contenu, donc la place est réservée avant même
+              que l'image n'arrive — décalage de mise en page nul.
+              `priority` : c'est l'image du premier écran, elle ne doit pas
+              être différée.
+            */}
+            <Image
+              src={cafe.cover}
+              alt=""
+              aria-hidden="true"
+              fill
+              priority
+              sizes="100vw"
+              className="object-cover"
+            />
+            <div
+              aria-hidden="true"
+              className="absolute inset-0 bg-[var(--cream-2)]/88"
+            />
+          </>
+        ) : null}
+
         <ZitounaMark
           className="pointer-events-none absolute -top-6 end-[-28px] h-[190px] w-[190px] text-[var(--clay)] opacity-[.07] sm:end-8 sm:h-[210px] sm:w-[210px]"
         />
@@ -103,7 +130,7 @@ export default function MenuDemoPage({
               href={`/${locale}/realisations`}
               className="inline-flex min-h-[44px] w-fit items-center rounded-full px-4 font-bold text-[var(--ink-2)] underline underline-offset-4 sm:hidden"
             >
-              {locale === 'ar' ? 'ارجع لـ MADDEV' : 'Retour à MADDEV'}
+              {locale === 'ar' ? 'العودة إلى MADDEV' : 'Retour à MADDEV'}
             </Link>
           </div>
         </div>

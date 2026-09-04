@@ -23,17 +23,17 @@ import { isLocale, type Locale } from '@/i18n/config';
 const copy = {
   scan: {
     fr: 'Scannez pour voir la carte',
-    ar: 'صوّر الكود باش تشوف القائمة',
+    ar: 'امسح الرمز لعرض القائمة',
   },
   hint: {
     fr: 'Ouvrez l’appareil photo de votre téléphone et visez le code.',
-    ar: 'حلّ الكاميرا تاع التيليفون ووجّهها للكود.',
+    ar: 'افتح كاميرا هاتفك ووجّهها نحو الرمز.',
   },
-  print: { fr: 'Imprimer', ar: 'اطبع' },
-  back: { fr: 'Revenir à la carte', ar: 'ارجع للقائمة' },
+  print: { fr: 'Imprimer', ar: 'طباعة' },
+  back: { fr: 'Revenir à la carte', ar: 'العودة إلى القائمة' },
   note: {
     fr: 'Le code pointe vers la carte en ligne. La modifier ne change rien à cette affiche : on ne réimprime jamais.',
-    ar: 'الكود يوجّه للقائمة على الإنترنت. كي تبدّلها، هذا الإعلان يبقى كيما هو: ما نعاودوش الطباعة.',
+    ar: 'يوجّه الرمز إلى القائمة على الإنترنت. عند تعديلها يبقى هذا الملصق كما هو: لا إعادة طباعة.',
   },
 } satisfies Record<string, Record<Locale, string>>;
 

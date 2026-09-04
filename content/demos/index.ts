@@ -31,7 +31,7 @@ export const demos: Demo[] = [
     slug: 'menu',
     path: '/demo/menu',
     palette: { bg: '#fbf3e7', ink: '#2a1d16', accent: '#b4532a' },
-    mood: { fr: 'Terre cuite et crème', ar: 'طين وكريمي' },
+    mood: { fr: 'Terre cuite et crème', ar: 'لون الطين والكريمي' },
   },
 ];
 
