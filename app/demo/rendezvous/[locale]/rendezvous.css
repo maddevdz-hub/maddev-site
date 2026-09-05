@@ -1,0 +1,228 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+ * Identité « Cabinet dentaire Amel » — pétrole, blanc, menthe pâle.
+ *
+ * Le café Zitouna est chaud, arrondi, dense ; ce cabinet est froid, anguleux,
+ * aéré. C'est délibéré : deux démonstrations qui se ressemblent prouvent
+ * l'inverse de ce qu'elles doivent prouver. On ne rassure pas un patient
+ * comme on met en appétit un client de café.
+ *
+ * Rien ici ne vient de la charte MADDEV. Les jetons restent locaux et ne
+ * migrent jamais vers tailwind.config.ts.
+ *
+ * Contrastes vérifiés sur le blanc :
+ *   --ink       #0d2b31  → 14,2:1
+ *   --ink-2     #47646a  →  5,3:1
+ *   --teal-ink  #0a5b63  →  6,1:1
+ * et le blanc sur --teal #0e7c86 → 4,8:1, réservé aux boutons et aux gros
+ * caractères, jamais au texte courant.
+ */
+
+@layer base {
+  :root {
+    --paper: #ffffff;
+    --wash: #f4f9f9;
+    --mint: #e4f1f1;
+    --mint-2: #cfe6e6;
+    --teal: #0e7c86;
+    --teal-ink: #0a5b63;
+    --ink: #0d2b31;
+    --ink-2: #47646a;
+    --line: rgba(13, 43, 49, 0.12);
+    --line-2: rgba(13, 43, 49, 0.2);
+    --rose: #a03449;
+
+    /* Une seule courbe, une seule durée. */
+    --ease: cubic-bezier(0.16, 1, 0.3, 1);
+    --duration: 320ms;
+
+    /* Les angles sont nets : un cabinet médical n'est pas une pilule. */
+    --radius: 10px;
+    --radius-lg: 16px;
+  }
+
+  html[lang='fr'] {
+    --font-display: var(--font-sora);
+    --font-body: var(--font-inter);
+  }
+
+  html[lang='ar'] {
+    --font-display: var(--font-readex);
+    --font-body: var(--font-readex);
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+    background: var(--paper);
+  }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  html[lang='ar'] body {
+    line-height: 1.8;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
+    letter-spacing: -0.02em;
+    /*
+     * `currentColor` et non --ink : le hero est en pétrole plein, et un titre
+     * qui force sa couleur y devient invisible. La couleur vient donc du
+     * conteneur, comme pour le reste du texte.
+     */
+    color: inherit;
+  }
+
+  /* Les titres arabes portent plus lourd à taille égale : on les réduit. */
+  html[lang='ar'] h1 {
+    font-size: 0.88em;
+  }
+
+  html[lang='ar'] h2 {
+    font-size: 0.9em;
+  }
+
+  /* L'écriture arabe ne se lettre-espace jamais : la liaison se casse. */
+  html[lang='ar'] h1,
+  html[lang='ar'] h2,
+  html[lang='ar'] h3,
+  html[lang='ar'] [class*='tracking-'] {
+    letter-spacing: normal;
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--teal);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  ::selection {
+    background: rgba(14, 124, 134, 0.18);
+  }
+
+  /* Chiffres en écriture latine même en arabe : heures, dates, téléphone. */
+  .numerals {
+    direction: ltr;
+    unicode-bidi: isolate;
+    font-feature-settings: 'tnum';
+  }
+}
+
+@layer components {
+  .am-card {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+  }
+
+  /* Le bouton principal : plein, net, jamais arrondi en gélule. */
+  .am-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 48px;
+    padding: 0 1.25rem;
+    border-radius: var(--radius);
+    background: var(--teal);
+    color: #fff;
+    font-weight: 600;
+    transition: background var(--duration) var(--ease);
+  }
+
+  .am-btn:hover {
+    background: var(--teal-ink);
+  }
+
+  .am-btn[disabled] {
+    background: var(--mint-2);
+    color: var(--ink-2);
+    cursor: not-allowed;
+  }
+
+  .am-btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 48px;
+    padding: 0 1.25rem;
+    border: 1px solid var(--line-2);
+    border-radius: var(--radius);
+    background: var(--paper);
+    color: var(--ink);
+    font-weight: 600;
+    transition: border-color var(--duration) var(--ease);
+  }
+
+  .am-btn-ghost:hover {
+    border-color: var(--teal);
+  }
+
+  /* Un créneau du calendrier. */
+  .am-slot {
+    display: inline-flex;
+    min-height: 44px;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--paper);
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    transition:
+      border-color var(--duration) var(--ease),
+      background var(--duration) var(--ease);
+  }
+
+  .am-slot:hover:not(:disabled) {
+    border-color: var(--teal);
+    background: var(--wash);
+  }
+
+  .am-slot[aria-pressed='true'] {
+    background: var(--teal);
+    border-color: var(--teal);
+    color: #fff;
+  }
+
+  /*
+   * Un créneau pris reste LISIBLE et barré, il ne disparaît pas : voir que
+   * le cabinet est demandé rassure autant que trouver une place libre.
+   */
+  .am-slot:disabled {
+    background: var(--wash);
+    color: var(--ink-2);
+    border-style: dashed;
+    text-decoration: line-through;
+    text-decoration-color: var(--line-2);
+    cursor: not-allowed;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}

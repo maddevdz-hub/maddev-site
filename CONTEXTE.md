@@ -191,6 +191,7 @@ Huit pages, servies en arabe et en français sous un préfixe de langue
 | `/contact` | Formulaire, coordonnées, FAQ | terminé |
 | `/quiz` | Configurateur 4 questions + résultat | terminé |
 | `/demo/menu` | Démonstration Café Zitouna (hors chrome MADDEV) | terminée |
+| `/demo/rendezvous` | Démonstration Cabinet dentaire Amel | terminée |
 
 Plus : `sitemap.xml` (16 URL avec hreflang), `robots.txt`,
 `manifest.webmanifest`, image Open Graph 1200×630 générée à la volée, 404 et
@@ -579,8 +580,8 @@ livre un prestataire local qui doit sauter aux yeux.
 | Café Zitouna | `/demo/menu` | la carte change en 30 s, sans réimprimer | **terminée** |
 | Atelier Nour — menuiserie d'art | `/demo/vitrine` | le visiteur a envie de commander une pièce | à faire |
 | Zahra Cosmétiques | `/demo/boutique` | la commande arrive complète — produit, variante, quantité, wilaya — en un seul message WhatsApp | à faire |
-| Cabinet ou salon (au choix) | `/demo/rendezvous` | le téléphone cesse de sonner. Le cœur n'est PAS la prise de rendez-vous : c'est le rappel WhatsApp la veille et l'annulation autonome | à faire |
-| Dar Immo | `/demo/immobilier` | recherche wilaya / budget / type / pièces, fiche avec galerie et plan, demande de visite. Le client trouve sans appeler quinze fois | à faire |
+| Cabinet dentaire Amel | `/demo/rendezvous` | le téléphone cesse de sonner. Le cœur n'est PAS la prise de rendez-vous : c'est le rappel WhatsApp la veille et l'annulation autonome | **terminée** |
+| Dar Immo | `/demo/annonces` | recherche wilaya / budget / type / pièces, fiche avec galerie et plan, demande de visite. Le client trouve sans appeler quinze fois | à faire |
 | Moncef & Lina | `/demo/mariage` | les invités confirment en un clic. **L'aperçu WhatsApp est vital** : des centaines de personnes le verront avant d'ouvrir. Registre littéraire | à faire |
 | Sofa Prestige | `/demo/campagne` | où mène une campagne publicitaire et pourquoi la page convertit. Une page, un objectif | à faire |
 
@@ -596,6 +597,48 @@ latin, Almarai en arabe — aucune de ces polices n'est utilisée ailleurs.
 Fonctionnel : filtres cumulatifs (ET, pas OU), suivi de lecture des
 catégories, appel du serveur avec confirmation honnêtement signalée comme
 sans effet, indicateur d'ouverture calculé sur l'heure du visiteur.
+
+### Les visuels : dessinés, pas photographiés
+
+Décidé en septembre 2026 : **aucune photographie ne sera fournie**. Les
+visuels des démonstrations sont produits en SVG et en CSS — compositions
+typographiques, illustrations dessinées, motifs géométriques inspirés du
+zellige, dégradés. Ce n'est pas un pis-aller : un site tenu sans photo vaut
+mieux qu'un site aux images médiocres, et le dessin évite les néons et les
+sourires de banque d'images.
+
+Interdits : le rectangle gris avec une icône, l'émoji en guise
+d'illustration, l'image de remplacement répétée, l'espace vide non traité.
+**Chaque bloc visuel est une décision de design, jamais un emplacement en
+attente.** Un champ image optionnel reste prévu partout : si de vraies photos
+arrivent un jour, elles remplacent le visuel sans refonte.
+
+Exception : `/demo/menu` recevra 22 photographies de plats, déjà listées.
+
+### Ce qui existe pour la prise de rendez-vous
+
+    app/demo/rendezvous/[locale]/     layout, CSS local, page
+    components/demo/rendezvous/       BookingFlow, AmelMarks
+    content/demos/rendezvous.ts       praticiens, motifs, horaires, textes
+
+Identité : pétrole `#0d2b31`, menthe et blanc, angles nets — l'inverse du
+café, qui est chaud et arrondi. Sora + Inter en latin, Readex Pro en arabe.
+Zéro image bitmap : quatre SVG dessinés (arcade dentaire, motif zellige,
+figure de planning, glyphes).
+
+**Le mécanisme à ne pas casser.** Réserver un créneau l'ajoute à `booked` :
+il apparaît alors « Pris » dans l'agenda. L'annuler l'en retire, et le
+créneau redevient cliquable. Sans cette liste, on annulerait un créneau qui
+n'a jamais cessé d'être libre — le bouton existerait, mais ne prouverait
+rien. C'est le seul argument que cette démo doit faire passer.
+
+Les créneaux occupés viennent d'une fonction déterministe (`slotTaken`) : le
+même planning s'affiche à chaque visite. Un tirage aléatoire donnerait une
+démonstration qu'on ne peut pas montrer deux fois de la même façon.
+
+Le calendrier est calculé après le montage, jamais au rendu serveur — le
+serveur ignore le fuseau du visiteur. D'où le squelette de même hauteur au
+premier rendu, qui évite tout saut de mise en page.
 
 ### Les images des démos
 

@@ -1,5 +1,6 @@
 import type { Bilingual, DemoBrand } from './types';
 import { cafe } from './menu';
+import { cabinet } from './rendezvous';
 
 /**
  * Registre des démonstrations.
@@ -32,6 +33,13 @@ export const demos: Demo[] = [
     path: '/demo/menu',
     palette: { bg: '#fbf3e7', ink: '#2a1d16', accent: '#b4532a' },
     mood: { fr: 'Terre cuite et crème', ar: 'لون الطين والكريمي' },
+  },
+  {
+    ...cabinet,
+    slug: 'rendezvous',
+    path: '/demo/rendezvous',
+    palette: { bg: '#0d2b31', ink: '#ffffff', accent: '#7fd3da' },
+    mood: { fr: 'Pétrole et menthe', ar: 'أزرق داكن ونعناعي' },
   },
 ];
 
