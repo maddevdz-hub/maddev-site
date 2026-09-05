@@ -355,6 +355,35 @@ Le bon réflexe : **relancer sans rien vider**. Vider `.next` supprime les
 polices déjà téléchargées et force un nouveau tirage — c'est
 contre-productif. En production, ce délai n'existe pas.
 
+### Un build vert ne veut pas dire un site qui marche
+
+Septembre 2026, apprise à nos dépens. `npm run build`, `tsc --noEmit` et
+ESLint vérifient le **code** ; ils ne vérifient pas l'**affichage**. Un titre
+rendu en encre sombre sur fond sombre, une marque SVG dont les tracés sortent
+du cadre, un module qui ne monte jamais : tout cela passe les trois
+contrôles sans un avertissement.
+
+**Après chaque étape, ouvrir les pages et regarder.** Le minimum : l'accueil
+dans les deux langues, la page touchée, et une démonstration. Puis commiter.
+Un commit par étape — si quelque chose casse, on revient d'un cran et non de
+quatre.
+
+### Ne rien supprimer qui « semble » inutilisé
+
+Même règle, autre versant : une police, un composant partagé ou un fichier
+CSS qui paraît orphelin ne se supprime pas. Le gain est nul — quelques
+kilo-octets — et le risque maximal : la référence oubliée casse une page que
+personne ne rouvrira avant la mise en ligne.
+
+> Exemple vécu : `DemoCard.tsx` avait été supprimé parce que la page qui
+> l'utilisait venait de disparaître. Il a fallu le restaurer deux jours plus
+> tard pour `/services`, et il ne compilait plus — la clé de dictionnaire
+> qu'il lisait avait été purgée entre-temps.
+
+Si un élément gêne vraiment, le laisser en place avec un commentaire qui dit
+pourquoi il n'est plus appelé. Le mort visible coûte moins cher que le
+ressuscité cassé.
+
 ### Ne pas builder pendant que le dev tourne
 
 `npm run build` écrase `.next` et casse le serveur de développement en cours
@@ -503,8 +532,11 @@ Ce qui a été mesuré et doit le rester :
 Commandes :
 
     npm run dev        # ne pas vider .next au préalable
-    npm run build      # arrêter le dev avant
+    npm run build      # arrêter le dev avant, puis RELANCER le dev
     npm run typecheck
+
+Et, après chaque étape, la vérification que ces trois commandes ne font pas :
+**ouvrir les pages et regarder** (§6).
 
 ---
 
