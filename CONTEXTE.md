@@ -568,7 +568,65 @@ devient d'ici là la page unique où le visiteur voit tout.
 
 ---
 
-## 10. Les démonstrations
+## 10. La page /services
+
+C'est LA page qui décide. Un visiteur qui hésite entre nous et un concurrent
+ne lit pas notre discours : il regarde ce qu'on a fait. Elle a remplacé
+`/realisations` (§9) et porte désormais toute la preuve.
+
+### La règle de composition : l'image domine
+
+Six blocs, dans un ordre qui va du plus facile à décider au plus engageant —
+menu QR, rendez-vous, boutique, site vitrine, annonces, campagne — puis une
+carte discrète pour les invitations de mariage. Chaque bloc porte une image
+qui occupe la colonne la plus large, le bénéfice en titre, **deux lignes**
+sous le titre, **trois points** et pas cinq, le délai, un bouton.
+
+> L'ancienne version alignait cinq points par service à côté d'un cadre vide
+> contenant une icône. Le visiteur lisait beaucoup et ne voyait rien. Au-delà
+> de trois points, une liste devient un mur.
+
+### Les images sont de vraies captures, produites par un script
+
+    npm run dev        # dans un terminal
+    npm run captures   # dans un autre
+
+`scripts/captures.mjs` pilote le Chrome installé sur la machine
+(puppeteer-core, pas puppeteer : aucun Chromium de 180 Mo à télécharger) et
+écrit dans `public/services/`. Il ne photographie pas une page d'accueil : il
+**conduit la démo** jusqu'à l'écran qui prouve quelque chose — l'agenda avec
+ses créneaux pris pour le cabinet, la carte pour le café.
+
+Refaire les captures après toute modification d'une démo. Une capture faite à
+la main finit toujours par dater, et l'on se retrouve à vendre un écran qui
+n'existe plus.
+
+Le showroom de meubles est capturé sur son **site en ligne**, en JPEG : c'est
+une photographie, elle pèse dix fois moins qu'en PNG.
+
+### Les services sans démonstration
+
+Ils portent un visuel **dessiné**, jamais un cadre vide : le message WhatsApp
+complet pour la boutique, les filtres et leurs résultats pour les annonces,
+l'entonnoir pour la campagne. Chacun montre le bénéfice, pas une icône.
+
+⚠️ Ces visuels contiennent du TEXTE et vivent sur le site MADDEV, qui est
+bilingue : ils doivent être traduits. Un message WhatsApp en français au
+milieu d'une page arabe se remarque immédiatement.
+
+### Vérifier la page
+
+    npm run vues
+
+Capture les blocs en FR et AR, desktop et mobile, dans un dossier temporaire,
+pour les regarder. Le défilement y est volontairement lent : plus vite,
+l'IntersectionObserver n'a pas le temps de révéler les blocs et l'on
+photographie des sections vides en croyant à un bug (erreur commise, puis
+corrigée, en septembre 2026).
+
+---
+
+## 11. Les démonstrations
 
 Le studio n'a **qu'une seule réalisation cliente réelle**. Les démonstrations
 comblent cet écart : des projets fictifs, complets et utilisables, qui
@@ -723,7 +781,7 @@ donnée démo par démo au moment de la livraison.
 
 ---
 
-## 11. Journal des décisions
+## 12. Journal des décisions
 
 Les tournants du projet, pour comprendre pourquoi le site est dans cet état.
 
@@ -745,4 +803,5 @@ Les tournants du projet, pour comprendre pourquoi le site est dans cet état.
 | Registre arabe : standard | Quatrième bascule. Les démos sont conformes, le site reste à convertir (§2, §7) |
 | Projet sous git | Dépôt local, `.gitattributes` pour figer les fins de ligne en LF, `engines: node >=18.17`. Reste à pousser |
 | `/realisations` supprimée | Un seul client réel : la page soulignait le vide. 301 vers `/services`, qui devient la page unique de la preuve |
+| `/services` refaite autour des captures | L'image domine, trois points par bloc au lieu de cinq, captures produites par script |
 | Démos en français seul | Elles s'adressent à des professionnels francophones ; six versions arabes à maintenir coûtaient plus qu'elles ne rapportaient. Le site reste bilingue |
