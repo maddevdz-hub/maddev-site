@@ -44,10 +44,6 @@
     --font-body: var(--font-karla);
   }
 
-  html[lang='ar'] {
-    --font-display: var(--font-almarai);
-    --font-body: var(--font-almarai);
-  }
 
   html {
     -webkit-text-size-adjust: 100%;
@@ -65,10 +61,6 @@
     -webkit-font-smoothing: antialiased;
   }
 
-  /* L'arabe demande plus d'air entre les lignes pour rester lisible. */
-  html[lang='ar'] body {
-    line-height: 1.75;
-  }
 
   h1,
   h2,
@@ -77,17 +69,7 @@
     color: var(--ink);
   }
 
-  /*
-   * Les titres arabes portent visuellement plus lourd que leur équivalent
-   * latin à taille égale : on les réduit d'environ 12 %.
-   */
-  html[lang='ar'] h1 {
-    font-size: 0.88em;
-  }
 
-  html[lang='ar'] h2 {
-    font-size: 0.9em;
-  }
 
   :focus-visible {
     outline: 3px solid var(--clay);
@@ -99,15 +81,6 @@
     background: rgba(180, 83, 42, 0.22);
   }
 
-  /*
-   * L'écriture arabe ne se lettre-espace jamais : l'espacement casse la
-   * liaison entre les lettres et le mot cesse d'être lu comme un mot.
-   * La règle vaut aussi pour les libellés en petites capitales, qui
-   * contiennent parfois un mot latin (« QR ») au milieu d'un texte arabe.
-   */
-  html[lang='ar'] [class*='tracking-'] {
-    letter-spacing: normal;
-  }
 
   /* Les chiffres restent en écriture latine, même en arabe. */
   .numerals {

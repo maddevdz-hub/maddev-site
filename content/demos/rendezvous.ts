@@ -1,4 +1,4 @@
-import type { Bilingual, DemoBrand } from './types';
+import type { DemoBrand } from './types';
 
 /**
  * Démonstration « Cabinet dentaire Amel » — prise de rendez-vous.
@@ -20,34 +20,25 @@ import type { Bilingual, DemoBrand } from './types';
  */
 
 export const cabinet: DemoBrand & {
-  tagline: Bilingual;
-  address: Bilingual;
+  tagline: string;
+  address: string;
   phoneDisplay: string;
   /** Photo de façade ou de salle d'attente, si elle arrive un jour. */
   cover?: string;
 } = {
   slug: 'rendezvous',
-  name: { fr: 'Cabinet dentaire Amel', ar: 'عيادة أمل لطب الأسنان' },
-  sector: {
-    fr: 'Cabinet dentaire — prise de rendez-vous',
-    ar: 'عيادة أسنان — حجز المواعيد',
-  },
-  solves: {
-    fr: 'Le patient réserve, reçoit son rappel et annule seul. Le téléphone cesse de sonner.',
-    ar: 'يحجز المريض، ويصله التذكير، ويلغي بنفسه. يتوقّف الهاتف عن الرنين.',
-  },
-  tagline: {
-    fr: 'Soins et prévention, du samedi au jeudi',
-    ar: 'علاج ووقاية، من السبت إلى الخميس',
-  },
-  address: { fr: '14 rue des Frères Aouati, Kouba — Alger', ar: '14 شارع الإخوة عواتي، القبة — الجزائر' },
+  name: 'Cabinet dentaire Amel',
+  sector: 'Cabinet dentaire — prise de rendez-vous',
+  solves: 'Le patient réserve, reçoit son rappel et annule seul. Le téléphone cesse de sonner.',
+  tagline: 'Soins et prévention, du samedi au jeudi',
+  address: '14 rue des Frères Aouati, Kouba — Alger',
   phoneDisplay: '+213 23 00 00 00',
 };
 
 export type Practitioner = {
   id: string;
-  name: Bilingual;
-  role: Bilingual;
+  name: string;
+  role: string;
   /** Initiales affichées tant qu'aucun portrait n'est fourni. */
   initials: string;
   photo?: string;
@@ -56,21 +47,21 @@ export type Practitioner = {
 export const practitioners: Practitioner[] = [
   {
     id: 'amel',
-    name: { fr: 'Dre Amel Benhamou', ar: 'د. أمل بن حمو' },
-    role: { fr: 'Dentiste — soins et prévention', ar: 'طبيبة أسنان — علاج ووقاية' },
+    name: 'Dre Amel Benhamou',
+    role: 'Dentiste — soins et prévention',
     initials: 'AB',
   },
   {
     id: 'karim',
-    name: { fr: 'Dr Karim Aït Slimane', ar: 'د. كريم آيت سليمان' },
-    role: { fr: 'Orthodontiste — adultes et enfants', ar: 'أخصائي تقويم — للكبار والصغار' },
+    name: 'Dr Karim Aït Slimane',
+    role: 'Orthodontiste — adultes et enfants',
     initials: 'KA',
   },
 ];
 
 export type Reason = {
   id: string;
-  label: Bilingual;
+  label: string;
   /** En minutes — affiché au patient, il situe la durée de sa venue. */
   duration: number;
   /** Restreint à un praticien, quand l'acte lui est propre. */
@@ -80,27 +71,27 @@ export type Reason = {
 export const reasons: Reason[] = [
   {
     id: 'controle',
-    label: { fr: 'Consultation de contrôle', ar: 'استشارة ومراقبة' },
+    label: 'Consultation de contrôle',
     duration: 30,
   },
   {
     id: 'detartrage',
-    label: { fr: 'Détartrage', ar: 'إزالة الجير' },
+    label: 'Détartrage',
     duration: 45,
   },
   {
     id: 'carie',
-    label: { fr: 'Soin d’une carie', ar: 'علاج تسوّس' },
+    label: 'Soin d’une carie',
     duration: 45,
   },
   {
     id: 'urgence',
-    label: { fr: 'Urgence — douleur', ar: 'حالة مستعجلة — ألم' },
+    label: 'Urgence — douleur',
     duration: 20,
   },
   {
     id: 'ortho',
-    label: { fr: 'Consultation orthodontie', ar: 'استشارة تقويم الأسنان' },
+    label: 'Consultation orthodontie',
     duration: 30,
     only: 'karim',
   },
@@ -144,128 +135,89 @@ export function slotTaken(isoDate: string, minutes: number, practitionerId: stri
 }
 
 /** Noms des jours, écrits à la main : `Intl` en arabe donnerait des chiffres arabo-indiens. */
-export const weekdays: Record<number, Bilingual> = {
-  0: { fr: 'Dimanche', ar: 'الأحد' },
-  1: { fr: 'Lundi', ar: 'الإثنين' },
-  2: { fr: 'Mardi', ar: 'الثلاثاء' },
-  3: { fr: 'Mercredi', ar: 'الأربعاء' },
-  4: { fr: 'Jeudi', ar: 'الخميس' },
-  5: { fr: 'Vendredi', ar: 'الجمعة' },
-  6: { fr: 'Samedi', ar: 'السبت' },
+export const weekdays: Record<number, string> = {
+  0: 'Dimanche',
+  1: 'Lundi',
+  2: 'Mardi',
+  3: 'Mercredi',
+  4: 'Jeudi',
+  5: 'Vendredi',
+  6: 'Samedi',
 };
 
-export const months: Record<number, Bilingual> = {
-  0: { fr: 'janvier', ar: 'جانفي' },
-  1: { fr: 'février', ar: 'فيفري' },
-  2: { fr: 'mars', ar: 'مارس' },
-  3: { fr: 'avril', ar: 'أفريل' },
-  4: { fr: 'mai', ar: 'ماي' },
-  5: { fr: 'juin', ar: 'جوان' },
-  6: { fr: 'juillet', ar: 'جويلية' },
-  7: { fr: 'août', ar: 'أوت' },
-  8: { fr: 'septembre', ar: 'سبتمبر' },
-  9: { fr: 'octobre', ar: 'أكتوبر' },
-  10: { fr: 'novembre', ar: 'نوفمبر' },
-  11: { fr: 'décembre', ar: 'ديسمبر' },
+export const months: Record<number, string> = {
+  0: 'janvier',
+  1: 'février',
+  2: 'mars',
+  3: 'avril',
+  4: 'mai',
+  5: 'juin',
+  6: 'juillet',
+  7: 'août',
+  8: 'septembre',
+  9: 'octobre',
+  10: 'novembre',
+  11: 'décembre',
 };
 
 /** Tous les textes d'interface de la démonstration. */
 export const rdvUi = {
-  heroKicker: {
-    fr: 'Prendre rendez-vous',
-    ar: 'حجز موعد',
-  },
-  heroTitle: {
-    fr: 'Votre rendez-vous en quatre gestes',
-    ar: 'موعدك في أربع خطوات',
-  },
-  heroText: {
-    fr: 'Choisissez votre praticien, le motif et l’heure. Vous recevez la confirmation immédiatement, et un rappel la veille.',
-    ar: 'اختر الطبيب وسبب الزيارة والساعة. تصلك التأكيد فورًا، وتذكير في اليوم السابق.',
-  },
-  heroCta: { fr: 'Choisir un créneau', ar: 'اختيار موعد' },
-  heroCall: { fr: 'Appeler le cabinet', ar: 'الاتصال بالعيادة' },
+  heroKicker: 'Prendre rendez-vous',
+  heroTitle: 'Votre rendez-vous en quatre gestes',
+  heroText: 'Choisissez votre praticien, le motif et l’heure. Vous recevez la confirmation immédiatement, et un rappel la veille.',
+  heroCta: 'Choisir un créneau',
+  heroCall: 'Appeler le cabinet',
 
-  step: { fr: 'Étape', ar: 'الخطوة' },
-  stepPractitioner: { fr: 'Le praticien', ar: 'الطبيب' },
-  stepReason: { fr: 'Le motif', ar: 'سبب الزيارة' },
-  stepSlot: { fr: 'Le créneau', ar: 'الموعد' },
-  stepDetails: { fr: 'Vos coordonnées', ar: 'معلومات التواصل' },
+  step: 'Étape',
+  stepPractitioner: 'Le praticien',
+  stepReason: 'Le motif',
+  stepSlot: 'Le créneau',
+  stepDetails: 'Vos coordonnées',
 
-  minutes: { fr: 'min', ar: 'دقيقة' },
-  taken: { fr: 'Pris', ar: 'محجوز' },
-  closed: { fr: 'Fermé', ar: 'مغلق' },
-  noSlot: {
-    fr: 'Aucun créneau libre ce jour-là. Essayez le lendemain.',
-    ar: 'لا يوجد موعد متاح في هذا اليوم. جرّب اليوم الموالي.',
-  },
-  today: { fr: 'Aujourd’hui', ar: 'اليوم' },
-  tomorrow: { fr: 'Demain', ar: 'غدًا' },
+  minutes: 'min',
+  taken: 'Pris',
+  closed: 'Fermé',
+  noSlot: 'Aucun créneau libre ce jour-là. Essayez le lendemain.',
+  today: 'Aujourd’hui',
+  tomorrow: 'Demain',
 
-  fieldName: { fr: 'Nom et prénom', ar: 'الاسم واللقب' },
-  fieldPhone: { fr: 'Téléphone', ar: 'رقم الهاتف' },
-  fieldPhoneHint: {
-    fr: 'C’est sur ce numéro qu’arrive le rappel.',
-    ar: 'على هذا الرقم يصل التذكير.',
-  },
-  fieldFirst: { fr: 'Première visite au cabinet', ar: 'أول زيارة للعيادة' },
-  required: { fr: 'Ce champ est obligatoire', ar: 'هذا الحقل مطلوب' },
-  invalidPhone: {
-    fr: 'Numéro algérien attendu — 10 chiffres, commençant par 0.',
-    ar: 'رقم جزائري مطلوب — 10 أرقام تبدأ بـ 0.',
-  },
-  confirm: { fr: 'Confirmer le rendez-vous', ar: 'تأكيد الموعد' },
-  back: { fr: 'Retour', ar: 'رجوع' },
-  change: { fr: 'Modifier', ar: 'تعديل' },
+  fieldName: 'Nom et prénom',
+  fieldPhone: 'Téléphone',
+  fieldPhoneHint: 'C’est sur ce numéro qu’arrive le rappel.',
+  fieldFirst: 'Première visite au cabinet',
+  required: 'Ce champ est obligatoire',
+  invalidPhone: 'Numéro algérien attendu — 10 chiffres, commençant par 0.',
+  confirm: 'Confirmer le rendez-vous',
+  back: 'Retour',
+  change: 'Modifier',
 
-  doneTitle: { fr: 'Rendez-vous confirmé', ar: 'تم تأكيد الموعد' },
-  doneWith: { fr: 'avec', ar: 'مع' },
-  reminderTitle: {
-    fr: 'Rappel WhatsApp la veille, à 18 h',
-    ar: 'تذكير عبر واتساب في اليوم السابق، على الساعة 18:00',
-  },
-  reminderText: {
-    fr: 'C’est ce message qui fait la différence entre un patient qui vient et un créneau perdu. S’il répond « annuler », la place se libère aussitôt pour quelqu’un d’autre.',
-    ar: 'هذه الرسالة هي الفرق بين مريض يحضر وموعد ضائع. وإذا ردّ بكلمة «إلغاء»، يتحرّر المكان فورًا لمريض آخر.',
-  },
-  cancel: { fr: 'Annuler ce rendez-vous', ar: 'إلغاء هذا الموعد' },
-  cancelled: {
-    fr: 'Rendez-vous annulé. Le créneau est de nouveau libre — sans un seul appel.',
-    ar: 'أُلغي الموعد. أصبح متاحًا من جديد — دون أي مكالمة.',
-  },
-  restart: { fr: 'Prendre un autre rendez-vous', ar: 'حجز موعد آخر' },
-  demoNote: {
-    fr: 'Démonstration : aucun message n’est réellement envoyé.',
-    ar: 'نموذج توضيحي: لا تُرسَل أي رسالة فعليًا.',
-  },
+  doneTitle: 'Rendez-vous confirmé',
+  doneWith: 'avec',
+  reminderTitle: 'Rappel WhatsApp la veille, à 18 h',
+  reminderText: 'C’est ce message qui fait la différence entre un patient qui vient et un créneau perdu. S’il répond « annuler », la place se libère aussitôt pour quelqu’un d’autre.',
+  cancel: 'Annuler ce rendez-vous',
+  cancelled: 'Rendez-vous annulé. Le créneau est de nouveau libre — sans un seul appel.',
+  restart: 'Prendre un autre rendez-vous',
+  demoNote: 'Démonstration : aucun message n’est réellement envoyé.',
 
-  whyTitle: { fr: 'Ce qui change pour le cabinet', ar: 'ما الذي يتغيّر في العيادة' },
+  whyTitle: 'Ce qui change pour le cabinet',
   why: [
     {
-      title: { fr: 'Le téléphone se libère', ar: 'يتحرّر الهاتف' },
-      text: {
-        fr: 'Les rendez-vous se prennent en dehors des heures d’ouverture, pendant les soins, la nuit, le vendredi.',
-        ar: 'تُحجز المواعيد خارج أوقات العمل، أثناء العلاج، ليلًا، ويوم الجمعة.',
-      },
+      title: 'Le téléphone se libère',
+      text: 'Les rendez-vous se prennent en dehors des heures d’ouverture, pendant les soins, la nuit, le vendredi.',
     },
     {
-      title: { fr: 'Moins de rendez-vous manqués', ar: 'مواعيد فائتة أقل' },
-      text: {
-        fr: 'Le rappel de la veille arrive là où le patient regarde vraiment : WhatsApp.',
-        ar: 'يصل تذكير اليوم السابق حيث ينظر المريض فعلًا: واتساب.',
-      },
+      title: 'Moins de rendez-vous manqués',
+      text: 'Le rappel de la veille arrive là où le patient regarde vraiment : WhatsApp.',
     },
     {
-      title: { fr: 'Le créneau annulé se remplit', ar: 'الموعد الملغى يُملأ' },
-      text: {
-        fr: 'Une annulation libère la place immédiatement, au lieu de laisser un trou dans la journée.',
-        ar: 'الإلغاء يحرّر المكان فورًا، بدل ترك فراغ في اليوم.',
-      },
+      title: 'Le créneau annulé se remplit',
+      text: 'Une annulation libère la place immédiatement, au lieu de laisser un trou dans la journée.',
     },
   ],
 
-  hoursTitle: { fr: 'Horaires', ar: 'أوقات العمل' },
-  hoursWeek: { fr: 'Samedi au jeudi', ar: 'من السبت إلى الخميس' },
-  hoursSat: { fr: 'Samedi', ar: 'السبت' },
-  hoursClosed: { fr: 'Vendredi fermé', ar: 'الجمعة مغلق' },
+  hoursTitle: 'Horaires',
+  hoursWeek: 'Samedi au jeudi',
+  hoursSat: 'Samedi',
+  hoursClosed: 'Vendredi fermé',
 } as const;

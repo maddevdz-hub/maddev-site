@@ -1,4 +1,4 @@
-import type { Bilingual, DemoBrand } from './types';
+import type { DemoBrand } from './types';
 import { cafe } from './menu';
 import { cabinet } from './rendezvous';
 
@@ -23,7 +23,7 @@ export type Demo = DemoBrand & {
   /** Couleurs de la démo, pour la vignette de la galerie. */
   palette: { bg: string; ink: string; accent: string };
   /** Mot d'ordre de l'identité, affiché sur la vignette. */
-  mood: Bilingual;
+  mood: string;
 };
 
 export const demos: Demo[] = [
@@ -32,14 +32,14 @@ export const demos: Demo[] = [
     slug: 'menu',
     path: '/demo/menu',
     palette: { bg: '#fbf3e7', ink: '#2a1d16', accent: '#b4532a' },
-    mood: { fr: 'Terre cuite et crème', ar: 'لون الطين والكريمي' },
+    mood: 'Terre cuite et crème',
   },
   {
     ...cabinet,
     slug: 'rendezvous',
     path: '/demo/rendezvous',
     palette: { bg: '#0d2b31', ink: '#ffffff', accent: '#7fd3da' },
-    mood: { fr: 'Pétrole et menthe', ar: 'أزرق داكن ونعناعي' },
+    mood: 'Pétrole et menthe',
   },
 ];
 

@@ -125,7 +125,7 @@ export default async function ServicesPage({
         title={t.finalCta.title}
         text={t.finalCta.text}
         primary={{ label: t.finalCta.primary, href: href(locale, routes.contact) }}
-        secondary={{ label: t.finalCta.secondary, href: href(locale, routes.work) }}
+        secondary={{ label: dict.nav.quiz, href: href(locale, routes.quiz) }}
         patternId="dd-services-cta"
       />
     </>

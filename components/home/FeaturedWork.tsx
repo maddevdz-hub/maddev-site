@@ -63,7 +63,7 @@ export function FeaturedWork({
                 {dict.work.labels.visit}
               </ButtonLink>
             ) : null}
-            <ButtonLink href={href(locale, routes.work)} variant="secondary">
+            <ButtonLink href={href(locale, routes.services)} variant="secondary">
               {t.cta}
               <ArrowIcon className="group-hover:translate-x-0.5 rtl:group-hover:-translate-x-0.5" />
             </ButtonLink>

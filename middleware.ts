@@ -24,21 +24,12 @@ export function middleware(request: NextRequest) {
   }
 
   /*
-   * Les démonstrations vivent hors de l'arborescence du site : leur langue
-   * est le DERNIER segment (/demo/menu/fr), pas le premier. Sans cette
-   * branche, /demo/menu/fr serait redirigé vers /ar/demo/menu/fr.
-   *
-   * Une adresse courte — /demo/menu, celle que porte le QR code imprimé —
-   * est complétée par la langue du visiteur. C'est volontairement la seule
-   * forme communiquée : elle survit à un changement de langue par défaut.
+   * Les démonstrations vivent hors de l'arborescence du site et sont en
+   * FRANÇAIS SEUL : elles n'ont donc pas de préfixe de langue, et le
+   * middleware doit les laisser passer telles quelles. Sans cette branche,
+   * /demo/menu serait redirigé vers /ar/demo/menu, qui n'existe pas.
    */
   if (pathname === '/demo' || pathname.startsWith('/demo/')) {
-    const segments = pathname.split('/').filter(Boolean);
-    if (segments.length === 2) {
-      const url = request.nextUrl.clone();
-      url.pathname = `${pathname}/${resolveLocale(request)}`;
-      return NextResponse.redirect(url);
-    }
     return NextResponse.next();
   }
 

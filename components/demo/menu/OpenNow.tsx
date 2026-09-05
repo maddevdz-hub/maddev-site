@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react';
 import { cafe, menuUi } from '@/content/demos/menu';
-import type { Locale } from '@/i18n/config';
 
 /**
  * Indicateur « ouvert maintenant ».
@@ -15,7 +14,7 @@ import type { Locale } from '@/i18n/config';
  * ne connaît pas le fuseau du visiteur, et afficher « ouvert » côté serveur
  * pour le corriger ensuite ferait clignoter une information de confiance.
  */
-export function OpenNow({ locale }: { locale: Locale }) {
+export function OpenNow() {
   const [open, setOpen] = useState<boolean | null>(null);
 
   useEffect(() => {
@@ -47,7 +46,7 @@ export function OpenNow({ locale }: { locale: Locale }) {
         className="inline-block h-2 w-2 rounded-full"
         style={{ background: open ? '#5c6b3f' : '#9a8875' }}
       />
-      {open ? menuUi.open[locale] : menuUi.closed[locale]}
+      {open ? menuUi.open : menuUi.closed}
     </span>
   );
 }

@@ -162,7 +162,7 @@ export default async function AboutPage({
         title={t.finalCta.title}
         text={t.finalCta.text}
         primary={{ label: t.finalCta.primary, href: href(locale, routes.contact) }}
-        secondary={{ label: dict.nav.work, href: href(locale, routes.work) }}
+        secondary={{ label: dict.nav.services, href: href(locale, routes.services) }}
         patternId="dd-about-cta"
         className="border-t border-line"
       />

@@ -10,10 +10,6 @@
       "title": "Sites, boutiques et publicité — MADDEV",
       "description": "Vos clients vous trouvent sur Google, la commande arrive complète par WhatsApp, et vous pilotez votre site depuis votre téléphone. Ce que vous obtenez, pour qui, en combien de temps."
     },
-    "work": {
-      "title": "Réalisations — MADDEV",
-      "description": "Notre réalisation : un showroom de meubles à Bordj Bou Arréridj — 67 pages en ligne et la commande qui arrive complète par WhatsApp. Un projet réel, que vous pouvez visiter."
-    },
     "process": {
       "title": "Vous validez avant qu’on code — MADDEV",
       "description": "Découverte, design, développement, lancement, suivi. Cinq étapes claires, de la première discussion à la mise en ligne."
@@ -38,7 +34,6 @@
   "nav": {
     "home": "Accueil",
     "services": "Services",
-    "work": "Réalisations",
     "process": "Méthode",
     "contact": "Contact",
     "about": "Qui sommes-nous",
@@ -179,23 +174,9 @@
     }
   },
   "work": {
-    "eyebrow": "Réalisations",
-    "title": "Voyez le résultat avant de commander",
-    "intro": "Un projet client en ligne, puis des démonstrations que nous avons conçues pour montrer, métier par métier, ce que vous obtenez.",
-    "realTitle": "Nos réalisations",
-    "demos": {
-      "title": "Démonstrations",
-      "intro": "Des projets fictifs, conçus pour montrer concrètement ce que nous livrons dans chaque métier.",
-      "cta": "Voir la démonstration"
-    },
     "labels": {
       "result": "Résultat",
       "visit": "Voir le site"
-    },
-    "finalCta": {
-      "title": "Votre projet, le prochain sur cette page",
-      "text": "On travaille avec un nombre limité de clients à la fois, pour que chaque projet reçoive l'attention qu'il mérite.",
-      "primary": "Démarrer un projet"
     }
   },
   "process": {

@@ -13,7 +13,6 @@ import {
   type Practitioner,
   type Reason,
 } from '@/content/demos/rendezvous';
-import type { Locale } from '@/i18n/config';
 import { AmelMark, CheckMark, WhatsAppGlyph } from './AmelMarks';
 
 /**
@@ -61,7 +60,7 @@ function formatTime(minutes: number): string {
   ).padStart(2, '0')}`;
 }
 
-export function BookingFlow({ locale }: { locale: Locale }) {
+export function BookingFlow() {
   const [days, setDays] = useState<Date[] | null>(null);
   const [step, setStep] = useState<Step>('practitioner');
   const [practitioner, setPractitioner] = useState<Practitioner | null>(null);
@@ -173,7 +172,7 @@ export function BookingFlow({ locale }: { locale: Locale }) {
   if (step === 'done' && booking) {
     return (
       <Confirmation
-        locale={locale}
+       
         booking={booking}
         cancelled={cancelled}
         onCancel={cancelBooking}
@@ -186,13 +185,13 @@ export function BookingFlow({ locale }: { locale: Locale }) {
 
   return (
     <div className="am-card overflow-hidden">
-      <Progress locale={locale} index={stepIndex} />
+      <Progress index={stepIndex} />
 
       <div className="p-5 sm:p-7">
         {step === 'practitioner' ? (
           <fieldset>
             <legend className="mb-4 text-[19px] font-semibold">
-              {rdvUi.stepPractitioner[locale]}
+              {rdvUi.stepPractitioner}
             </legend>
             <div className="grid gap-3 sm:grid-cols-2">
               {practitioners.map((p) => (
@@ -211,9 +210,9 @@ export function BookingFlow({ locale }: { locale: Locale }) {
                     {p.initials}
                   </span>
                   <span className="flex min-w-0 flex-col">
-                    <span className="font-semibold">{p.name[locale]}</span>
+                    <span className="font-semibold">{p.name}</span>
                     <span className="text-[14px] text-[var(--ink-2)]">
-                      {p.role[locale]}
+                      {p.role}
                     </span>
                   </span>
                 </button>
@@ -225,7 +224,7 @@ export function BookingFlow({ locale }: { locale: Locale }) {
         {step === 'reason' ? (
           <fieldset>
             <legend className="mb-4 text-[19px] font-semibold">
-              {rdvUi.stepReason[locale]}
+              {rdvUi.stepReason}
             </legend>
             <div className="flex flex-col gap-2">
               {openReasons.map((r) => (
@@ -239,21 +238,21 @@ export function BookingFlow({ locale }: { locale: Locale }) {
                   }}
                   className="flex min-h-[56px] items-center justify-between gap-4 rounded-[var(--radius)] border border-[var(--line)] px-4 text-start transition-colors hover:border-[var(--teal)] hover:bg-[var(--wash)]"
                 >
-                  <span className="font-medium">{r.label[locale]}</span>
+                  <span className="font-medium">{r.label}</span>
                   <span className="shrink-0 text-[14px] text-[var(--ink-2)]">
                     <span className="numerals">{r.duration}</span>{' '}
-                    {rdvUi.minutes[locale]}
+                    {rdvUi.minutes}
                   </span>
                 </button>
               ))}
             </div>
-            <BackButton locale={locale} onClick={() => setStep('practitioner')} />
+            <BackButton onClick={() => setStep('practitioner')} />
           </fieldset>
         ) : null}
 
         {step === 'slot' && day ? (
           <div>
-            <h3 className="mb-4 text-[19px] font-semibold">{rdvUi.stepSlot[locale]}</h3>
+            <h3 className="mb-4 text-[19px] font-semibold">{rdvUi.stepSlot}</h3>
 
             {/* Les jours — le vendredi apparaît fermé plutôt que caché */}
             <div className="mb-5 flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
@@ -281,18 +280,18 @@ export function BookingFlow({ locale }: { locale: Locale }) {
                   >
                     <span className="font-medium">
                       {i === 0
-                        ? rdvUi.today[locale]
+                        ? rdvUi.today
                         : i === 1
-                          ? rdvUi.tomorrow[locale]
-                          : weekdays[d.getDay()][locale]}
+                          ? rdvUi.tomorrow
+                          : weekdays[d.getDay()]}
                     </span>
                     <span className="numerals text-[17px] font-bold">
                       {d.getDate()}
                     </span>
                     <span className="text-[11px] opacity-80">
                       {isOpen
-                        ? months[d.getMonth()][locale]
-                        : rdvUi.closed[locale]}
+                        ? months[d.getMonth()]
+                        : rdvUi.closed}
                     </span>
                   </button>
                 );
@@ -310,7 +309,7 @@ export function BookingFlow({ locale }: { locale: Locale }) {
                       aria-pressed={slot === s.minutes}
                       aria-label={
                         s.taken
-                          ? `${formatTime(s.minutes)} — ${rdvUi.taken[locale]}`
+                          ? `${formatTime(s.minutes)} — ${rdvUi.taken}`
                           : formatTime(s.minutes)
                       }
                       onClick={() => setSlot(s.minutes)}
@@ -321,10 +320,10 @@ export function BookingFlow({ locale }: { locale: Locale }) {
                   ))}
                 </div>
               ) : (
-                <p className="text-[var(--ink-2)]">{rdvUi.noSlot[locale]}</p>
+                <p className="text-[var(--ink-2)]">{rdvUi.noSlot}</p>
               )
             ) : (
-              <p className="text-[var(--ink-2)]">{rdvUi.noSlot[locale]}</p>
+              <p className="text-[var(--ink-2)]">{rdvUi.noSlot}</p>
             )}
 
             <div className="mt-6 flex flex-wrap items-center gap-3">
@@ -334,9 +333,9 @@ export function BookingFlow({ locale }: { locale: Locale }) {
                 disabled={slot === null}
                 onClick={() => setStep('details')}
               >
-                {rdvUi.confirm[locale]}
+                {rdvUi.confirm}
               </button>
-              <BackButton locale={locale} onClick={() => setStep('reason')} inline />
+              <BackButton onClick={() => setStep('reason')} inline />
             </div>
           </div>
         ) : null}
@@ -350,29 +349,29 @@ export function BookingFlow({ locale }: { locale: Locale }) {
             }}
           >
             <h3 className="mb-1 text-[19px] font-semibold">
-              {rdvUi.stepDetails[locale]}
+              {rdvUi.stepDetails}
             </h3>
 
             <p className="mb-5 text-[14px] text-[var(--ink-2)]">
-              {reason?.label[locale]} · {practitioner?.name[locale]} ·{' '}
+              {reason?.label} · {practitioner?.name} ·{' '}
               <span className="numerals">
-                {day.getDate()} {months[day.getMonth()][locale]} {formatTime(slot)}
+                {day.getDate()} {months[day.getMonth()]} {formatTime(slot)}
               </span>
             </p>
 
             <div className="flex flex-col gap-4">
               <Field
                 id="rdv-name"
-                label={rdvUi.fieldName[locale]}
+                label={rdvUi.fieldName}
                 value={name}
                 onChange={setName}
                 invalid={errors.name}
-                error={rdvUi.required[locale]}
+                error={rdvUi.required}
               />
               <Field
                 id="rdv-phone"
-                label={rdvUi.fieldPhone[locale]}
-                hint={rdvUi.fieldPhoneHint[locale]}
+                label={rdvUi.fieldPhone}
+                hint={rdvUi.fieldPhoneHint}
                 value={phone}
                 onChange={setPhone}
                 dir="ltr"
@@ -381,17 +380,17 @@ export function BookingFlow({ locale }: { locale: Locale }) {
                 invalid={Boolean(errors.phone)}
                 error={
                   errors.phone === 'format'
-                    ? rdvUi.invalidPhone[locale]
-                    : rdvUi.required[locale]
+                    ? rdvUi.invalidPhone
+                    : rdvUi.required
                 }
               />
             </div>
 
             <div className="mt-6 flex flex-wrap items-center gap-3">
               <button type="submit" className="am-btn">
-                {rdvUi.confirm[locale]}
+                {rdvUi.confirm}
               </button>
-              <BackButton locale={locale} onClick={() => setStep('slot')} inline />
+              <BackButton onClick={() => setStep('slot')} inline />
             </div>
           </form>
         ) : null}
@@ -401,12 +400,12 @@ export function BookingFlow({ locale }: { locale: Locale }) {
 }
 
 /** Fil des quatre étapes. */
-function Progress({ locale, index }: { locale: Locale; index: number }) {
+function Progress({ index }: { index: number }) {
   const labels = [
-    rdvUi.stepPractitioner[locale],
-    rdvUi.stepReason[locale],
-    rdvUi.stepSlot[locale],
-    rdvUi.stepDetails[locale],
+    rdvUi.stepPractitioner,
+    rdvUi.stepReason,
+    rdvUi.stepSlot,
+    rdvUi.stepDetails,
   ];
 
   return (
@@ -448,11 +447,9 @@ function Progress({ locale, index }: { locale: Locale; index: number }) {
 }
 
 function BackButton({
-  locale,
   onClick,
   inline = false,
 }: {
-  locale: Locale;
   onClick: () => void;
   inline?: boolean;
 }) {
@@ -465,7 +462,7 @@ function BackButton({
         inline ? '' : 'mt-5',
       ].join(' ')}
     >
-      {rdvUi.back[locale]}
+      {rdvUi.back}
     </button>
   );
 }
@@ -530,13 +527,11 @@ function Field({
  * ce qu'il achète.
  */
 function Confirmation({
-  locale,
   booking,
   cancelled,
   onCancel,
   onRestart,
 }: {
-  locale: Locale;
   booking: Booking;
   cancelled: boolean;
   onCancel: () => void;
@@ -544,7 +539,7 @@ function Confirmation({
 }) {
   const [y, m, d] = booking.isoDate.split('-').map(Number);
   const date = new Date(y, m - 1, d);
-  const dateLabel = `${weekdays[date.getDay()][locale]} ${d} ${months[m - 1][locale]}`;
+  const dateLabel = `${weekdays[date.getDay()]} ${d} ${months[m - 1]}`;
 
   return (
     <div className="am-card overflow-hidden">
@@ -553,34 +548,34 @@ function Confirmation({
           <CheckMark className="h-5 w-5" />
         </span>
         <h3 className="text-[20px] font-semibold">
-          {cancelled ? rdvUi.cancel[locale] : rdvUi.doneTitle[locale]}
+          {cancelled ? rdvUi.cancel : rdvUi.doneTitle}
         </h3>
       </div>
 
       <div className="p-5 sm:p-7">
         {cancelled ? (
           <>
-            <p className="text-[17px] leading-relaxed">{rdvUi.cancelled[locale]}</p>
+            <p className="text-[17px] leading-relaxed">{rdvUi.cancelled}</p>
             <button type="button" className="am-btn mt-6" onClick={onRestart}>
-              {rdvUi.restart[locale]}
+              {rdvUi.restart}
             </button>
           </>
         ) : (
           <>
             {/* Le rendez-vous */}
             <dl className="mb-7 grid gap-x-6 gap-y-3 sm:grid-cols-2">
-              <Row label={rdvUi.stepSlot[locale]}>
+              <Row label={rdvUi.stepSlot}>
                 <span className="numerals">{formatTime(booking.minutes)}</span>
                 {' — '}
                 {dateLabel}
               </Row>
-              <Row label={rdvUi.stepPractitioner[locale]}>
-                {booking.practitioner.name[locale]}
+              <Row label={rdvUi.stepPractitioner}>
+                {booking.practitioner.name}
               </Row>
-              <Row label={rdvUi.stepReason[locale]}>
-                {booking.reason.label[locale]}
+              <Row label={rdvUi.stepReason}>
+                {booking.reason.label}
               </Row>
-              <Row label={rdvUi.fieldPhone[locale]}>
+              <Row label={rdvUi.fieldPhone}>
                 <span className="numerals">{booking.phone}</span>
               </Row>
             </dl>
@@ -589,62 +584,48 @@ function Confirmation({
             <div className="rounded-[var(--radius-lg)] border border-[var(--line)] bg-[var(--wash)] p-5">
               <p className="mb-3 flex items-center gap-2 text-[15px] font-semibold">
                 <WhatsAppGlyph className="h-5 w-5 text-[#25a366]" />
-                {rdvUi.reminderTitle[locale]}
+                {rdvUi.reminderTitle}
               </p>
 
               {/* La bulle, dessinée : aucune capture d'écran empruntée */}
               <div className="max-w-md rounded-[14px] rounded-ss-[4px] bg-[#dcf8c6] p-3.5 text-[15px] leading-relaxed text-[#0b2e13] shadow-sm">
                 <p className="mb-1 font-semibold">
-                  {locale === 'ar'
-                    ? 'عيادة أمل لطب الأسنان'
-                    : 'Cabinet dentaire Amel'}
+                  {'Cabinet dentaire Amel'}
                 </p>
                 <p>
-                  {locale === 'ar' ? (
-                    <>
-                      تذكير: موعدك غدًا{' '}
-                      <span className="numerals font-semibold">
-                        {formatTime(booking.minutes)}
-                      </span>{' '}
-                      مع {booking.practitioner.name.ar}. للإلغاء، ردّ بكلمة
-                      «إلغاء».
-                    </>
-                  ) : (
-                    <>
-                      Rappel : votre rendez-vous est demain à{' '}
-                      <span className="numerals font-semibold">
-                        {formatTime(booking.minutes)}
-                      </span>{' '}
-                      avec {booking.practitioner.name.fr}. Pour annuler,
-                      répondez « annuler ».
-                    </>
-                  )}
+                  Rappel : votre rendez-vous est demain à{' '}
+                  <span className="numerals font-semibold">
+                    {formatTime(booking.minutes)}
+                  </span>{' '}
+                  avec {booking.practitioner.name}. Pour annuler, répondez
+                  « annuler ».
                 </p>
+
                 <p className="mt-1.5 text-end text-[11px] text-[#4a6b52]">
                   <span className="numerals">18:00</span>
                 </p>
               </div>
 
               <p className="mt-3 text-[14px] leading-relaxed text-[var(--ink-2)]">
-                {rdvUi.reminderText[locale]}
+                {rdvUi.reminderText}
               </p>
             </div>
 
             <div className="mt-6 flex flex-wrap items-center gap-3">
               <button type="button" className="am-btn-ghost" onClick={onCancel}>
-                {rdvUi.cancel[locale]}
+                {rdvUi.cancel}
               </button>
               <button
                 type="button"
                 className="inline-flex min-h-[44px] items-center text-[15px] font-semibold text-[var(--ink-2)] underline underline-offset-4"
                 onClick={onRestart}
               >
-                {rdvUi.restart[locale]}
+                {rdvUi.restart}
               </button>
             </div>
 
             <p className="mt-4 text-[13px] text-[var(--ink-2)]">
-              {rdvUi.demoNote[locale]}
+              {rdvUi.demoNote}
             </p>
           </>
         )}

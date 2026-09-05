@@ -70,9 +70,10 @@ non mesurable.
 
 ### Arabe
 
-**Arabe standard moderne, partout.** Décidé en septembre 2026, après trois
-bascules. Une seule exception prévue : l'invitation de mariage (`/demo/mariage`),
-où le registre littéraire est celui du genre.
+**Arabe standard moderne** partout où il reste de l'arabe, c'est-à-dire sur
+le site MADDEV lui-même. Décidé en septembre 2026, après trois bascules.
+Les démonstrations, elles, sont passées en français seul et ne sont plus
+concernées (§10).
 
 On écrit `ماذا`, `لماذا`, `كيف`, `متى`, `الذي`, `التي`, `يمكنك`, `تُقدَّم` ;
 on évite le parlé algérien : `شنو`, `واش`, `علاش`, `كيفاش`, `إمتى`, `شحال`,
@@ -84,8 +85,7 @@ on évite le parlé algérien : `شنو`, `واش`, `علاش`, `كيفاش`, `�
 > | | Registre | |
 > | --- | --- | --- |
 > | Les 8 pages du site (`content/`, `messages/ar.json`) | **darija** | conversion à faire — voir §7 |
-> | La démo `/demo/menu` (`content/demos/menu.ts`) | **standard** | conforme |
-> | `/demo/mariage` | littéraire | à construire |
+> | Les démonstrations | **sans objet** | elles sont en français seul depuis septembre 2026 (§10) |
 >
 > Le site a été écrit en darija sur consigne, puis la règle a été inversée
 > alors que la conversion du site était explicitement remise à plus tard. Ce
@@ -184,7 +184,7 @@ Huit pages, servies en arabe et en français sous un préfixe de langue
 | --- | --- | --- |
 | `/` | Hero, réassurance, 4 services, réalisation vedette, 3 piliers, FAQ, CTA | terminé |
 | `/services` | 4 blocs détaillés, formules récurrentes, CTA | terminé |
-| `/realisations` | 1 projet réel | capture manquante |
+| ~~`/realisations`~~ | **supprimée** en septembre 2026 — redirige en 301 vers `/services` | — |
 | `/process` | 5 étapes, timeline verticale | terminé |
 | `/a-propos` | Qui je suis, pourquoi MADDEV, comment je travaille | photo manquante |
 | `/site-ou-facebook` | Comparatif 6 critères + « quand Facebook suffit » | terminé |
@@ -508,7 +508,35 @@ Commandes :
 
 ---
 
-## 9. Les démonstrations
+## 9. La page /realisations a été supprimée
+
+Septembre 2026. **Raison : un seul client réel.** Une page « Réalisations »
+avec un projet unique souligne le vide au lieu de montrer la force. Le
+visiteur compte les vignettes avant de les lire.
+
+Ce qui a été fait :
+
+- la page et sa route sont supprimées, la navigation et le pied de page
+  n'y renvoient plus, le sitemap ne la contient plus ;
+- `/realisations` et `/{ar,fr}/realisations` redirigent en **301** vers
+  `/services` (`next.config.mjs`) — un permanent transmet à Google le crédit
+  de l'ancienne page au lieu de le perdre ;
+- les clés `nav.work`, `meta.work` et le contenu de la section `work` des
+  dictionnaires ont été retirés ; seul `work.labels` survit, encore utilisé
+  par la réalisation vedette de l'accueil.
+
+**Le showroom de meubles de Bordj Bou Arréridj**, seul client réel, devient
+la démonstration du service « Site vitrine » sur `/services`, présenté pour
+ce qu'il est — un vrai client, avec son lien en ligne. Il ne porte donc
+**pas** la bande « démonstration fictive » : la lui coller mentirait dans
+l'autre sens.
+
+La page reviendra quand il y aura plusieurs clients à y mettre. `/services`
+devient d'ici là la page unique où le visiteur voit tout.
+
+---
+
+## 10. Les démonstrations
 
 Le studio n'a **qu'une seule réalisation cliente réelle**. Les démonstrations
 comblent cet écart : des projets fictifs, complets et utilisables, qui
@@ -538,19 +566,27 @@ qui rend croyable le seul vrai client.
 3. **Aucun jeton de la charte MADDEV.** Couleurs, polices et rayons vivent
    dans le CSS local de la démo et ne migrent jamais vers `tailwind.config`.
 
-### Le registre arabe des démos
+### La langue des démonstrations
 
-Standard moderne, comme le reste — voir §2, qui porte la règle et l'état
-réel du code. L'invitation de mariage fait exception : littéraire.
+**Français seul**, décidé en septembre 2026. Ces démos s'adressent à des
+professionnels — médecins, gérants de showroom, avocats — qui lisent le
+français, et maintenir une version arabe de six démonstrations coûterait plus
+qu'elle ne rapporterait. **Le site MADDEV, lui, reste bilingue.**
+
+Conséquence dans le code : le contenu des démos utilise des chaînes simples
+(`name: 'Café Zitouna'`) là où le site utilise `{ fr, ar }`. Les routes n'ont
+plus de segment de langue, et les polices arabes ont été retirées des deux
+démos existantes — une police chargée pour un texte qui n'existe plus est du
+poids gratuit sur chaque visite.
 
 ### Routage
 
-    /demo/menu          → redirige vers la langue du visiteur (middleware)
-    /demo/menu/fr|ar    → la démo
-    /demo/menu/fr/affiche → l'affiche du QR, imprimable
+    /demo/menu            la démo
+    /demo/menu/affiche    l'affiche du QR, imprimable
+    /demo/rendezvous      la démo
 
-L'adresse **courte**, sans langue, est la seule à communiquer : c'est elle
-qu'encode le QR code, et elle survit à un changement de langue par défaut.
+Pas de segment de langue : le middleware laisse passer tout ce qui commence
+par `/demo/`. C'est cette adresse courte qu'encode le QR code imprimé.
 
 ### Ce qu'une démonstration doit prouver
 
@@ -655,7 +691,7 @@ donnée démo par démo au moment de la livraison.
 
 ---
 
-## 10. Journal des décisions
+## 11. Journal des décisions
 
 Les tournants du projet, pour comprendre pourquoi le site est dans cet état.
 
@@ -676,3 +712,5 @@ Les tournants du projet, pour comprendre pourquoi le site est dans cet état.
 | Démonstrations autorisées | La règle « aucun projet fictif » devient « aucun projet fictif **non identifié** » ; la bande d'avertissement est la contrepartie |
 | Registre arabe : standard | Quatrième bascule. Les démos sont conformes, le site reste à convertir (§2, §7) |
 | Projet sous git | Dépôt local, `.gitattributes` pour figer les fins de ligne en LF, `engines: node >=18.17`. Reste à pousser |
+| `/realisations` supprimée | Un seul client réel : la page soulignait le vide. 301 vers `/services`, qui devient la page unique de la preuve |
+| Démos en français seul | Elles s'adressent à des professionnels francophones ; six versions arabes à maintenir coûtaient plus qu'elles ne rapportaient. Le site reste bilingue |

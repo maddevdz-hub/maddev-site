@@ -18,7 +18,6 @@ import { site } from '@/content/site';
 const sourceFile: Record<string, string> = {
   [routes.home]: 'app/[locale]/page.tsx',
   [routes.services]: 'app/[locale]/services/page.tsx',
-  [routes.work]: 'app/[locale]/realisations/page.tsx',
   [routes.process]: 'app/[locale]/process/page.tsx',
   [routes.contact]: 'app/[locale]/contact/page.tsx',
   [routes.quiz]: 'app/[locale]/quiz/page.tsx',

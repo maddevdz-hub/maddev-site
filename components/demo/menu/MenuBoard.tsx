@@ -3,7 +3,6 @@
 import Image from 'next/image';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { ZitounaMark } from './ZitounaMark';
-import type { Locale } from '@/i18n/config';
 import {
   markerLabels,
   menuUi,
@@ -35,13 +34,7 @@ const markerStyle: Record<Marker, string> = {
   nouveau: 'bg-[#f6e7c4] text-[#6f4c07]',
 };
 
-export function MenuBoard({
-  locale,
-  categories,
-}: {
-  locale: Locale;
-  categories: MenuCategory[];
-}) {
+export function MenuBoard({ categories }: { categories: MenuCategory[] }) {
   const [active, setActive] = useState(categories[0]?.slug ?? '');
   const [filters, setFilters] = useState<Marker[]>([]);
   const navRef = useRef<HTMLDivElement>(null);
@@ -98,7 +91,7 @@ export function MenuBoard({
         className="sticky top-0 z-30 border-b border-[var(--line)] bg-[var(--cream)]/95 backdrop-blur"
       >
         {/* Catégories — défilement horizontal, sens de lecture respecté */}
-        <nav aria-label={locale === 'ar' ? 'الأقسام' : 'Catégories'}>
+        <nav aria-label={'Catégories'}>
           <ul className="flex gap-2 overflow-x-auto px-4 py-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             {visible.map((category) => {
               const isActive = category.slug === active;
@@ -114,7 +107,7 @@ export function MenuBoard({
                         : 'bg-[var(--cream-2)] text-[var(--ink-2)] hover:bg-[var(--cream-3)]',
                     ].join(' ')}
                   >
-                    {category.name[locale]}
+                    {category.name}
                   </a>
                 </li>
               );
@@ -125,7 +118,7 @@ export function MenuBoard({
         {/* Filtres */}
         <div className="flex items-center gap-2 overflow-x-auto border-t border-[var(--line)] px-4 py-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           <span className="shrink-0 text-[13px] font-bold text-[var(--ink-2)]">
-            {menuUi.filtersLabel[locale]}
+            {menuUi.filtersLabel}
           </span>
           {MARKERS.map((marker) => {
             const on = filters.includes(marker);
@@ -142,7 +135,7 @@ export function MenuBoard({
                     : 'border-[var(--line)] bg-white text-[var(--ink-2)] hover:border-[var(--clay)]',
                 ].join(' ')}
               >
-                {markerLabels[marker][locale]}
+                {markerLabels[marker]}
               </button>
             );
           })}
@@ -152,7 +145,7 @@ export function MenuBoard({
               onClick={() => setFilters([])}
               className="inline-flex min-h-[44px] shrink-0 items-center whitespace-nowrap px-2 text-[14px] font-bold text-[var(--clay-ink)] underline underline-offset-4"
             >
-              {menuUi.filtersClear[locale]}
+              {menuUi.filtersClear}
             </button>
           ) : null}
         </div>
@@ -161,7 +154,7 @@ export function MenuBoard({
       <div className="mx-auto w-full max-w-3xl px-4 pb-32 pt-6">
         {visible.length === 0 ? (
           <p className="rounded-2xl border border-dashed border-[var(--line)] px-5 py-10 text-center text-[var(--ink-2)]">
-            {menuUi.empty[locale]}
+            {menuUi.empty}
           </p>
         ) : (
           visible.map((category) => (
@@ -172,7 +165,7 @@ export function MenuBoard({
               className="mb-10 scroll-mt-[var(--nav-height)]"
             >
               <h2 className="mb-4 flex items-center gap-3 text-[26px] font-bold leading-tight">
-                {category.name[locale]}
+                {category.name}
                 <span
                   aria-hidden="true"
                   className="h-px flex-1 bg-[var(--line)]"
@@ -182,7 +175,7 @@ export function MenuBoard({
               <ul className="grid gap-3 md:grid-cols-2">
                 {category.dishes.map((dish) => (
                   <li key={dish.slug} className="h-full">
-                    <DishRow dish={dish} locale={locale} />
+                    <DishRow dish={dish} />
                   </li>
                 ))}
               </ul>
@@ -191,39 +184,39 @@ export function MenuBoard({
         )}
       </div>
 
-      <CallWaiter locale={locale} />
+      <CallWaiter />
     </>
   );
 }
 
 /** Une ligne de plat : photo, nom, description, marqueurs, prix. */
-function DishRow({ dish, locale }: { dish: Dish; locale: Locale }) {
+function DishRow({ dish }: { dish: Dish }) {
   return (
     <article className="zt-card flex h-full gap-3.5 p-3">
-      <DishPhoto dish={dish} locale={locale} />
+      <DishPhoto dish={dish} />
 
       <div className="flex min-w-0 flex-1 flex-col gap-1">
         <div className="flex items-baseline justify-between gap-3">
           <h3 className="text-[17px] font-bold leading-snug">
-            {dish.name[locale]}
+            {dish.name}
           </h3>
           <p className="shrink-0 font-bold text-[var(--clay-ink)]">
             <span className="numerals">{dish.price}</span>{' '}
             <span className="text-[13px] font-bold">
-              {menuUi.currency[locale]}
+              {menuUi.currency}
             </span>
           </p>
         </div>
 
         <p className="text-[14px] leading-relaxed text-[var(--ink-2)]">
-          {dish.description[locale]}
+          {dish.description}
         </p>
 
         {dish.markers.length > 0 ? (
           <ul className="mt-0.5 flex flex-wrap gap-1.5">
             {dish.markers.map((marker) => (
               <li key={marker} className={`zt-tag ${markerStyle[marker]}`}>
-                {markerLabels[marker][locale]}
+                {markerLabels[marker]}
               </li>
             ))}
           </ul>
@@ -240,12 +233,12 @@ function DishRow({ dish, locale }: { dish: Dish; locale: Locale }) {
  * image générique : une tuile de la couleur du café, avec l'initiale du plat.
  * Dès que le fichier existe, il suffit de renseigner `image` dans les données.
  */
-function DishPhoto({ dish, locale }: { dish: Dish; locale: Locale }) {
+function DishPhoto({ dish }: { dish: Dish }) {
   if (dish.image) {
     return (
       <Image
         src={dish.image}
-        alt={dish.name[locale]}
+        alt={dish.name}
         width={160}
         height={160}
         sizes="80px"
@@ -258,14 +251,14 @@ function DishPhoto({ dish, locale }: { dish: Dish; locale: Locale }) {
     <div
       className="relative flex h-[72px] w-[72px] shrink-0 items-center justify-center overflow-hidden rounded-xl bg-[var(--cream-2)] sm:h-20 sm:w-20"
       aria-hidden="true"
-      title={menuUi.photoSoon[locale]}
+      title={menuUi.photoSoon}
     >
       <ZitounaMark className="absolute -bottom-3 -end-2 h-14 w-14 text-[var(--olive)] opacity-[.18]" />
       <span
         className="relative text-[26px] font-bold text-[var(--clay)]/55"
         style={{ fontFamily: 'var(--font-display)' }}
       >
-        {dish.name[locale].trim().charAt(0)}
+        {dish.name.trim().charAt(0)}
       </span>
     </div>
   );
@@ -278,7 +271,7 @@ function DishPhoto({ dish, locale }: { dish: Dish; locale: Locale }) {
  * confirmation dit explicitement qu'aucun message n'est envoyé : une démo ne
  * doit jamais laisser croire qu'elle a déclenché quelque chose de réel.
  */
-function CallWaiter({ locale }: { locale: Locale }) {
+function CallWaiter() {
   const [open, setOpen] = useState(false);
   const [table, setTable] = useState('4');
   const [sent, setSent] = useState(false);
@@ -312,7 +305,7 @@ function CallWaiter({ locale }: { locale: Locale }) {
           className="pointer-events-auto inline-flex min-h-[52px] items-center gap-2.5 rounded-full bg-[var(--clay)] px-6 text-[17px] font-bold text-white shadow-[0_10px_28px_rgba(42,29,22,.28)] transition-transform hover:scale-[1.02] active:scale-[.99]"
         >
           <BellGlyph />
-          {menuUi.call[locale]}
+          {menuUi.call}
         </button>
       </div>
 
@@ -320,7 +313,7 @@ function CallWaiter({ locale }: { locale: Locale }) {
         <div className="fixed inset-0 z-50 flex items-end justify-center bg-[rgba(42,29,22,.45)] p-4 sm:items-center">
           <button
             type="button"
-            aria-label={menuUi.callCancel[locale]}
+            aria-label={menuUi.callCancel}
             onClick={() => setOpen(false)}
             className="absolute inset-0 h-full w-full cursor-default"
           />
@@ -329,7 +322,7 @@ function CallWaiter({ locale }: { locale: Locale }) {
             ref={dialogRef}
             role="dialog"
             aria-modal="true"
-            aria-label={menuUi.callTitle[locale]}
+            aria-label={menuUi.callTitle}
             className="relative w-full max-w-sm rounded-2xl bg-white p-5 shadow-xl"
           >
             {sent ? (
@@ -338,23 +331,23 @@ function CallWaiter({ locale }: { locale: Locale }) {
                   <CheckGlyph />
                 </span>
                 <p className="text-[17px] font-bold">
-                  {menuUi.callDone[locale]}
+                  {menuUi.callDone}
                 </p>
                 <p className="text-[13px] text-[var(--ink-2)]">
-                  {menuUi.callDemo[locale]}
+                  {menuUi.callDemo}
                 </p>
               </div>
             ) : (
               <>
                 <h2 className="mb-3 text-[20px] font-bold">
-                  {menuUi.callTitle[locale]}
+                  {menuUi.callTitle}
                 </h2>
 
                 <label
                   htmlFor="table"
                   className="mb-1.5 block text-[14px] font-bold text-[var(--ink-2)]"
                 >
-                  {menuUi.callTable[locale]}
+                  {menuUi.callTable}
                 </label>
                 <select
                   id="table"
@@ -377,19 +370,19 @@ function CallWaiter({ locale }: { locale: Locale }) {
                     onClick={() => setSent(true)}
                     className="min-h-[48px] flex-1 rounded-xl bg-[var(--clay)] px-4 text-[16px] font-bold text-white"
                   >
-                    {menuUi.callSend[locale]}
+                    {menuUi.callSend}
                   </button>
                   <button
                     type="button"
                     onClick={() => setOpen(false)}
                     className="min-h-[48px] rounded-xl border border-[var(--line)] px-4 text-[16px] font-bold text-[var(--ink-2)]"
                   >
-                    {menuUi.callCancel[locale]}
+                    {menuUi.callCancel}
                   </button>
                 </div>
 
                 <p className="mt-3 text-[12px] leading-snug text-[var(--ink-2)]">
-                  {menuUi.callDemo[locale]}
+                  {menuUi.callDemo}
                 </p>
               </>
             )}

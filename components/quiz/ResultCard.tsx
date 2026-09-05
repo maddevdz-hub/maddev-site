@@ -174,7 +174,7 @@ export function ResultCard({
                   {exampleProject.result[locale]}
                 </p>
                 <Link
-                  href={`${href(locale, routes.work)}#${exampleProject.slug}`}
+                  href={`${href(locale, routes.services)}#site-vitrine`}
                   className="inline-flex items-center gap-1.5 text-sm font-semibold text-coral2 hover:text-coral"
                 >
                   {t.seeProject}

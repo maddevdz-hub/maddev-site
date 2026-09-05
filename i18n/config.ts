@@ -31,11 +31,18 @@ export function otherLocale(locale: Locale): Locale {
   return locale === 'ar' ? 'fr' : 'ar';
 }
 
-/** Chemins des pages, sans le préfixe de langue. */
+/**
+ * Chemins des pages, sans le préfixe de langue.
+ *
+ * `/realisations` a été retirée en septembre 2026 : avec un seul client
+ * réel, une page « Réalisations » soulignait le vide au lieu de montrer la
+ * force. Le projet réel est passé sur /services, et l'ancienne adresse y
+ * redirige en 301 (voir next.config.mjs). La page reviendra quand il y aura
+ * plusieurs clients à y mettre.
+ */
 export const routes = {
   home: '',
   services: '/services',
-  work: '/realisations',
   process: '/process',
   contact: '/contact',
   quiz: '/quiz',

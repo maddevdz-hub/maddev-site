@@ -20,7 +20,6 @@ export function Header({
   nav: {
     home: string;
     services: string;
-    work: string;
     process: string;
     contact: string;
     about: string;
@@ -39,7 +38,6 @@ export function Header({
   const items: NavItem[] = [
     { path: routes.home, label: nav.home },
     { path: routes.services, label: nav.services },
-    { path: routes.work, label: nav.work },
     { path: routes.process, label: nav.process },
     // La confiance passe par un visage : la page « qui sommes-nous »
     // mérite d'être atteignable depuis n'importe où, pas seulement du footer.

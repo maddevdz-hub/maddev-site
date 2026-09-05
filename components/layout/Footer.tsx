@@ -21,7 +21,6 @@ export function Footer({
   const navItems = [
     { path: routes.home, label: nav.home },
     { path: routes.services, label: nav.services },
-    { path: routes.work, label: nav.work },
     { path: routes.process, label: nav.process },
     { path: routes.about, label: nav.about },
     { path: routes.compare, label: nav.compare },

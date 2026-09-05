@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import { notFound } from 'next/navigation';
 
 import { DemoBanner } from '@/components/demo/DemoBanner';
 import { BookingFlow } from '@/components/demo/rendezvous/BookingFlow';
@@ -9,7 +8,6 @@ import {
   ZelligeField,
 } from '@/components/demo/rendezvous/AmelMarks';
 import { cabinet, rdvUi } from '@/content/demos/rendezvous';
-import { isLocale, otherLocale, type Locale } from '@/i18n/config';
 
 /**
  * Démonstration « Cabinet dentaire Amel ».
@@ -25,21 +23,13 @@ import { isLocale, otherLocale, type Locale } from '@/i18n/config';
  * de banque d'images, et donne au cabinet une identité propre.
  */
 
-export default function RendezvousDemoPage({
-  params,
-}: {
-  params: { locale: string };
-}) {
-  if (!isLocale(params.locale)) notFound();
-  const locale = params.locale as Locale;
-  const other = otherLocale(locale);
-
+export default function RendezvousDemoPage() {
   return (
     <>
       <DemoBanner
-        locale={locale}
-        backHref={`/${locale}/realisations`}
-        backLabel={locale === 'ar' ? 'العودة إلى MADDEV' : 'Retour à MADDEV'}
+       
+        backHref="/fr/services"
+        backLabel={'Retour à MADDEV'}
       />
 
       {/* En-tête du cabinet */}
@@ -49,21 +39,14 @@ export default function RendezvousDemoPage({
             <AmelMark className="h-8 w-10 shrink-0 text-[var(--teal)]" />
             <div className="min-w-0">
               <p className="text-[17px] font-semibold leading-tight">
-                {cabinet.name[locale]}
+                {cabinet.name}
               </p>
               <p className="text-[13px] text-[var(--ink-2)]">
-                {cabinet.tagline[locale]}
+                {cabinet.tagline}
               </p>
             </div>
           </div>
 
-          <Link
-            href={`/demo/rendezvous/${other}`}
-            hrefLang={other}
-            className="am-btn-ghost shrink-0 text-[15px]"
-          >
-            {other === 'ar' ? 'العربية' : 'Français'}
-          </Link>
         </div>
       </header>
 
@@ -84,26 +67,26 @@ export default function RendezvousDemoPage({
             <div>
               <p className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/25 px-3.5 py-1.5 text-[13px] font-medium">
                 <span className="h-1.5 w-1.5 rounded-full bg-[#7fd3da]" />
-                {rdvUi.heroKicker[locale]}
+                {rdvUi.heroKicker}
               </p>
 
               <h1 className="text-[clamp(2rem,5.2vw,3.2rem)] font-semibold leading-[1.08]">
-                {rdvUi.heroTitle[locale]}
+                {rdvUi.heroTitle}
               </h1>
 
               <p className="mt-4 max-w-lg text-[17px] leading-relaxed text-white/75">
-                {rdvUi.heroText[locale]}
+                {rdvUi.heroText}
               </p>
 
               <div className="mt-7 flex flex-wrap gap-3">
                 <a href="#reserver" className="am-btn">
-                  {rdvUi.heroCta[locale]}
+                  {rdvUi.heroCta}
                 </a>
                 <a
                   href={`tel:${cabinet.phoneDisplay.replace(/\s/g, '')}`}
                   className="am-btn-ghost border-white/30 bg-transparent text-white hover:border-white"
                 >
-                  {rdvUi.heroCall[locale]}
+                  {rdvUi.heroCall}
                 </a>
               </div>
             </div>
@@ -115,7 +98,7 @@ export default function RendezvousDemoPage({
         {/* Le module de réservation */}
         <section id="reserver" className="scroll-mt-4 bg-[var(--wash)] py-14 lg:py-20">
           <div className="mx-auto w-full max-w-3xl px-5">
-            <BookingFlow locale={locale} />
+            <BookingFlow />
           </div>
         </section>
 
@@ -123,12 +106,12 @@ export default function RendezvousDemoPage({
         <section className="py-14 lg:py-20">
           <div className="mx-auto w-full max-w-5xl px-5">
             <h2 className="mb-8 text-[clamp(1.5rem,3.4vw,2.1rem)] font-semibold">
-              {rdvUi.whyTitle[locale]}
+              {rdvUi.whyTitle}
             </h2>
 
             <ul className="grid gap-5 md:grid-cols-3">
               {rdvUi.why.map((item, index) => (
-                <li key={item.title.fr} className="relative">
+                <li key={item.title} className="relative">
                   <span
                     aria-hidden="true"
                     className="numerals mb-3 block text-[40px] font-semibold leading-none text-[var(--mint-2)]"
@@ -136,10 +119,10 @@ export default function RendezvousDemoPage({
                     {index + 1}
                   </span>
                   <h3 className="mb-1.5 text-[18px] font-semibold">
-                    {item.title[locale]}
+                    {item.title}
                   </h3>
                   <p className="text-[15px] leading-relaxed text-[var(--ink-2)]">
-                    {item.text[locale]}
+                    {item.text}
                   </p>
                 </li>
               ))}
@@ -153,10 +136,10 @@ export default function RendezvousDemoPage({
           <div className="flex flex-col gap-1.5">
             <p className="flex items-center gap-2 font-semibold">
               <AmelMark className="h-6 w-8 text-[var(--teal)]" />
-              {cabinet.name[locale]}
+              {cabinet.name}
             </p>
             <p className="text-[14px] text-[var(--ink-2)]">
-              {cabinet.address[locale]}
+              {cabinet.address}
             </p>
             <p className="numerals text-[14px] text-[var(--ink-2)]">
               {cabinet.phoneDisplay}
@@ -165,24 +148,24 @@ export default function RendezvousDemoPage({
 
           <div className="flex flex-col gap-1.5 text-[14px] text-[var(--ink-2)]">
             <p className="font-semibold text-[var(--ink)]">
-              {rdvUi.hoursTitle[locale]}
+              {rdvUi.hoursTitle}
             </p>
             <p>
-              {rdvUi.hoursWeek[locale]} ·{' '}
+              {rdvUi.hoursWeek} ·{' '}
               <span className="numerals">9:00 – 17:00</span>
             </p>
             <p>
-              {rdvUi.hoursSat[locale]} ·{' '}
+              {rdvUi.hoursSat} ·{' '}
               <span className="numerals">9:00 – 13:00</span>
             </p>
-            <p>{rdvUi.hoursClosed[locale]}</p>
+            <p>{rdvUi.hoursClosed}</p>
 
             {/* Sortie de secours : la bande masque son lien sur mobile. */}
             <Link
-              href={`/${locale}/realisations`}
+              href="/fr/services"
               className="mt-2 inline-flex min-h-[44px] items-center font-semibold text-[var(--teal-ink)] underline underline-offset-4 sm:hidden"
             >
-              {locale === 'ar' ? 'العودة إلى MADDEV' : 'Retour à MADDEV'}
+              {'Retour à MADDEV'}
             </Link>
           </div>
         </div>

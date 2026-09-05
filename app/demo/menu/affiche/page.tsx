@@ -1,12 +1,10 @@
 import Link from 'next/link';
-import { notFound } from 'next/navigation';
 
 import { DemoBanner } from '@/components/demo/DemoBanner';
 import { PrintButton } from '@/components/demo/menu/PrintButton';
 import { cafe } from '@/content/demos/menu';
 import { qrSvg } from '@/lib/qr';
 import { site } from '@/content/site';
-import { isLocale, type Locale } from '@/i18n/config';
 
 /**
  * L'affiche à poser sur les tables : le QR code, prêt à imprimer.
@@ -21,30 +19,14 @@ import { isLocale, type Locale } from '@/i18n/config';
  */
 
 const copy = {
-  scan: {
-    fr: 'Scannez pour voir la carte',
-    ar: 'امسح الرمز لعرض القائمة',
-  },
-  hint: {
-    fr: 'Ouvrez l’appareil photo de votre téléphone et visez le code.',
-    ar: 'افتح كاميرا هاتفك ووجّهها نحو الرمز.',
-  },
-  print: { fr: 'Imprimer', ar: 'طباعة' },
-  back: { fr: 'Revenir à la carte', ar: 'العودة إلى القائمة' },
-  note: {
-    fr: 'Le code pointe vers la carte en ligne. La modifier ne change rien à cette affiche : on ne réimprime jamais.',
-    ar: 'يوجّه الرمز إلى القائمة على الإنترنت. عند تعديلها يبقى هذا الملصق كما هو: لا إعادة طباعة.',
-  },
-} satisfies Record<string, Record<Locale, string>>;
+  scan: 'Scannez pour voir la carte',
+  hint: 'Ouvrez l’appareil photo de votre téléphone et visez le code.',
+  print: 'Imprimer',
+  back: 'Revenir à la carte',
+  note: 'Le code pointe vers la carte en ligne. La modifier ne change rien à cette affiche : on ne réimprime jamais.',
+};
 
-export default async function MenuPosterPage({
-  params,
-}: {
-  params: { locale: string };
-}) {
-  if (!isLocale(params.locale)) notFound();
-  const locale = params.locale as Locale;
-
+export default async function MenuPosterPage() {
   const target = `${site.url}/demo/menu`;
   const svg = await qrSvg(target);
 
@@ -52,9 +34,8 @@ export default async function MenuPosterPage({
     <>
       <div className="no-print">
         <DemoBanner
-          locale={locale}
-          backHref={`/demo/menu/${locale}`}
-          backLabel={copy.back[locale]}
+          backHref={'/demo/menu'}
+          backLabel={copy.back}
         />
       </div>
 
@@ -62,11 +43,11 @@ export default async function MenuPosterPage({
         {/* L'affiche elle-même : c'est cette carte que l'on imprime. */}
         <div className="mx-auto flex max-w-md flex-col items-center gap-5 rounded-3xl border-[3px] border-[var(--clay)] bg-white px-8 py-10 text-center">
           <p className="text-[13px] font-bold uppercase tracking-[.2em] text-[var(--clay-ink)]">
-            {cafe.name[locale]}
+            {cafe.name}
           </p>
 
           <h1 className="text-[28px] font-bold leading-tight">
-            {copy.scan[locale]}
+            {copy.scan}
           </h1>
 
           <div
@@ -76,7 +57,7 @@ export default async function MenuPosterPage({
             dangerouslySetInnerHTML={{ __html: svg }}
           />
 
-          <p className="text-[15px] text-[var(--ink-2)]">{copy.hint[locale]}</p>
+          <p className="text-[15px] text-[var(--ink-2)]">{copy.hint}</p>
 
           <p className="text-[13px] text-[var(--ink-2)]" dir="ltr">
             {target.replace(/^https?:\/\//, '')}
@@ -84,15 +65,15 @@ export default async function MenuPosterPage({
         </div>
 
         <div className="no-print mx-auto mt-8 flex max-w-md flex-col gap-3">
-          <PrintButton label={copy.print[locale]} />
+          <PrintButton label={copy.print} />
           <p className="text-center text-[14px] leading-relaxed text-[var(--ink-2)]">
-            {copy.note[locale]}
+            {copy.note}
           </p>
           <Link
-            href={`/demo/menu/${locale}`}
+            href={'/demo/menu'}
             className="mx-auto inline-flex min-h-[44px] items-center font-bold text-[var(--clay-ink)] underline underline-offset-4"
           >
-            {copy.back[locale]}
+            {copy.back}
           </Link>
         </div>
       </main>
