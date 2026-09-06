@@ -25,9 +25,27 @@ export type ShowcaseVisual =
   /** Visuel dessiné, tant que la démonstration n'existe pas. */
   | { kind: 'drawn'; figure: 'boutique' | 'annonces' | 'campagne' };
 
+/** Les six pictogrammes du sommaire, dessinés dans ServiceGlyphs. */
+export type ShowcaseGlyph =
+  | 'qr'
+  | 'agenda'
+  | 'panier'
+  | 'vitrine'
+  | 'recherche'
+  | 'megaphone';
+
 export type ShowcaseItem = {
   /** Sert d'ancre : /services#menu-qr */
   slug: string;
+  /**
+   * La tuile du sommaire.
+   *
+   * Un visiteur arrive avec un besoin précis ; il ne doit pas parcourir six
+   * blocs pour trouver le sien. Le nom est court — c'est une étiquette, pas
+   * un titre — et `solves` tient en trois ou quatre mots : au-delà, la
+   * rangée devient un paragraphe et ne se lit plus d'un coup d'œil.
+   */
+  nav: { glyph: ShowcaseGlyph; name: Bilingual; solves: Bilingual };
   /** Le bénéfice, jamais ce que nous fabriquons. */
   benefit: Bilingual;
   /** Deux lignes maximum. */
@@ -48,6 +66,11 @@ export type ShowcaseItem = {
 export const showcase: ShowcaseItem[] = [
   {
     slug: 'menu-qr',
+    nav: {
+      glyph: 'qr',
+      name: { fr: 'Menu QR', ar: 'قائمة QR' },
+      solves: { fr: 'Votre carte, à jour', ar: 'قائمتك محدَّثة دائمًا' },
+    },
     benefit: {
       fr: 'Votre carte change en trente secondes',
       ar: 'قائمتك تتغيّر في ثلاثين ثانية',
@@ -80,6 +103,11 @@ export const showcase: ShowcaseItem[] = [
   },
   {
     slug: 'prise-de-rendez-vous',
+    nav: {
+      glyph: 'agenda',
+      name: { fr: 'Rendez-vous', ar: 'المواعيد' },
+      solves: { fr: 'Fini les appels', ar: 'لا مزيد من المكالمات' },
+    },
     benefit: {
       fr: 'Votre téléphone cesse de sonner',
       ar: 'هاتفك يتوقّف عن الرنين',
@@ -112,6 +140,11 @@ export const showcase: ShowcaseItem[] = [
   },
   {
     slug: 'boutique-en-ligne',
+    nav: {
+      glyph: 'panier',
+      name: { fr: 'Boutique', ar: 'متجر' },
+      solves: { fr: 'Commander sans appeler', ar: 'الطلب دون مكالمة' },
+    },
     benefit: {
       fr: 'La commande arrive complète',
       ar: 'الطلب يصلك مكتملًا',
@@ -137,6 +170,11 @@ export const showcase: ShowcaseItem[] = [
   },
   {
     slug: 'site-vitrine',
+    nav: {
+      glyph: 'vitrine',
+      name: { fr: 'Site vitrine', ar: 'موقع تعريفي' },
+      solves: { fr: 'Être trouvé sur Google', ar: 'الظهور في غوغل' },
+    },
     benefit: {
       fr: 'Vos clients vous trouvent',
       ar: 'زبائنك يجدونك',
@@ -172,6 +210,11 @@ export const showcase: ShowcaseItem[] = [
   },
   {
     slug: 'plateforme-annonces',
+    nav: {
+      glyph: 'recherche',
+      name: { fr: 'Annonces', ar: 'إعلانات' },
+      solves: { fr: 'Chercher, filtrer, trouver', ar: 'بحث وفلترة وعثور' },
+    },
     benefit: {
       fr: 'Vos clients trouvent sans vous appeler',
       ar: 'زبائنك يجدون دون أن يتّصلوا بك',
@@ -197,6 +240,11 @@ export const showcase: ShowcaseItem[] = [
   },
   {
     slug: 'campagne-publicitaire',
+    nav: {
+      glyph: 'megaphone',
+      name: { fr: 'Campagne', ar: 'حملة إعلانية' },
+      solves: { fr: 'Amener des clients', ar: 'جلب الزبائن إليك' },
+    },
     benefit: {
       fr: 'On amène les clients jusqu’à vous',
       ar: 'نجلب الزبائن إليك',

@@ -7,6 +7,7 @@ import { Container } from '@/components/ui/Container';
 import { CtaSection } from '@/components/ui/CtaSection';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 import { ShowcaseBlock } from '@/components/services/ShowcaseBlock';
+import { ShowcaseSummary } from '@/components/services/ShowcaseSummary';
 import { RecurringServices } from '@/components/services/RecurringServices';
 import { alsoCard, showcase } from '@/content/showcase';
 import { getDictionary } from '@/i18n/dictionaries';
@@ -105,12 +106,31 @@ export default async function ServicesPage({
             subtitle={t.intro}
           />
 
-          <p className="mt-8 max-w-2xl border-s-2 border-coral/60 ps-5 text-[15px] leading-relaxed text-txt2 sm:text-base">
-            <strong className="font-semibold text-txt">
+          {/*
+            Le sommaire, dans le premier écran. C'est pour lui que l'en-tête
+            reste court : le principe « aucun template » occupait cette place
+            et a reçu son propre bloc, juste en dessous.
+          */}
+          <ShowcaseSummary items={showcase} locale={locale} />
+        </Container>
+      </section>
+
+      {/*
+        Le sur-mesure — notre seule vraie différence face à la concurrence
+        locale, qui revend des modèles tout faits. En petit caractère sous
+        l'en-tête, la phrase passait pour une précaution d'usage ; elle mérite
+        d'être lue comme un engagement, donc elle a son bloc.
+      */}
+      <section className="border-t border-line bg-ink2/40 py-12 sm:py-14">
+        <Container>
+          <div className="grid gap-6 lg:grid-cols-[minmax(0,.85fr)_minmax(0,1.15fr)] lg:items-center lg:gap-12">
+            <h2 className="text-[clamp(1.5rem,3.2vw,2.1rem)] font-bold leading-[1.15] tracking-tight text-txt">
               {t.principle.title}
-            </strong>{' '}
-            {t.principle.text}
-          </p>
+            </h2>
+            <p className="max-w-2xl text-[16px] leading-relaxed text-txt2 sm:text-[17px]">
+              {t.principle.text}
+            </p>
+          </div>
         </Container>
       </section>
 
