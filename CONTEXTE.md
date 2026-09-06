@@ -389,6 +389,23 @@ ressuscité cassé.
 `npm run build` écrase `.next` et casse le serveur de développement en cours
 (« Cannot find module './vendor-chunks/…' »). Arrêter le dev avant de builder.
 
+**Et vérifier qu'il est vraiment arrêté.** Tuer la commande `npm run dev` ne
+tue que l'enveloppe npm : le processus `next` survit, garde le port 3000, et
+le build suivant corrompt `.next` sans rien dire. Le symptôme arrive plus
+tard — `npm run start` échoue en `MODULE_NOT_FOUND` sur
+`.next/server/webpack-runtime.js`. Contrôler le port avant de builder :
+
+    Get-NetTCPConnection -LocalPort 3000 -State Listen
+
+et, si `.next` est corrompu, le supprimer puis rebâtir — c'est un cache, il
+n'est pas versionné.
+
+Corollaire pour les mesures de performance : une page servie par le serveur
+de développement pèse dix fois son poids réel (`react-refresh.js`, un
+`main.js` de 1,1 Mo). Toute mesure faite sans vérifier qu'on est en
+production est fausse. Repère : `/_next/static/development/` dans la liste
+des requêtes.
+
 ### `openGraph` remplace, il ne complète pas
 
 Une page qui déclare son propre objet `openGraph` **écrase** celui hérité,
@@ -713,16 +730,38 @@ livre un prestataire local qui doit sauter aux yeux.
 
 ### Ce qui existe pour la démo terminée
 
-    app/demo/menu/[locale]/           layout (html, polices, CSS local), page, affiche
-    components/demo/menu/             MenuBoard, OpenNow, ZitounaMark, PrintButton
-    content/demos/menu.ts             22 plats, 5 catégories, textes d'interface
+    app/demo/menu/                    layout (html, polices, CSS local), page, affiche
+    components/demo/menu/             MenuBoard, DishArt, OpenNow, ZitounaMark, PrintButton
+    content/demos/menu.ts             22 plats, 5 catégories, allergènes, suggestions
     lib/qr.ts                         QR en SVG, côté serveur, correction niveau Q
 
-Identité : terre cuite `#b4532a` et crème `#fbf3e7`, Fraunces + Karla en
-latin, Almarai en arabe — aucune de ces polices n'est utilisée ailleurs.
-Fonctionnel : filtres cumulatifs (ET, pas OU), suivi de lecture des
-catégories, appel du serveur avec confirmation honnêtement signalée comme
-sans effet, indicateur d'ouverture calculé sur l'heure du visiteur.
+Identité : terre cuite `#b4532a` et crème `#fbf3e7`, Fraunces + Karla —
+aucune de ces polices n'est utilisée ailleurs. Français seul depuis
+septembre 2026, donc plus aucune police arabe dans les démos.
+
+Ce qui fonctionne réellement, et qui a été vérifié à l'écran :
+
+- filtres cumulatifs (ET, pas OU), avec le **compte des plats restants**
+  affiché EN TÊTE de rangée — placé après les puces, il tombait hors de
+  l'écran sur un téléphone, et une réassurance qu'il faut aller chercher
+  n'en est plus une ;
+- un plat s'ouvre en panneau : illustration en grand, texte long,
+  allergènes, ajout à la commande ;
+- la commande s'additionne, se retrouve dans l'appel du serveur avec son
+  total, et chaque ligne se retire ;
+- l'appel du serveur aboutit à un état visible, dit sans effet réel ;
+- suivi de lecture des catégories ; indicateur d'ouverture calculé sur
+  l'heure du visiteur ;
+- au défilement, la barre se compacte (elle reprend le nom du café, replie
+  les filtres) et le bouton d'appel devient une pastille ronde.
+
+Deux pièges rencontrés là-dessus :
+
+- une rangée repliée par `grid-template-rows: 0fr` garde ses boutons dans
+  l'ordre de tabulation. Il faut `visibility: hidden` (classe `.zt-collapse`,
+  avec un délai égal à la durée du repli) ;
+- le bouton flottant recouvre le bas de page. La marge est posée sur `body`,
+  pas sur la liste : le bouton survole la page entière.
 
 ### Les visuels : dessinés, pas photographiés
 
@@ -739,7 +778,32 @@ d'illustration, l'image de remplacement répétée, l'espace vide non traité.
 attente.** Un champ image optionnel reste prévu partout : si de vraies photos
 arrivent un jour, elles remplacent le visuel sans refonte.
 
-Exception : `/demo/menu` recevra 22 photographies de plats, déjà listées.
+**Les plats du menu sont dessinés** (septembre 2026). Une lettre dans un
+carré tenait lieu d'image : sur une carte de café, c'est le pire endroit où
+économiser — personne ne commande un plat qu'il ne voit pas.
+
+`components/demo/menu/DishArt.tsx` — **treize symboles pour vingt-deux
+plats**. La réutilisation est la règle, pas un raccourci : un plat sans
+illustration propre reprend celle de sa catégorie, et plusieurs plats
+partagent le même dessin dans une teinte différente (le tadjine zitoun prend
+le vert olive, la chakhchoukha le rouge). Vingt-deux dessins distincts
+pèseraient plus lourd et se ressembleraient moins.
+
+Ce qui fait qu'on les lit comme une seule main :
+
+- même grille de 64 × 64, mêmes marges ;
+- aplats seulement, aucun dégradé, palette du café et rien d'autre ;
+- la nourriture vue de dessus, comme on la photographie ; les boissons vues
+  d'un angle haut, sans quoi un verre se réduit à un rond ;
+- trois ou quatre formes par dessin, jamais plus.
+
+Vérification : les regarder toutes ensemble avant de les câbler. Six des dix-
+sept ne tenaient pas au premier jet — un verre crème sur fond crème dont il
+ne restait que la paille, une théière dont le bec disparaissait, une tartine
+qui se lisait comme une pierre tombale. On ne le voit qu'en planche.
+
+Un champ `image` reste prévu sur chaque plat : si de vraies photos arrivent,
+elles remplacent le dessin sans toucher au reste.
 
 ### Ce qui existe pour la prise de rendez-vous
 

@@ -59,6 +59,14 @@
     font-size: 17px;
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
+    /*
+     * La place du bouton d'appel, qui flotte au-dessus de tout.
+     * Réservée ici plutôt que sur le dernier bloc : le bouton survole la
+     * page entière, pas seulement la liste des plats — sans cette marge il
+     * recouvrait le pied de page, et la dernière ligne de la carte sur les
+     * écrans courts.
+     */
+    padding-bottom: calc(5.5rem + env(safe-area-inset-bottom));
   }
 
 
@@ -100,6 +108,90 @@
     background: #fff;
     border: 1px solid var(--line);
     border-radius: 14px;
+  }
+
+  /*
+   * Le soulèvement au survol.
+   *
+   * Deux pixels et une ombre courte, rien de plus : sur une carte, le geste
+   * doit dire « ceci s'ouvre », pas attirer l'attention sur lui-même. Réservé
+   * aux pointeurs — sur un écran tactile, :hover reste collé après le doigt.
+   */
+  .zt-lift {
+    transition:
+      transform var(--duration) var(--ease),
+      box-shadow var(--duration) var(--ease),
+      border-color var(--duration) var(--ease);
+  }
+
+  @media (hover: hover) {
+    .zt-lift:hover {
+      transform: translateY(-2px);
+      border-color: rgba(180, 83, 42, 0.35);
+      box-shadow: 0 10px 22px rgba(42, 29, 22, 0.1);
+    }
+  }
+
+  /*
+   * Une rangée qui se replie dans la barre collante.
+   *
+   * La hauteur s'anime par la grille (0fr → 1fr), mais une hauteur nulle ne
+   * retire pas les boutons de l'ordre de tabulation : au clavier, on tombait
+   * dans des filtres invisibles. `visibility` les en sort, avec un délai égal
+   * à la durée du repli pour qu'ils ne disparaissent pas avant lui.
+   */
+  .zt-collapse > * {
+    visibility: visible;
+    transition: visibility 0s;
+  }
+
+  .zt-collapse[data-open='false'] > * {
+    visibility: hidden;
+    transition: visibility 0s linear var(--duration);
+  }
+
+  /* Le bouton d'appel, qui passe en pastille ronde au défilement. */
+  .zt-call {
+    transition:
+      width var(--duration) var(--ease),
+      height var(--duration) var(--ease),
+      padding var(--duration) var(--ease);
+  }
+
+  /*
+   * Le fondu d'une liste qui vient de changer de filtre.
+   * Sans lui, les plats sautent d'un coup sec et l'œil ne rattache pas le
+   * nouvel affichage au bouton qu'on vient de presser.
+   */
+  @keyframes zt-fade {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  .zt-fade {
+    animation: zt-fade var(--duration) var(--ease) both;
+  }
+
+  /* Le panneau d'un plat : il monte depuis le bas sur téléphone. */
+  @keyframes zt-sheet {
+    from {
+      opacity: 0;
+      transform: translateY(14px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  .zt-sheet {
+    animation: zt-sheet var(--duration) var(--ease) both;
   }
 
   /* Puce d'un marqueur (végétarien, épicé, nouveau). */

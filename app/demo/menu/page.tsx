@@ -59,30 +59,30 @@ export default function MenuDemoPage() {
         ) : null}
 
         <ZitounaMark
-          className="pointer-events-none absolute -top-6 end-[-28px] h-[190px] w-[190px] text-[var(--clay)] opacity-[.07] sm:end-8 sm:h-[210px] sm:w-[210px]"
+          className="pointer-events-none absolute -top-8 end-[-30px] h-[150px] w-[150px] text-[var(--clay)] opacity-[.07] sm:end-8 sm:h-[170px] sm:w-[170px]"
         />
 
-        <div className="relative mx-auto flex w-full max-w-3xl items-start justify-between gap-4 px-4 py-7">
-          <div className="min-w-0">
-            <p className="mb-2 flex items-center gap-2 text-[12px] font-bold uppercase tracking-[.18em] text-[var(--clay-ink)]">
-              <ZitounaMark className="h-4 w-4 shrink-0 text-[var(--olive)]" />
-              {cafe.sector}
-            </p>
+        {/*
+          En-tête volontairement court.
+          Il occupait la moitié du premier écran d'un téléphone avec le nom, le
+          secteur, une accroche et les horaires — le client scanne un QR pour
+          voir des plats, pas pour lire une présentation. Il ne reste que le
+          nom, l'état d'ouverture et l'horaire ; l'accroche est descendue au
+          pied de page, où on la lit quand on a fini de choisir.
+        */}
+        <div className="relative mx-auto flex w-full max-w-3xl items-center gap-3 px-4 py-4">
+          <ZitounaMark className="h-7 w-7 shrink-0 text-[var(--olive)]" />
 
-            <h1 className="text-[32px] font-bold leading-[1.1] sm:text-[40px]">
+          <div className="min-w-0 flex-1">
+            <h1 className="text-[24px] font-bold leading-[1.15] sm:text-[30px]">
               {cafe.name}
             </h1>
 
-            <p className="mt-1.5 text-[15px] text-[var(--ink-2)]">
-              {cafe.tagline}
-            </p>
-
-            <p className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-2 text-[14px] text-[var(--ink-2)]">
+            <p className="mt-1 flex flex-wrap items-center gap-x-2.5 gap-y-1 text-[13.5px] text-[var(--ink-2)]">
               <OpenNow />
-              <span>{cafe.hours}</span>
+              <span className="numerals">{cafe.hours}</span>
             </p>
           </div>
-
         </div>
       </header>
 
@@ -93,6 +93,8 @@ export default function MenuDemoPage() {
       <footer className="border-t border-[var(--line)] bg-[var(--cream-2)] px-4 py-8">
         <div className="mx-auto flex w-full max-w-3xl flex-col gap-2 text-[14px] text-[var(--ink-2)]">
           <p className="font-bold text-[var(--ink)]">{cafe.name}</p>
+          {/* L'accroche, descendue de l'en-tête : on la lit une fois choisi. */}
+          <p>{cafe.tagline}</p>
           <p>{cafe.address}</p>
           <p className="numerals">{cafe.phoneDisplay}</p>
 
