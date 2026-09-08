@@ -31,6 +31,64 @@
     --gold: #b07d18;
     --line: rgba(42, 29, 22, 0.12);
 
+    /* Les surfaces posées sur le crème, et leurs ombres. */
+    --surface: #ffffff;
+    --sur-clay: #ffffff;
+    --ombre-carte: 0 10px 22px rgba(42, 29, 22, 0.1);
+    --ombre-flottant: 0 10px 28px rgba(42, 29, 22, 0.28);
+    --halo: rgba(180, 83, 42, 0.35);
+    --selection: rgba(180, 83, 42, 0.22);
+
+    /*
+     * Les puces de marqueur et l'indicateur d'ouverture.
+     * Ici et nulle part ailleurs : une couleur écrite dans un composant est
+     * une couleur qu'on oublie de changer le jour où la charte bouge.
+     */
+    --tag-veg: #e8eddc;
+    --tag-veg-ink: #3f4a2b;
+    --tag-epice: #f7e0d6;
+    --tag-epice-ink: #8d2f10;
+    --tag-neuf: #f6e7c4;
+    --tag-neuf-ink: #6f4c07;
+    --ferme: #9a8875;
+
+    /*
+     * L'argile éclaircie du sigle monétaire.
+     *
+     * « DA » doit s'effacer derrière le nombre — mais s'effacer par
+     * l'opacité descendait à 3,75:1 sur le fond crème, sous le seuil AA.
+     * Cette teinte donne 5,11:1 sur --cream-2 et 6,22:1 sur blanc : la
+     * hiérarchie tient, la lisibilité aussi. Vérifiée, pas estimée.
+     */
+    --clay-soft: #9a4a20;
+
+    /* Le fond sombre derrière un panneau ouvert. */
+    --scrim: rgba(42, 29, 22, 0.45);
+
+    /* La respiration entre deux sections de la carte. Une seule valeur : le
+       rythme vertical se dérègle dès qu'il y a deux chiffres à tenir. */
+    --rythme: 2.75rem;
+
+    /*
+     * Le voile posé sur la photo d'en-tête.
+     *
+     * Léger en haut, où l'image doit respirer ; dense en bas, où se trouve le
+     * texte. Les paliers ne sont pas décoratifs : ils sont dimensionnés pour
+     * que l'encre secondaire (--ink-2) reste au-dessus de 4,5:1 même sur le
+     * pixel le plus sombre de la photographie. Ratios mesurés à l'écran, pas
+     * estimés — voir CONTEXTE.
+     *
+     * Composé à partir de --cream-2 : la teinte reste définie une seule fois.
+     */
+    --cream-2-rgb: 244 231 212;
+    --voile: linear-gradient(
+      to bottom,
+      rgb(var(--cream-2-rgb) / 0.5) 0%,
+      rgb(var(--cream-2-rgb) / 0.78) 38%,
+      rgb(var(--cream-2-rgb) / 0.95) 66%,
+      rgb(var(--cream-2-rgb) / 0.985) 100%
+    );
+
     /* Une seule courbe, une seule durée — comme sur le site, valeurs à part. */
     --ease: cubic-bezier(0.16, 1, 0.3, 1);
     --duration: 320ms;
@@ -86,7 +144,7 @@
   }
 
   ::selection {
-    background: rgba(180, 83, 42, 0.22);
+    background: var(--selection);
   }
 
 
@@ -105,7 +163,7 @@
 
 @layer components {
   .zt-card {
-    background: #fff;
+    background: var(--surface);
     border: 1px solid var(--line);
     border-radius: 14px;
   }
@@ -127,8 +185,8 @@
   @media (hover: hover) {
     .zt-lift:hover {
       transform: translateY(-2px);
-      border-color: rgba(180, 83, 42, 0.35);
-      box-shadow: 0 10px 22px rgba(42, 29, 22, 0.1);
+      border-color: var(--halo);
+      box-shadow: var(--ombre-carte);
     }
   }
 
@@ -192,6 +250,49 @@
 
   .zt-sheet {
     animation: zt-sheet var(--duration) var(--ease) both;
+  }
+
+  /*
+   * Le voile de l'en-tête, et la photographie qu'il recouvre.
+   *
+   * La parallaxe est très courte — l'en-tête ne fait que cent vingt pixels,
+   * il a disparu au bout d'un demi-écran. Elle se sent, elle ne se voit pas.
+   * L'image est agrandie de 12 % pour que le déplacement ne découvre jamais
+   * un bord, et la translation passe par une variable posée en JavaScript :
+   * une transformation par image, jamais de recalcul de mise en page.
+   */
+  .zt-voile {
+    background: var(--voile);
+  }
+
+  /*
+   * Une seule courbe et une seule durée pour toute la page.
+   * Les utilitaires Tailwind proposent 300 ms ; la démo tient à 320 ms. Un
+   * écart de vingt millisecondes ne se voit pas isolément — il se voit quand
+   * deux éléments voisins s'animent côte à côte, et c'est ce qui sépare une
+   * page réglée d'une page assemblée.
+   */
+  .zt-transition {
+    transition-duration: var(--duration);
+    transition-timing-function: var(--ease);
+  }
+
+  .zt-parallaxe {
+    transform: translate3d(0, var(--zt-parallaxe, 0px), 0) scale(1.12);
+    will-change: transform;
+    /*
+     * Un flou léger, et pas seulement pour l'esthétique.
+     *
+     * La photographie d'origine est celle d'un torréfacteur asiatique : sur
+     * grand écran, l'ardoise du fond se lisait — « Cold Brew »,
+     * « Cappuccino », « the cafetiere ». Un café de quartier algérien n'a pas
+     * cela au mur, et un visiteur attentif l'aurait remarqué avant nous.
+     *
+     * Le flou règle l'affaire et sert le propos : c'est une TEXTURE, pas le
+     * portrait d'un lieu. L'agrandissement de 12 % couvre largement le
+     * débord que le flou créerait sur les bords.
+     */
+    filter: blur(3px);
   }
 
   /* Puce d'un marqueur (végétarien, épicé, nouveau). */

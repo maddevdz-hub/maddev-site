@@ -15,6 +15,7 @@ import {
   type Marker,
   type MenuCategory,
 } from '@/content/demos/menu';
+import { photos, type Photo } from '@/content/demos/menu-photos';
 
 /**
  * La carte du Café Zitouna.
@@ -39,10 +40,11 @@ import {
 
 const MARKERS: Marker[] = ['vegetarien', 'epice', 'nouveau'];
 
+/** Les teintes viennent des jetons : aucune couleur écrite ici. */
 const markerStyle: Record<Marker, string> = {
-  vegetarien: 'bg-[#e8eddc] text-[#3f4a2b]',
-  epice: 'bg-[#f7e0d6] text-[#8d2f10]',
-  nouveau: 'bg-[#f6e7c4] text-[#6f4c07]',
+  vegetarien: 'bg-[var(--tag-veg)] text-[var(--tag-veg-ink)]',
+  epice: 'bg-[var(--tag-epice)] text-[var(--tag-epice-ink)]',
+  nouveau: 'bg-[var(--tag-neuf)] text-[var(--tag-neuf-ink)]',
 };
 
 /** Au-delà de cette hauteur de défilement, l'en-tête du café est passé. */
@@ -140,7 +142,7 @@ export function MenuBoard({ categories }: { categories: MenuCategory[] }) {
       >
         {/* Le nom du café, repris quand l'en-tête n'est plus à l'écran */}
         <div
-          className="zt-collapse grid transition-[grid-template-rows] duration-300 ease-[var(--ease)]"
+          className="zt-collapse zt-transition grid transition-[grid-template-rows]"
           data-open={compact}
           style={{ gridTemplateRows: compact ? '1fr' : '0fr' }}
         >
@@ -155,7 +157,7 @@ export function MenuBoard({ categories }: { categories: MenuCategory[] }) {
                 type="button"
                 onClick={() => setFiltersOpen((v) => !v)}
                 aria-expanded={showFilters}
-                className="shrink-0 rounded-full px-2 py-1 text-[13px] font-bold text-[var(--clay-ink)] underline underline-offset-4"
+                className="inline-flex min-h-[44px] shrink-0 items-center rounded-full px-2 text-[13px] font-bold text-[var(--clay-ink)] underline underline-offset-4"
               >
                 {menuUi.filtersLabel}
               </button>
@@ -176,7 +178,7 @@ export function MenuBoard({ categories }: { categories: MenuCategory[] }) {
                     className={[
                       'inline-flex min-h-[44px] items-center whitespace-nowrap rounded-full px-4 text-[15px] font-bold transition-colors',
                       isActive
-                        ? 'bg-[var(--clay)] text-white'
+                        ? 'bg-[var(--clay)] text-[var(--sur-clay)]'
                         : 'bg-[var(--cream-2)] text-[var(--ink-2)] hover:bg-[var(--cream-3)]',
                     ].join(' ')}
                   >
@@ -190,7 +192,7 @@ export function MenuBoard({ categories }: { categories: MenuCategory[] }) {
 
         {/* Filtres */}
         <div
-          className="zt-collapse grid transition-[grid-template-rows] duration-300 ease-[var(--ease)]"
+          className="zt-collapse zt-transition grid transition-[grid-template-rows]"
           data-open={showFilters}
           style={{ gridTemplateRows: showFilters ? '1fr' : '0fr' }}
         >
@@ -231,8 +233,8 @@ export function MenuBoard({ categories }: { categories: MenuCategory[] }) {
                     className={[
                       'inline-flex min-h-[44px] shrink-0 items-center whitespace-nowrap rounded-full border px-3.5 text-[14px] font-bold transition-colors',
                       on
-                        ? 'border-[var(--clay)] bg-[var(--clay)] text-white'
-                        : 'border-[var(--line)] bg-white text-[var(--ink-2)] hover:border-[var(--clay)]',
+                        ? 'border-[var(--clay)] bg-[var(--clay)] text-[var(--sur-clay)]'
+                        : 'border-[var(--line)] bg-[var(--surface)] text-[var(--ink-2)] hover:border-[var(--clay)]',
                     ].join(' ')}
                   >
                     {markerLabels[marker]}
@@ -292,6 +294,10 @@ export function MenuBoard({ categories }: { categories: MenuCategory[] }) {
                   />
                 </h2>
 
+                {category.banner ? (
+                  <CategoryBanner photo={photos[category.banner]} />
+                ) : null}
+
                 <ul className="grid gap-3 md:grid-cols-2">
                   {category.dishes.map((dish) => (
                     <li key={dish.slug} className="h-full">
@@ -333,6 +339,36 @@ export function MenuBoard({ categories }: { categories: MenuCategory[] }) {
   );
 }
 
+/* ---------------------------------------------------------------- bandeau */
+
+/**
+ * Le bandeau photographique d'une catégorie.
+ *
+ * UN bandeau par section, jamais une vignette répétée sur chaque plat : la
+ * même photo cinq fois dans un écran se voit immédiatement et fait bâclé.
+ *
+ * Chargement différé — il est sous la ligne de flottaison, et l'en-tête a
+ * déjà pris la priorité. Le rapport de forme est posé en CSS, donc la place
+ * est réservée avant que l'image n'arrive : aucun décalage de mise en page.
+ */
+function CategoryBanner({ photo }: { photo: Photo }) {
+  return (
+    <div className="mb-4 overflow-hidden rounded-2xl bg-[var(--cream-2)]">
+      <Image
+        src={photo.src}
+        // Décorative : elle illustre la section, elle ne l'explique pas.
+        alt=""
+        width={photo.width}
+        height={photo.height}
+        sizes="(max-width: 768px) 100vw, 672px"
+        placeholder="blur"
+        blurDataURL={photo.blur}
+        className="aspect-[5/2] w-full object-cover sm:aspect-[24/5]"
+      />
+    </div>
+  );
+}
+
 /* ------------------------------------------------------------ suggestions */
 
 /**
@@ -356,7 +392,7 @@ function SuggestionStrip({
   if (items.length === 0) return null;
 
   return (
-    <section aria-labelledby="zt-suggestions" className="mb-9">
+    <section aria-labelledby="zt-suggestions" className="mb-[var(--rythme)]">
       <h2
         id="zt-suggestions"
         className="mb-3 flex items-center gap-2 text-[20px] font-bold"
@@ -378,7 +414,7 @@ function SuggestionStrip({
               aria-haspopup="dialog"
               className="zt-card zt-lift flex h-full w-[172px] flex-col items-start gap-1.5 border-[var(--cream-3)] bg-[var(--cream-2)] p-3 text-start"
             >
-              <span className="zt-tag bg-[var(--clay)] text-white">{note}</span>
+              <span className="zt-tag bg-[var(--clay)] text-[var(--sur-clay)]">{note}</span>
               <DishArt
                 name={dish.art ?? 'tasse'}
                 className="mx-auto my-0.5 h-[76px] w-[76px]"
@@ -431,7 +467,7 @@ function DishRow({
         {dish.markers.length > 0 || count > 0 ? (
           <span className="mt-0.5 flex flex-wrap gap-1.5">
             {count > 0 ? (
-              <span className="zt-tag bg-[var(--clay)] text-white">
+              <span className="zt-tag bg-[var(--clay)] text-[var(--sur-clay)]">
                 <span className="numerals">{count}</span> commandé
                 {count > 1 ? 's' : ''}
               </span>
@@ -490,7 +526,7 @@ function Price({ value }: { value: number }) {
   return (
     <span className="flex shrink-0 items-baseline gap-[3px] text-[var(--clay-ink)]">
       <span className="numerals text-[18px] font-bold leading-none">{value}</span>
-      <span className="text-[12px] font-bold leading-none opacity-70">
+      <span className="text-[12px] font-bold leading-none text-[var(--clay-soft)]">
         {menuUi.currency}
       </span>
     </span>
@@ -540,7 +576,7 @@ function DishPanel({
   }, [justAdded]);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-end justify-center bg-[rgba(42,29,22,.45)] sm:items-center sm:p-4">
+    <div className="fixed inset-0 z-50 flex items-end justify-center bg-[var(--scrim)] sm:items-center sm:p-4">
       <button
         type="button"
         aria-label={menuUi.close}
@@ -554,7 +590,7 @@ function DishPanel({
         aria-modal="true"
         aria-label={dish.name}
         tabIndex={-1}
-        className="zt-sheet relative max-h-[88dvh] w-full overflow-y-auto rounded-t-3xl bg-white p-5 shadow-xl sm:max-w-md sm:rounded-3xl"
+        className="zt-sheet relative max-h-[88dvh] w-full overflow-y-auto rounded-t-3xl bg-[var(--surface)] p-5 shadow-xl sm:max-w-md sm:rounded-3xl"
       >
         <div className="flex items-start justify-between gap-4">
           <div className="flex h-[132px] w-[132px] shrink-0 items-center justify-center rounded-2xl bg-[var(--cream-2)]">
@@ -610,7 +646,7 @@ function DishPanel({
             onAdd();
             setJustAdded(true);
           }}
-          className="mt-4 flex min-h-[52px] w-full items-center justify-center gap-2 rounded-xl bg-[var(--clay)] px-4 text-[17px] font-bold text-white transition-colors"
+          className="mt-4 flex min-h-[52px] w-full items-center justify-center gap-2 rounded-xl bg-[var(--clay)] px-4 text-[17px] font-bold text-[var(--sur-clay)] transition-colors"
         >
           {justAdded ? (
             <>
@@ -696,7 +732,7 @@ function CallWaiter({
           onClick={() => setOpen(true)}
           aria-label={compact ? menuUi.call : undefined}
           className={[
-            'zt-call pointer-events-auto relative inline-flex items-center justify-center gap-2.5 rounded-full bg-[var(--clay)] font-bold text-white shadow-[0_10px_28px_rgba(42,29,22,.28)]',
+            'zt-call pointer-events-auto relative inline-flex items-center justify-center gap-2.5 rounded-full bg-[var(--clay)] font-bold text-[var(--sur-clay)] shadow-[var(--ombre-flottant)]',
             compact ? 'h-14 w-14' : 'min-h-[52px] px-6 text-[17px]',
           ].join(' ')}
         >
@@ -704,7 +740,7 @@ function CallWaiter({
           {compact ? null : menuUi.call}
 
           {count > 0 ? (
-            <span className="numerals absolute -end-1 -top-1 flex h-6 min-w-6 items-center justify-center rounded-full border-2 border-[var(--cream)] bg-[var(--ink)] px-1 text-[12px] font-bold text-white">
+            <span className="numerals absolute -end-1 -top-1 flex h-6 min-w-6 items-center justify-center rounded-full border-2 border-[var(--cream)] bg-[var(--ink)] px-1 text-[12px] font-bold text-[var(--sur-clay)]">
               {count}
             </span>
           ) : null}
@@ -712,7 +748,7 @@ function CallWaiter({
       </div>
 
       {open ? (
-        <div className="fixed inset-0 z-50 flex items-end justify-center bg-[rgba(42,29,22,.45)] p-4 sm:items-center">
+        <div className="fixed inset-0 z-50 flex items-end justify-center bg-[var(--scrim)] p-4 sm:items-center">
           <button
             type="button"
             aria-label={menuUi.callCancel}
@@ -725,11 +761,11 @@ function CallWaiter({
             role="dialog"
             aria-modal="true"
             aria-label={menuUi.callTitle}
-            className="zt-sheet relative max-h-[88dvh] w-full max-w-sm overflow-y-auto rounded-2xl bg-white p-5 shadow-xl"
+            className="zt-sheet relative max-h-[88dvh] w-full max-w-sm overflow-y-auto rounded-2xl bg-[var(--surface)] p-5 shadow-xl"
           >
             {sent ? (
               <div className="flex flex-col gap-2 py-2 text-center">
-                <span className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-[#e8eddc] text-[#3f4a2b]">
+                <span className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-[var(--tag-veg)] text-[var(--tag-veg-ink)]">
                   <CheckGlyph />
                 </span>
                 <p className="text-[17px] font-bold">{menuUi.callDone}</p>
@@ -768,7 +804,7 @@ function CallWaiter({
                               type="button"
                               onClick={() => onRemove(dish.slug)}
                               aria-label={`${menuUi.orderRemove} ${dish.name}`}
-                              className="text-[var(--ink-2)] underline underline-offset-2"
+                              className="-my-2 flex h-11 w-11 shrink-0 items-center justify-center text-[var(--ink-2)]"
                             >
                               <CloseGlyph className="h-4 w-4" />
                             </button>
@@ -793,7 +829,7 @@ function CallWaiter({
                   id="table"
                   value={table}
                   onChange={(event) => setTable(event.target.value)}
-                  className="mb-4 min-h-[48px] w-full rounded-xl border border-[var(--line)] bg-white px-3 text-[16px] font-bold"
+                  className="mb-4 min-h-[48px] w-full rounded-xl border border-[var(--line)] bg-[var(--surface)] px-3 text-[16px] font-bold"
                 >
                   {Array.from({ length: 12 }, (_, i) => String(i + 1)).map(
                     (n) => (
@@ -808,7 +844,7 @@ function CallWaiter({
                   <button
                     type="button"
                     onClick={() => setSent(true)}
-                    className="min-h-[48px] flex-1 rounded-xl bg-[var(--clay)] px-4 text-[16px] font-bold text-white"
+                    className="min-h-[48px] flex-1 rounded-xl bg-[var(--clay)] px-4 text-[16px] font-bold text-[var(--sur-clay)]"
                   >
                     {menuUi.callSend}
                   </button>
@@ -844,7 +880,7 @@ function CallWaiter({
  */
 function OliveDivider() {
   return (
-    <div aria-hidden="true" className="my-11 flex items-center gap-3">
+    <div aria-hidden="true" className="my-[var(--rythme)] flex items-center gap-3">
       <span className="h-px flex-1 bg-[var(--line)]" />
       <svg
         viewBox="0 0 44 16"

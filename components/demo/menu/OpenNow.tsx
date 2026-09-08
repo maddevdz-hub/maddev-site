@@ -28,25 +28,49 @@ export function OpenNow() {
     return () => window.clearInterval(timer);
   }, []);
 
-  if (open === null) {
-    // Réserve la place pour éviter que la ligne ne saute à l'hydratation.
-    return <span className="inline-block h-[26px]" aria-hidden="true" />;
-  }
+  /*
+   * La place est réservée par une COPIE invisible du libellé le plus long,
+   * empilée dans la même cellule de grille.
+   *
+   * Pourquoi pas une largeur fixe : il faudrait l'écrire en pixels, la
+   * refaire à chaque changement de police et se tromper une fois sur deux.
+   * Ici la réserve se mesure toute seule, dans la police réellement chargée.
+   *
+   * Ce que cela évite : le libellé n'existe qu'après le montage — le serveur
+   * ignore le fuseau du visiteur, et afficher « ouvert » pour le corriger
+   * ensuite ferait clignoter une information de confiance. Sans réserve, les
+   * horaires qui suivent sautaient de quelques pixels à l'hydratation. C'est
+   * peu ; c'est quand même du décalage, et il se mesure.
+   */
+  const puce =
+    'inline-flex items-center gap-2 rounded-full px-3 py-1 text-[13px] font-bold';
 
   return (
-    <span
-      className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-[13px] font-bold"
-      style={{
-        background: open ? '#e8eddc' : 'var(--cream-3)',
-        color: open ? '#3f4a2b' : 'var(--ink-2)',
-      }}
-    >
+    <span className="inline-grid">
       <span
         aria-hidden="true"
-        className="inline-block h-2 w-2 rounded-full"
-        style={{ background: open ? '#5c6b3f' : '#9a8875' }}
-      />
-      {open ? menuUi.open : menuUi.closed}
+        className={`${puce} invisible col-start-1 row-start-1`}
+      >
+        <span className="inline-block h-2 w-2 rounded-full" />
+        {menuUi.open.length >= menuUi.closed.length ? menuUi.open : menuUi.closed}
+      </span>
+
+      {open === null ? null : (
+        <span
+          className={`${puce} col-start-1 row-start-1 justify-self-start`}
+          style={{
+            background: open ? 'var(--tag-veg)' : 'var(--cream-3)',
+            color: open ? 'var(--tag-veg-ink)' : 'var(--ink-2)',
+          }}
+        >
+          <span
+            aria-hidden="true"
+            className="inline-block h-2 w-2 rounded-full"
+            style={{ background: open ? 'var(--olive)' : 'var(--ferme)' }}
+          />
+          {open ? menuUi.open : menuUi.closed}
+        </span>
+      )}
     </span>
   );
 }

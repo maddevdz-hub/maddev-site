@@ -1,4 +1,5 @@
 import type { DishArtName } from '@/components/demo/menu/DishArt';
+import type { photos } from './menu-photos';
 import type { DemoBrand } from './types';
 
 /**
@@ -24,13 +25,6 @@ export const cafe: DemoBrand & {
   closesAt: number;
   /** Le numéro affiché sur l'affiche du QR — fictif, jamais attribué. */
   phoneDisplay: string;
-  /**
-   * Photo d'ambiance de l'en-tête. Déposer le fichier puis renseigner ici :
-   * `cover: '/demo/menu/cafe-interieur.jpg'`. Voir README pour le cadrage
-   * attendu. Tant qu'elle manque, l'en-tête garde son fond crème et sa
-   * branche d'olivier — une composition qui tient debout seule.
-   */
-  cover?: string;
 } = {
   slug: 'menu',
   name: 'Café Zitouna',
@@ -86,6 +80,14 @@ export type MenuCategory = {
   name: string;
   /** L'illustration de repli des plats de la catégorie. */
   art: DishArtName;
+  /**
+   * Le bandeau photographique de la section, au-dessus de la liste.
+   *
+   * UN bandeau par catégorie — jamais la même photo répétée en vignette sur
+   * chaque plat : cinq fois la même image dans un écran se voit
+   * immédiatement et fait bâclé.
+   */
+  banner?: keyof typeof photos;
   dishes: Dish[];
 };
 
@@ -107,6 +109,7 @@ export const menu: MenuCategory[] = [
     slug: 'cafes',
     name: 'Cafés et thés',
     art: 'tasse',
+    banner: 'bandeau-cafes.webp',
     dishes: [
       {
         slug: 'qahwa-arbia',

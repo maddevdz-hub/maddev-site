@@ -406,6 +406,39 @@ de développement pèse dix fois son poids réel (`react-refresh.js`, un
 production est fausse. Repère : `/_next/static/development/` dans la liste
 des requêtes.
 
+### Un repli automatique qui dépend d'un glyphe
+
+Sur `/demo/menu`, la ligne « ouvert · horaires » était en `flex-wrap`. Elle
+tenait sur 308 px avec la police de repli, passait à 313 px une fois Karla
+chargée, basculait alors sur deux lignes — l'en-tête gagnait 26 px et TOUTE
+la page descendait d'autant. **0,157 de décalage cumulé, sur le seul
+changement de police.**
+
+Une mise en page dont le repli dépend de la largeur d'un glyphe tient par
+chance. Quand deux éléments doivent tenir sur une ligne, on décide : empilés
+en dessous d'une largeur, alignés au-dessus. Jamais « on verra bien ».
+
+Même famille de piège : un libellé qui n'existe qu'après le montage (ici
+l'indicateur d'ouverture, calculé sur l'heure du visiteur). Réserver sa place
+avec une COPIE invisible du libellé le plus long, jamais avec une largeur en
+pixels — elle se mesure toute seule, dans la police réellement chargée.
+
+### Lighthouse : le SEO de 66 est voulu
+
+Les démonstrations portent `robots: noindex`. Lighthouse compte cela comme
+un échec (« Page is blocked from indexing ») et la note SEO tombe à 66.
+
+C'est le seul audit SEO pondéré qui échoue : **sans cette règle, la note
+serait de 100.** Il ne faut donc pas « corriger » le 66 — le corriger
+reviendrait à laisser indexer un café fictif comme un établissement réel,
+ce que la bande d'avertissement existe précisément pour empêcher.
+
+Notes de référence de `/demo/menu`, septembre 2026 :
+
+    mobile    Perf  96   Access 100   Bonnes pratiques 100   SEO 66
+    desktop   Perf 100   Access 100   Bonnes pratiques 100   SEO 66
+    LCP 2,7 s (mobile bridé) / 0,6 s (desktop) · CLS 0 · TBT 10 ms
+
 ### `openGraph` remplace, il ne complète pas
 
 Une page qui déclare son propre objet `openGraph` **écrase** celui hérité,
@@ -804,6 +837,51 @@ qui se lisait comme une pierre tombale. On ne le voit qu'en planche.
 
 Un champ `image` reste prévu sur chaque plat : si de vraies photos arrivent,
 elles remplacent le dessin sans toucher au reste.
+
+### Les photographies de la démo menu
+
+Deux photographies d'ambiance sont en place depuis septembre 2026 :
+l'en-tête et le bandeau de la catégorie « Cafés et thés ».
+
+    photos-sources/menu/    les originaux fournis, versionnés. On doit
+                            pouvoir refaire un recadrage dans deux ans.
+    public/demo/menu/       ce qui est servi. ENTIÈREMENT reconstruit par
+                            `npm run photos` — ne rien y déposer à la main.
+    content/demos/menu-photos.ts   fichier GÉNÉRÉ : dimensions réelles et
+                            vignette floue. Les composants les lisent là.
+
+Les fichiers d'origine pesaient de 800 ko à 3 Mo, jusqu'à 5 310 px de large :
+quatorze mégaoctets pour deux images utiles. `npm run photos` recadre et
+réencode — 14 Mo → 190 ko servis.
+
+**Règles apprises sur ces deux images :**
+
+- **Un bandeau par catégorie, jamais une vignette répétée.** La même photo
+  cinq fois dans un écran se voit immédiatement et fait bâclé.
+- **Une catégorie passe en photo d'un bloc, ou reste dessinée d'un bloc.**
+  Trois vignettes photo au milieu de dix-neuf dessins ne se lisent pas comme
+  un choix, mais comme un import inachevé.
+- **Regarder chaque photo avant de l'utiliser.** Sur six photos de plats
+  fournies, trois étaient inutilisables : un filigrane iStock en clair, un
+  gobelet portant la marque d'une autre enseigne, et un plat qui n'était pas
+  celui annoncé. Aucune n'aurait échoué à un build.
+- **Une photo de banque d'images trahit son origine.** Celle de l'en-tête est
+  un torréfacteur asiatique ; sur grand écran, son ardoise se lisait — « Cold
+  Brew », « Cappuccino ». Elle est désormais floutée de 3 px et voilée : elle
+  vaut comme TEXTURE, pas comme portrait d'un lieu.
+
+**Contrastes de l'en-tête, mesurés et non estimés** (`npm run contraste`).
+Le script rend le texte transparent, photographie la zone et parcourt tous
+les pixels situés derrière chaque glyphe ; le rapport annoncé est celui du
+PIRE pixel, jamais une moyenne :
+
+    Nom du café              7,63:1  (390 px)   9,05:1  (1280 px)
+    Indicateur d'ouverture   6,79:1              6,79:1
+    Horaires                 6,17:1              6,12:1
+
+Il mesure la boîte des GLYPHES, pas celle de l'élément : la première version
+englobait la pastille verte de l'indicateur et annonçait 1,63:1 — un échec
+mesuré sur un pixel que personne ne lit reste un échec faux.
 
 ### Ce qui existe pour la prise de rendez-vous
 

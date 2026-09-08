@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+  <!--
+    L'icône d'onglet du Café Zitouna.
+
+    Elle existe pour deux raisons. La première est d'identité : sans elle, la
+    démonstration héritait du monogramme MADDEV, et un visiteur voyait la
+    marque du studio dans l'onglet d'un site censé être celui d'un café.
+    La seconde est mesurée : l'icône héritée était un PNG de 22 ko chargé sur
+    chaque page de démo. Celle-ci pèse moins d'un kilo-octet.
+  -->
+  <rect width="48" height="48" rx="10" fill="#fbf3e7"/>
+  <g fill="#5c6b3f">
+    <path d="M24 41V15" stroke="#5c6b3f" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+    <path d="M24 33c-6.5 0-10.5-2.6-11.5-7.6 5-1.7 9.8-.2 11.5 7.6Z" opacity=".85"/>
+    <path d="M24 26.5c6.5 0 10.5-2.6 11.5-7.6-5-1.7-9.8-.2-11.5 7.6Z" opacity=".85"/>
+    <path d="M24 20c-5.6 0-9-2.2-9.9-6.5 4.3-1.5 8.4-.2 9.9 6.5Z" opacity=".6"/>
+  </g>
+  <ellipse cx="30.5" cy="11.5" rx="4.4" ry="5.6" fill="#b4532a"/>
+</svg>
