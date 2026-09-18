@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 
 import { ServiceGlyph } from '@/components/services/ServiceGlyphs';
-import type { ShowcaseItem } from '@/content/showcase';
+import type { Service } from '@/content/services';
 import type { Locale } from '@/i18n/config';
 
 /**
@@ -27,7 +27,7 @@ export function ShowcaseSummary({
   items,
   locale,
 }: {
-  items: ShowcaseItem[];
+  items: Service[];
   locale: Locale;
 }) {
   const [active, setActive] = useState<string | null>(null);
@@ -89,7 +89,7 @@ export function ShowcaseSummary({
                 ].join(' ')}
               >
                 <ServiceGlyph
-                  name={item.nav.glyph}
+                  name={item.glyph}
                   className={[
                     'h-[22px] w-[22px] shrink-0 transition-colors duration-200',
                     on ? 'text-coral2' : 'text-txt2',
@@ -97,10 +97,10 @@ export function ShowcaseSummary({
                 />
                 <span className="flex flex-col gap-0.5">
                   <span className="text-[13.5px] font-bold leading-tight text-txt">
-                    {item.nav.name[locale]}
+                    {item.name[locale]}
                   </span>
                   <span className="text-[12.5px] leading-snug text-txt2">
-                    {item.nav.solves[locale]}
+                    {item.solves[locale]}
                   </span>
                 </span>
               </a>

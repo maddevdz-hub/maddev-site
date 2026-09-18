@@ -17,7 +17,12 @@ type Status = 'idle' | 'sending' | 'success' | 'error';
  *
  * Soumission réelle vers /api/contact. Le champ « service » est pré-rempli
  * quand l'utilisateur arrive depuis un bouton « Demander un devis »
- * (/contact?service=boutique-ecommerce).
+ * (/contact?service=boutique-en-ligne).
+ *
+ * La liste déroulante se construit depuis content/services.ts, la source
+ * unique. Elle a compté quatre entrées pendant que /services en montrait
+ * six : le visiteur ne retrouvait pas dans le formulaire le service sur
+ * lequel il venait de cliquer.
  */
 export function ContactForm({
   locale,

@@ -2,7 +2,7 @@ import Image from 'next/image';
 import { DDPattern } from '@/components/brand/DDPattern';
 import { ServiceIconGlyph } from '@/components/ui/ServiceIcon';
 import type { Project } from '@/content/projects';
-import type { ServiceIcon } from '@/content/services';
+import type { ServiceGlyphName } from '@/content/services';
 import type { Locale } from '@/i18n/config';
 import { cn } from '@/lib/utils';
 
@@ -100,7 +100,7 @@ export function ServiceVisual({
   id,
   className,
 }: {
-  icon: ServiceIcon;
+  icon: ServiceGlyphName;
   /** Identifiant unique pour les dégradés SVG de la page. */
   id: string;
   className?: string;

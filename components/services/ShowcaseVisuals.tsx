@@ -1,6 +1,6 @@
 import Image from 'next/image';
 
-import type { ShowcaseVisual } from '@/content/showcase';
+import type { ServiceVisualSpec } from '@/content/services';
 import type { Locale } from '@/i18n/config';
 
 /**
@@ -25,7 +25,7 @@ export function ShowcaseFigure({
   alt,
   locale,
 }: {
-  visual: ShowcaseVisual;
+  visual: ServiceVisualSpec;
   alt: string;
   /**
    * Les visuels dessinés portent du texte. Ils appartiennent au site MADDEV,

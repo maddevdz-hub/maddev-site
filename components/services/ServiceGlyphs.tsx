@@ -1,7 +1,11 @@
-import type { ShowcaseGlyph } from '@/content/showcase';
+import type { ServiceGlyphName } from '@/content/services';
 
 /**
- * Les six pictogrammes du sommaire de /services.
+ * Les pictogrammes des services.
+ *
+ * Un seul jeu pour tout le site : sommaire de /services, cartes de
+ * l'accueil, résultat du configurateur. Il en existait deux, dessinés
+ * séparément pour les mêmes services — ils avaient déjà divergé.
  *
  * Dessinés au trait fin, jamais pleins : ils accompagnent un nom de service,
  * ils ne le remplacent pas. Un pictogramme trop épais attire l'œil plus que
@@ -9,7 +13,7 @@ import type { ShowcaseGlyph } from '@/content/showcase';
  * symboles qu'il faut déchiffrer.
  *
  * Ils partagent tous la même grille de 24, la même graisse et les mêmes
- * terminaisons arrondies — six dessins d'origines différentes se remarquent
+ * terminaisons arrondies — des dessins d'origines différentes se remarquent
  * immédiatement, même sans qu'on sache dire pourquoi.
  */
 
@@ -27,7 +31,7 @@ export function ServiceGlyph({
   name,
   className,
 }: {
-  name: ShowcaseGlyph;
+  name: ServiceGlyphName;
   className?: string;
 }) {
   switch (name) {
@@ -88,6 +92,30 @@ export function ServiceGlyph({
           <path d="M4 10.5v3a2 2 0 0 0 2 2h2l8 4.2V4.3L8 8.5H6a2 2 0 0 0-2 2Z" />
           <path d="M8 15.5V8.5" />
           <path d="M19.2 9.4a4 4 0 0 1 0 5.2" />
+        </svg>
+      );
+    /*
+     * Un engrenage : l'outil construit pour un métier précis.
+     *
+     * Les dents sortent du cercle au lieu d'en partir : des rayons tracés
+     * depuis le centre donnaient un soleil, pas une roue dentée — c'est
+     * exactement ce qu'on lisait à 24 pixels.
+     */
+    case 'engrenage':
+      return (
+        <svg {...COMMON} className={className}>
+          <circle cx="12" cy="12" r="7" />
+          <circle cx="12" cy="12" r="2.7" />
+          <path d="M12 2.6v2.4M12 19v2.4M21.4 12H19M5 12H2.6M18.6 5.4l-1.7 1.7M7.1 16.9l-1.7 1.7M18.6 18.6l-1.7-1.7M7.1 7.1 5.4 5.4" />
+        </svg>
+      );
+
+    /* Deux anneaux entrelacés : l'invitation de mariage. */
+    case 'anneaux':
+      return (
+        <svg {...COMMON} className={className}>
+          <circle cx="9" cy="14.5" r="5.5" />
+          <circle cx="15" cy="9.5" r="5.5" />
         </svg>
       );
   }

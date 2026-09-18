@@ -9,10 +9,16 @@ import { SectionHeading } from '@/components/ui/SectionHeading';
 import { ShowcaseBlock } from '@/components/services/ShowcaseBlock';
 import { ShowcaseSummary } from '@/components/services/ShowcaseSummary';
 import { RecurringServices } from '@/components/services/RecurringServices';
-import { alsoCard, showcase } from '@/content/showcase';
+import { ServiceGlyph } from '@/components/services/ServiceGlyphs';
+import {
+  primaryServices,
+  secondaryServices,
+  showcaseUi,
+} from '@/content/services';
 import { getDictionary } from '@/i18n/dictionaries';
 import { openGraph } from '@/lib/metadata';
 import { href, isLocale, routes, type Locale } from '@/i18n/config';
+import { services } from '@/content/services';
 import { site } from '@/content/site';
 
 /**
@@ -69,7 +75,7 @@ export default async function ServicesPage({
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'ItemList',
-    itemListElement: showcase.map((item, i) => ({
+    itemListElement: services.map((item, i) => ({
       '@type': 'ListItem',
       position: i + 1,
       item: {
@@ -86,7 +92,7 @@ export default async function ServicesPage({
     <>
       <script
         type="application/ld+json"
-        // Contenu généré par nous, à partir de content/showcase.ts.
+        // Contenu généré par nous, à partir de content/services.ts.
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
@@ -111,7 +117,7 @@ export default async function ServicesPage({
             reste court : le principe « aucun template » occupait cette place
             et a reçu son propre bloc, juste en dessous.
           */}
-          <ShowcaseSummary items={showcase} locale={locale} />
+          <ShowcaseSummary items={primaryServices} locale={locale} />
         </Container>
       </section>
 
@@ -135,7 +141,7 @@ export default async function ServicesPage({
       </section>
 
       {/* Les six services, chacun avec sa démonstration */}
-      {showcase.map((item, index) => (
+      {primaryServices.map((item, index) => (
         <ShowcaseBlock
           key={item.slug}
           item={item}
@@ -144,33 +150,49 @@ export default async function ServicesPage({
         />
       ))}
 
-      {/* La carte discrète : un service réel, mais qui ne mérite pas un bloc */}
+      {/*
+        Les deux offres secondaires, côte à côte.
+
+        Elles n'ont pas de bloc : leur donner la même place qu'un menu QR
+        déséquilibrerait la page en faveur d'offres rares. Mais elles sont des
+        services entiers — elles mènent au formulaire avec leur identifiant,
+        comme les six autres.
+      */}
       <section className="border-t border-line py-14 lg:py-16">
         <Container>
-          <div className="mx-auto flex max-w-2xl flex-col items-start gap-3 rounded-2xl border border-line bg-ink2/60 p-6 sm:flex-row sm:items-center sm:gap-6 sm:p-7">
-            <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-coral/25 bg-brand-soft">
-              <RingsGlyph className="h-6 w-6 text-coral2" />
-            </span>
+          <ul className="mx-auto grid max-w-4xl gap-4 sm:grid-cols-2">
+            {secondaryServices.map((service) => (
+              <li key={service.slug} className="h-full">
+                <div className="flex h-full flex-col gap-3 rounded-2xl border border-line bg-ink2/60 p-6 sm:p-7">
+                  <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-coral/25 bg-brand-soft">
+                    <ServiceGlyph
+                      name={service.glyph}
+                      className="h-6 w-6 text-coral2"
+                    />
+                  </span>
 
-            <div className="flex-1">
-              <p className="eyebrow-label mb-1 text-txt2">
-                {alsoCard.kicker[locale]}
-              </p>
-              <h2 className="text-lg font-bold text-txt">
-                {alsoCard.title[locale]}
-              </h2>
-              <p className="mt-1.5 text-[15px] leading-relaxed text-txt2">
-                {alsoCard.text[locale]}
-              </p>
-            </div>
+                  <div className="flex-1">
+                    <p className="eyebrow-label mb-1 text-txt2">
+                      {showcaseUi.alsoKicker[locale]}
+                    </p>
+                    <h2 className="text-lg font-bold text-txt">
+                      {service.name[locale]}
+                    </h2>
+                    <p className="mt-1.5 text-[15px] leading-relaxed text-txt2">
+                      {service.lead[locale]}
+                    </p>
+                  </div>
 
-            <Link
-              href={href(locale, routes.contact)}
-              className="inline-flex min-h-[44px] shrink-0 items-center rounded-xl border border-line2 px-4 text-[15px] font-semibold text-txt transition-colors hover:border-coral/50"
-            >
-              {alsoCard.cta[locale]}
-            </Link>
-          </div>
+                  <Link
+                    href={`${href(locale, routes.contact)}?service=${service.slug}`}
+                    className="inline-flex min-h-[44px] w-fit items-center rounded-xl border border-line2 px-4 text-[15px] font-semibold text-txt transition-colors hover:border-coral/50"
+                  >
+                    {showcaseUi.alsoCta[locale]}
+                  </Link>
+                </div>
+              </li>
+            ))}
+          </ul>
         </Container>
       </section>
 
@@ -184,22 +206,5 @@ export default async function ServicesPage({
         patternId="dd-services-cta"
       />
     </>
-  );
-}
-
-/** Deux anneaux entrelacés, pour la carte « invitations de mariage ». */
-function RingsGlyph({ className }: { className?: string }) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.6"
-      aria-hidden="true"
-      className={className}
-    >
-      <circle cx="9" cy="14" r="6" />
-      <circle cx="15" cy="10" r="6" />
-    </svg>
   );
 }

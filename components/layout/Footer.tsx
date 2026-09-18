@@ -2,7 +2,7 @@
 import { Logo } from '@/components/brand/Logo';
 import { Container } from '@/components/ui/Container';
 import { DDPattern } from '@/components/brand/DDPattern';
-import { services } from '@/content/services';
+import { primaryServices } from '@/content/services';
 import { site, whatsappLink } from '@/content/site';
 import { href, routes, type Locale } from '@/i18n/config';
 import type { Dictionary } from '@/i18n/dictionaries';
@@ -73,7 +73,7 @@ export function Footer({
               {t.servicesTitle}
             </h2>
             <ul className="flex flex-col">
-              {services.map((service) => (
+              {primaryServices.map((service) => (
                 <li key={service.slug}>
                   <Link
                     href={`${href(locale, routes.services)}#${service.slug}`}

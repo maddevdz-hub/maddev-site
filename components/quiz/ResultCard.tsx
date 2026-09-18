@@ -105,7 +105,7 @@ export function ResultCard({
           <Eyebrow>{t.eyebrow}</Eyebrow>
 
           <div className="flex items-start gap-4">
-            <ServiceIconBadge name={service.icon} size="lg" />
+            <ServiceIconBadge name={service.glyph} size="lg" />
             <div className="flex flex-col gap-2">
               <h2 className="text-[clamp(1.5rem,4.5vw,2.3rem)] font-bold leading-tight tracking-tight text-txt">
                 {t.titlePrefix}{' '}
@@ -120,7 +120,7 @@ export function ResultCard({
           </div>
 
           <p className="text-lg font-semibold leading-snug text-txt">
-            {service.promise[locale]}
+            {service.lead[locale]}
           </p>
         </div>
       </motion.div>
@@ -145,7 +145,7 @@ export function ResultCard({
         className="rounded-2xl border border-line bg-ink2/70 p-6"
       >
         <h3 className="eyebrow-label mb-4 text-txt2">{t.deliverablesTitle}</h3>
-        <CheckList items={service.deliverables[locale]} />
+        <CheckList items={service.points[locale]} />
       </motion.div>
 
       {/* 4 — Exemple concret */}
@@ -160,7 +160,7 @@ export function ResultCard({
             {exampleProject ? (
               <ProjectVisual project={exampleProject} locale={locale} />
             ) : (
-              <ServiceVisual icon={service.icon} id={`quiz-${service.slug}`} />
+              <ServiceVisual icon={service.glyph} id={`quiz-${service.slug}`} />
             )}
           </div>
 
@@ -220,13 +220,13 @@ export function ResultCard({
           <p className="mb-4 text-sm leading-relaxed text-txt2">{t.alsoIntro}</p>
 
           <div className="flex items-start gap-4">
-            <ServiceIconBadge name={secondary.icon} />
+            <ServiceIconBadge name={secondary.glyph} />
             <div className="flex flex-col gap-1.5">
               <p className="text-base font-bold text-txt">
                 {secondary.name[locale]}
               </p>
               <p className="text-sm leading-relaxed text-txt2">
-                {secondary.promise[locale]}
+                {secondary.lead[locale]}
               </p>
               <Link
                 href={`${href(locale, routes.services)}#${secondary.slug}`}

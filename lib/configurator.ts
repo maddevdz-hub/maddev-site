@@ -13,6 +13,10 @@ import {
  * ne fait que l'afficher — ajouter ou reformuler une question se fait ici,
  * sans toucher à un seul composant.
  *
+ * Les identifiants de service viennent de content/services.ts et de nulle
+ * part ailleurs : ce fichier en avait sa propre série, si bien que le quiz
+ * recommandait une « application web » introuvable sur le site.
+ *
  * Le texte est bilingue en place, comme dans content/services.ts. Seul le
  * chrome d'interface (boutons, progression, libellés du résultat) vit dans
  * messages/ar.json et messages/fr.json.
@@ -286,9 +290,9 @@ export type SituationKey =
 
 export type ConclusionKey =
   | 'site-vitrine'
-  | 'boutique-ecommerce'
-  | 'application-web'
-  | 'marketing-publicite'
+  | 'boutique-en-ligne'
+  | 'plateforme-sur-mesure'
+  | 'campagne-publicitaire'
   | 'redesign';
 
 /** Constat : ce que le visiteur vient de nous dire, reformulé. */
@@ -337,15 +341,15 @@ export const conclusions: Record<ConclusionKey, Bilingual> = {
     fr: 'Un site vitrine couvre exactement ce besoin : il vous présente, rassure vos visiteurs, et transforme leur intérêt en appel ou en message WhatsApp.',
     ar: 'الموقع التعريفي يغطّي هذي الحاجة بالضبط: يعرّف بيك، يطمّن زوّارك، ويحوّل اهتمامهم لمكالمة ولا رسالة واتساب.',
   },
-  'boutique-ecommerce': {
+  'boutique-en-ligne': {
     fr: 'Une boutique e-commerce est ce qui vous fera gagner le plus : catalogue, panier, et commande WhatsApp ou paiement à la livraison, sans intermédiaire.',
     ar: 'المتجر الإلكتروني هو الأنسب ليك: كتالوج، سلة، وطلب عبر واتساب ولا خلاص عند الاستلام، بلا وسيط.',
   },
-  'application-web': {
+  'plateforme-sur-mesure': {
     fr: 'Une application sur mesure est la bonne réponse : on cadre le besoin réel avec vous avant de développer, pour éviter de construire ce que personne n’utilisera.',
     ar: 'التطبيق المخصّص هو الجواب الصح: نحدّدو الحاجة الحقيقية معاك قبل البرمجة، باش ما نبنيوش حاجة ما يستعملها حتى واحد.',
   },
-  'marketing-publicite': {
+  'campagne-publicitaire': {
     fr: 'Des campagnes bien ciblées amèneront les visiteurs, et comme nous construisons aussi la page d’arrivée, la mesure reste fiable.',
     ar: 'الحملات المستهدفة تجلب الزوار، وبما أننا نبنيو صفحة الوصول تاني، القياس يبقى موثوق.',
   },
@@ -366,11 +370,11 @@ export const conclusions: Record<ConclusionKey, Bilingual> = {
 /** Réalisation à montrer en exemple, quand il en existe une pertinente. */
 const exampleProject: Record<string, string | undefined> = {
   'site-vitrine': undefined,
-  'boutique-ecommerce': 'showroom-meubles-bba',
+  'boutique-en-ligne': 'showroom-meubles-bba',
   // Pas de réalisation publiable sur ces deux axes pour l'instant : on
   // montre un visuel de marque plutôt qu'un projet qui n'existe pas.
-  'application-web': undefined,
-  'marketing-publicite': undefined,
+  'plateforme-sur-mesure': undefined,
+  'campagne-publicitaire': undefined,
 };
 
 // ---------------------------------------------------------------------------
@@ -400,15 +404,15 @@ function pickPrimarySlug(answers: Answers): string {
   const { type, goal, produits } = answers;
 
   if (type === 'ecommerce' || goal === 'vente' || produits === 'many') {
-    return 'boutique-ecommerce';
+    return 'boutique-en-ligne';
   }
   if (type === 'app' || goal === 'automatisation') {
-    return 'application-web';
+    return 'plateforme-sur-mesure';
   }
   if (produits === 'few' && goal !== 'presence') {
     // Quelques produits sans volonté claire de vitrine : la boutique reste
     // le meilleur point de départ.
-    return 'boutique-ecommerce';
+    return 'boutique-en-ligne';
   }
   return 'site-vitrine';
 }
@@ -419,13 +423,13 @@ function pickSituation(answers: Answers, primarySlug: string): SituationKey {
 
   if (type === 'refonte') return 'redesign';
 
-  if (primarySlug === 'boutique-ecommerce') {
+  if (primarySlug === 'boutique-en-ligne') {
     if (produits === 'many') return 'ecommerceMany';
     if (produits === 'few') return 'ecommerceFew';
     return 'ecommerceIntent';
   }
 
-  if (primarySlug === 'application-web') {
+  if (primarySlug === 'plateforme-sur-mesure') {
     return goal === 'automatisation' ? 'automation' : 'appIdea';
   }
 
@@ -441,8 +445,8 @@ export function getRecommendation(answers: Answers): Recommendation {
 
   // La publicité ne remplace jamais la reco principale : elle la complète.
   const secondary =
-    answers.goal === 'trafic' && primarySlug !== 'marketing-publicite'
-      ? getService('marketing-publicite')
+    answers.goal === 'trafic' && primarySlug !== 'campagne-publicitaire'
+      ? getService('campagne-publicitaire')
       : undefined;
 
   return {

@@ -1,228 +1,400 @@
-﻿import type { Locale } from '@/i18n/config';
+import type { Locale } from '@/i18n/config';
 
-export type ServiceIcon = 'window' | 'cart' | 'app' | 'megaphone';
+/**
+ * L'offre du studio — LA source unique.
+ *
+ * ── Pourquoi ce fichier a été fusionné ─────────────────────────────────────
+ * Il a existé deux listes de services en parallèle : celle-ci (quatre
+ * entrées) et `content/showcase.ts` (six entrées, d'autres identifiants). La
+ * page /services lisait la seconde, le formulaire de contact et le
+ * configurateur lisaient la première. Conséquences observées :
+ *
+ *   - « Demander un devis » transmettait, depuis cinq blocs sur six, un
+ *     identifiant que le formulaire ne connaissait pas ; l'email reçu
+ *     affichait « Service : Non précisé ». La demande arrivait anonyme.
+ *   - Le visiteur voyait six services sur la page et quatre dans le menu
+ *     déroulant du formulaire.
+ *   - La boutique annonçait « 4 à 6 semaines » ici et « 4 à 8 » là-bas.
+ *   - Le quiz recommandait une « application web » qui n'existait sur aucune
+ *     page : le visiteur repartait avec un nom qu'il ne retrouvait nulle part.
+ *
+ * Donc : un service se décrit ICI, et nulle part ailleurs. Un champ de délai,
+ * un identifiant, un jeu de mots. Si une page a besoin d'un angle différent,
+ * elle ajoute un champ à ce type — elle ne recopie pas la liste.
+ *
+ * ── L'ordre ────────────────────────────────────────────────────────────────
+ * Il va du plus facile à décider au plus engageant. Un gérant de café dit oui
+ * à un menu QR en trente secondes ; personne ne commande une campagne
+ * publicitaire sur un premier écran. Le premier bloc détermine l'impression.
+ *
+ * ── Le registre ────────────────────────────────────────────────────────────
+ * L'arabe est de l'arabe standard moderne — celui d'un journal économique
+ * sérieux. Ni dialectal, ni littéraire. Le français dit ce que le client
+ * obtient, jamais ce que nous fabriquons.
+ */
 
-/** Une chaîne disponible dans les deux langues. */
 export type Bilingual = Record<Locale, string>;
 export type BilingualList = Record<Locale, string[]>;
 
+/**
+ * Le pictogramme du service. Un seul jeu pour tout le site — sommaire de
+ * /services, cartes de l'accueil, résultat du configurateur : deux familles
+ * de dessins pour la même liste finissaient toujours par diverger.
+ * Tracés dans components/services/ServiceGlyphs.tsx.
+ */
+export type ServiceGlyphName =
+  | 'qr'
+  | 'agenda'
+  | 'panier'
+  | 'vitrine'
+  | 'recherche'
+  | 'megaphone'
+  | 'engrenage'
+  | 'anneaux';
+
+export type ServiceVisualSpec =
+  /** Capture réelle de la démonstration, cadrée dans un mockup. */
+  | {
+      kind: 'capture';
+      src: string;
+      frame: 'phone' | 'screen';
+      width: number;
+      height: number;
+    }
+  /** Visuel dessiné, tant que la démonstration n'existe pas. */
+  | { kind: 'drawn'; figure: 'boutique' | 'annonces' | 'campagne' };
+
 export type Service = {
-  /** Identifiant stable — sert d'ancre (#slug) et de valeur dans le formulaire de contact. */
+  /** Identifiant stable : ancre `/services#slug`, valeur du formulaire, clé d'email. */
   slug: string;
-  icon: ServiceIcon;
-  /** Étiquette courte — navigation, menu déroulant, données structurées. */
-  name: Bilingual;
   /**
-   * Le titre montré au client : ce qu'il OBTIENT, jamais ce qu'on fabrique.
-   * « Vos clients vous trouvent » plutôt que « Site vitrine ».
+   * `principal` : un bloc entier sur /services, une carte sur l'accueil.
+   * `secondaire` : une carte discrète en bas de /services. Le service existe
+   * pour de bon — il se commande, il se chiffre — mais lui donner un bloc
+   * déséquilibrerait la page en faveur d'une offre rare.
    */
+  tier: 'principal' | 'secondaire';
+  glyph: ServiceGlyphName;
+  /**
+   * Étiquette courte : tuile du sommaire, pied de page, menu déroulant du
+   * formulaire, objet de l'email. Elle est courte parce que six tuiles
+   * tiennent sur une rangée — un nom plus long y passe sur deux lignes et
+   * déforme la grille.
+   */
+  name: Bilingual;
+  /** Ce que ça résout, en trois ou quatre mots. Une tuile, pas un titre. */
+  solves: Bilingual;
+  /** Le titre montré au client : ce qu'il OBTIENT. */
   benefit: Bilingual;
-  /** La ligne concrète sous le bénéfice — le comment, en une phrase. */
-  promise: Bilingual;
-  /** 2-3 phrases : à quoi ça sert concrètement. */
-  description: Bilingual;
-  /** Livrables précis affichés avec des coches. */
-  deliverables: BilingualList;
-  /** Le client type. */
-  audience: Bilingual;
-  /** Résultat concret obtenu par le client. */
-  result: Bilingual;
+  /** Deux lignes maximum, sous le bénéfice. */
+  lead: Bilingual;
+  /** Trois points concrets. Jamais plus : au-delà, une liste devient un mur. */
+  points: BilingualList;
+  /** LE délai indicatif. Il n'en existe pas d'autre ailleurs. */
   timeline: Bilingual;
+  visual?: ServiceVisualSpec;
+  /** Lien vers la démonstration, quand elle existe. */
+  demoHref?: string;
+  /**
+   * Projet réel plutôt que démonstration : le showroom de meubles.
+   * Il ne porte PAS la mention « fictif » — ce serait mentir dans l'autre sens.
+   */
+  realClient?: { url: string; label: Bilingual };
 };
 
 export const services: Service[] = [
   {
-    slug: 'site-vitrine',
-    icon: 'window',
-    name: {
-      fr: 'Site vitrine',
-      ar: 'موقع تعريفي',
-    },
+    slug: 'menu-qr',
+    tier: 'principal',
+    glyph: 'qr',
+    name: { fr: 'Menu QR', ar: 'قائمة QR' },
+    solves: { fr: 'Votre carte, à jour', ar: 'قائمتك محدَّثة دائمًا' },
     benefit: {
-      fr: 'Vos clients vous trouvent',
-      ar: 'زبائنك يلقاوك',
+      fr: 'Votre carte change en trente secondes',
+      ar: 'قائمتك تتغيّر في ثلاثين ثانية',
     },
-    promise: {
-      fr: 'Un site qui apparaît sur Google quand quelqu’un cherche votre métier dans votre ville.',
-      ar: 'موقع يبان في غوغل كي يدوّر واحد على خدمتك في مدينتك.',
+    lead: {
+      fr: 'Vos clients scannent le code posé sur la table. Vous modifiez un prix depuis votre téléphone, la carte est à jour pour tout le monde.',
+      ar: 'يمسح زبائنك الرمز الموضوع على الطاولة. تعدّل سعرًا من هاتفك، فتتحدّث القائمة للجميع.',
     },
-    description: {
-      fr: 'Un site rapide et élégant qui présente votre activité, vos services et vos coordonnées. Votre vitrine reste ouverte 24 h/24, même quand votre local est fermé.',
-      ar: 'موقع سريع وأنيق يوري نشاطك، خدماتك، وكيفاش يتواصلو معاك. واجهتك تبقى محلولة 24 ساعة على 24، حتى كي يكون محلّك مسكّر.',
-    },
-    deliverables: {
+    points: {
       fr: [
-        'Design moderne, responsive sur tous les écrans',
-        'Jusqu’à 5 pages',
-        'Référencement local + fiche Google Maps',
-        'Bouton WhatsApp direct',
-        'Hébergement offert la première année',
+        'Le QR code, fourni prêt à imprimer',
+        'Photos, prix et disponibilités que vous gérez seul',
+        'Se lit d’une main, même sur un vieux téléphone',
       ],
       ar: [
-        'تصميم عصري متجاوب مع كل الشاشات',
-        'حتى 5 صفحات',
-        'تحسين الظهور المحلي + بطاقة خرائط جوجل',
-        'زر واتساب مباشر',
-        'الاستضافة مجانية السنة الأولى',
+        'رمز QR جاهز للطباعة',
+        'الصور والأسعار والتوفّر تديرها بنفسك',
+        'تُقرأ بيد واحدة، حتى على هاتف قديم',
       ],
     },
-    audience: {
-      fr: 'Commerces, cabinets, artisans et professionnels qui veulent exister en ligne sérieusement.',
-      ar: 'المحلات، المكاتب، الحرفيين والمهنيين اللي حابين حضور جدّي على الإنترنت.',
+    timeline: { fr: '1 semaine', ar: 'أسبوع واحد' },
+    visual: {
+      kind: 'capture',
+      src: '/services/capture-menu.png',
+      frame: 'phone',
+      width: 828,
+      height: 1720,
     },
-    result: {
-      fr: 'Vos clients consultent vos services depuis leur téléphone et vous contactent directement, sans passer par un annuaire ou un intermédiaire.',
-      ar: 'زبائنك يشوفو خدماتك من التيليفون ويتصلو بيك نيشان، بلا دليل وبلا وسيط.',
-    },
-    timeline: {
-      fr: '1 à 2 semaines',
-      ar: 'أسبوع إلى أسبوعين',
-    },
+    demoHref: '/demo/menu',
   },
   {
-    slug: 'boutique-ecommerce',
-    icon: 'cart',
-    name: {
-      fr: 'Boutique e-commerce',
-      ar: 'متجر إلكتروني',
+    slug: 'prise-de-rendez-vous',
+    tier: 'principal',
+    glyph: 'agenda',
+    name: { fr: 'Rendez-vous', ar: 'المواعيد' },
+    solves: { fr: 'Fini les appels', ar: 'لا مزيد من المكالمات' },
+    benefit: {
+      fr: 'Votre téléphone cesse de sonner',
+      ar: 'هاتفك يتوقّف عن الرنين',
     },
+    lead: {
+      fr: 'Vos clients réservent seuls, à toute heure. Le rappel de la veille part sur WhatsApp, et une annulation libère le créneau sans un appel.',
+      ar: 'يحجز زبائنك بأنفسهم في أي وقت. يصل تذكير اليوم السابق عبر واتساب، والإلغاء يحرّر الموعد دون أي مكالمة.',
+    },
+    points: {
+      fr: [
+        'Agenda par praticien, par motif, par durée',
+        'Rappel WhatsApp automatique la veille',
+        'Annulation autonome — le créneau se remplit à nouveau',
+      ],
+      ar: [
+        'أجندة حسب الطبيب وسبب الزيارة والمدّة',
+        'تذكير تلقائي عبر واتساب في اليوم السابق',
+        'إلغاء ذاتي — والموعد يُملأ من جديد',
+      ],
+    },
+    timeline: { fr: '2 à 3 semaines', ar: 'من أسبوعين إلى ثلاثة' },
+    visual: {
+      kind: 'capture',
+      src: '/services/capture-rendezvous.png',
+      frame: 'screen',
+      width: 1520,
+      height: 936,
+    },
+    demoHref: '/demo/rendezvous',
+  },
+  {
+    slug: 'boutique-en-ligne',
+    tier: 'principal',
+    glyph: 'panier',
+    name: { fr: 'Boutique', ar: 'متجر' },
+    solves: { fr: 'Commander sans appeler', ar: 'الطلب دون مكالمة' },
     benefit: {
       fr: 'La commande arrive complète',
-      ar: 'الطلب يوصلك كامل',
+      ar: 'الطلب يصلك مكتملًا',
     },
-    promise: {
-      fr: 'Le produit, le coloris, les dimensions, la wilaya — dans un seul message WhatsApp. Plus d’allers-retours.',
-      ar: 'المنتج، اللون، المقاسات، الولاية — في رسالة واتساب وحدة. ما بقاوش الرواح والجاي.',
+    lead: {
+      fr: 'Le produit, la taille, la couleur, la quantité et la wilaya dans un seul message WhatsApp. Plus d’allers-retours pour reconstituer une commande.',
+      ar: 'المنتج والمقاس واللون والكمّية والولاية في رسالة واتساب واحدة. لا مزيد من الأخذ والردّ لإكمال الطلب.',
     },
-    description: {
-      fr: 'Un vrai magasin en ligne : catalogue, panier, commandes. Vous gérez vos produits et vos prix en autonomie via un tableau de bord simple, sans nous appeler à chaque changement.',
-      ar: 'متجر حقيقي على الإنترنت: كتالوج، سلة، طلبات. تسيّر منتجاتك وأسعارك بوحدك من لوحة تحكم ساهلة، بلا ما تعيّط لنا في كل تبديلة.',
-    },
-    deliverables: {
+    points: {
       fr: [
-        'Catalogue avec filtres et recherche',
-        'Fiches produit optimisées pour la conversion',
-        'Panier + commande WhatsApp + paiement à la livraison',
-        'Tableau de bord produits et commandes',
+        'Catalogue avec filtres, recherche et variantes',
+        'Panier qui calcule le total et les frais de livraison',
+        'Vous gérez produits et stocks depuis votre téléphone',
       ],
       ar: [
-        'كتالوج مع فلاتر وبحث',
-        'صفحات منتجات مُحسّنة للتحويل',
-        'سلة + طلب عبر واتساب + الدفع عند الاستلام',
-        'لوحة تحكم للمنتجات والطلبات',
+        'كتالوج بفلاتر وبحث وخيارات',
+        'سلّة تحسب المجموع ومصاريف التوصيل',
+        'تدير المنتجات والمخزون من هاتفك',
       ],
     },
-    audience: {
-      fr: 'Commerces avec des produits — meubles, mode, décoration, électroménager — qui veulent vendre en ligne.',
-      ar: 'المحلات اللي تبيع منتجات — أثاث، ألبسة، ديكور، أجهزة كهرومنزلية — وحابة تبيع على الإنترنت.',
-    },
-    result: {
-      fr: 'Une fiche produit qui transforme le visiteur en commande : galerie photo, sélecteurs de couleur et de dimensions, et un bouton WhatsApp pré-rempli avec la référence exacte.',
-      ar: 'صفحة منتج تحوّل الزائر لطلب: معرض تصاور، اختيار اللون والمقاسات، وزر واتساب يجي معمّر بمرجع المنتج.',
-    },
-    timeline: {
-      fr: '4 à 8 semaines',
-      ar: 'من 4 إلى 8 أسابيع',
-    },
+    timeline: { fr: '4 à 6 semaines', ar: 'من 4 إلى 6 أسابيع' },
+    visual: { kind: 'drawn', figure: 'boutique' },
   },
   {
-    slug: 'application-web',
-    icon: 'app',
-    name: {
-      fr: 'Application web / MVP',
-      ar: 'تطبيق ويب / MVP',
-    },
+    slug: 'site-vitrine',
+    tier: 'principal',
+    glyph: 'vitrine',
+    name: { fr: 'Site vitrine', ar: 'موقع تعريفي' },
+    solves: { fr: 'Être trouvé sur Google', ar: 'الظهور في غوغل' },
     benefit: {
-      fr: 'Vous pilotez tout vous-même',
-      ar: 'تسيّر كلش بيدك',
+      fr: 'Vos clients vous trouvent',
+      ar: 'زبائنك يجدونك',
     },
-    promise: {
-      fr: 'Ajouter un produit, changer un prix, masquer une pièce épuisée — depuis votre téléphone, en deux minutes.',
-      ar: 'تزيد منتج، تبدّل سعر، تخبّي قطعة كملت — من تيليفونك، في دقيقتين.',
+    lead: {
+      fr: 'Un site qui sort dans Google quand quelqu’un cherche votre métier dans votre ville, et qui donne envie d’entrer.',
+      ar: 'موقع يظهر في غوغل حين يبحث أحدهم عن مهنتك في مدينتك، ويدعو إلى الدخول.',
     },
-    description: {
-      fr: 'Des plateformes sur mesure : réservation, gestion interne, tableaux de bord. On commence par cadrer le besoin réel avec vous, pour éviter de développer des fonctions que personne n’utilisera.',
-      ar: 'منصات مخصّصة: الحجز، التسيير الداخلي، لوحات التحكم. نبداو نحدّدو معاك واش تحتاج بالضبط، باش ما نطوّروش وظائف ما يستعملها حتى واحد.',
-    },
-    deliverables: {
+    points: {
       fr: [
-        'Plateforme construite pour votre métier',
-        'Base de données structurée',
-        'Comptes et rôles utilisateurs',
-        'Conseil produit inclus',
-        'Architecture évolutive',
+        'Référencement local et fiche Google Maps',
+        'Vos services et vos réalisations présentés page par page',
+        'Contact WhatsApp en un geste, depuis chaque page',
       ],
       ar: [
-        'منصة مبنية على قدّ خدمتك',
-        'قاعدة بيانات منظّمة',
-        'حسابات وصلاحيات للمستخدمين',
-        'استشارة في المنتج مضمّنة',
-        'بنية قابلة للتطوير',
+        'تحسين الظهور المحلي وبطاقة خرائط غوغل',
+        'خدماتك وأعمالك معروضة صفحة بصفحة',
+        'تواصل عبر واتساب بلمسة، من كل صفحة',
       ],
     },
-    audience: {
-      fr: 'Startups, entrepreneurs et professionnels avec un besoin métier spécifique qu’aucun outil du marché ne couvre.',
-      ar: 'الشركات الناشئة، أصحاب المشاريع والمهنيين اللي عندهم حاجة خاصة في خدمتهم، ما تغطّيهاش الأدوات الجاهزة.',
+    timeline: { fr: '1 à 2 semaines', ar: 'من أسبوع إلى أسبوعين' },
+    visual: {
+      kind: 'capture',
+      src: '/services/capture-showroom.jpg',
+      frame: 'screen',
+      width: 2200,
+      height: 1400,
     },
-    result: {
-      fr: 'Un outil qui automatise votre métier — réservations, gestion des équipes, suivi client — au lieu de dix fichiers Excel et d’un carnet.',
-      ar: 'أداة تدير خدمتك بوحدها — الحجوزات، تسيير الفريق، متابعة الزبائن — بدل عشر ملفات إكسل ودفتر.',
-    },
-    timeline: {
-      fr: 'Sur devis',
-      ar: 'حسب دراسة المشروع',
+    realClient: {
+      url: 'https://henna-meubles-2026.vercel.app',
+      label: { fr: 'Voir le site en ligne', ar: 'زيارة الموقع' },
     },
   },
   {
-    slug: 'marketing-publicite',
-    icon: 'megaphone',
-    name: {
-      fr: 'Marketing & Publicité',
-      ar: 'تسويق وإعلانات',
+    slug: 'plateforme-annonces',
+    tier: 'principal',
+    glyph: 'recherche',
+    name: { fr: 'Annonces', ar: 'إعلانات' },
+    solves: { fr: 'Chercher, filtrer, trouver', ar: 'بحث وفلترة وعثور' },
+    benefit: {
+      fr: 'Vos clients trouvent sans vous appeler',
+      ar: 'زبائنك يجدون دون أن يتّصلوا بك',
     },
+    lead: {
+      fr: 'Une recherche par wilaya, budget et type, une fiche complète, une demande de visite. Le même socle sert l’immobilier, l’automobile et le matériel professionnel.',
+      ar: 'بحث حسب الولاية والميزانية والنوع، بطاقة كاملة، وطلب زيارة. القاعدة نفسها تخدم العقار والسيارات والعتاد المهني.',
+    },
+    points: {
+      fr: [
+        'Filtres combinés : wilaya, budget, type, surface',
+        'Fiche détaillée avec galerie et localisation',
+        'Demande de visite qui arrive qualifiée',
+      ],
+      ar: [
+        'فلاتر مركّبة: الولاية، الميزانية، النوع، المساحة',
+        'بطاقة مفصّلة بمعرض صور وموقع',
+        'طلب زيارة يصل مؤهَّلًا',
+      ],
+    },
+    timeline: { fr: '6 à 8 semaines', ar: 'من 6 إلى 8 أسابيع' },
+    visual: { kind: 'drawn', figure: 'annonces' },
+  },
+  {
+    slug: 'campagne-publicitaire',
+    tier: 'principal',
+    glyph: 'megaphone',
+    name: { fr: 'Campagne', ar: 'حملة إعلانية' },
+    solves: { fr: 'Amener des clients', ar: 'جلب الزبائن إليك' },
     benefit: {
       fr: 'On amène les clients jusqu’à vous',
-      ar: 'نجيبولك الزبائن',
+      ar: 'نجلب الزبائن إليك',
     },
-    promise: {
-      fr: 'Des campagnes mesurées : on sait exactement ce que chaque dinar a rapporté.',
-      ar: 'حملات مقيسة: نعرفو بالضبط شحال جاب كل دينار.',
+    lead: {
+      fr: 'Des campagnes Facebook, Instagram et TikTok qui mènent à une page conçue pour convertir. La page fait partie du service — une publicité qui tombe dans le vide ne rapporte rien.',
+      ar: 'حملات على فيسبوك وإنستغرام وتيك توك تقود إلى صفحة مصمَّمة للتحويل. الصفحة جزء من الخدمة — إعلان يقود إلى الفراغ لا يعود بشيء.',
     },
-    description: {
-      fr: 'Campagnes publicitaires sur Facebook, Instagram et TikTok, avec un tracking installé proprement. Comme c’est nous qui avons développé le site, la mesure est fiable — et l’optimisation aussi.',
-      ar: 'حملات إعلانية على فيسبوك وإنستغرام وتيك توك، مع تتبّع مركّب كيما يلزم. وخاطر حنا اللي درنا الموقع، القياس يجي مضبوط — والتحسين تاني.',
-    },
-    deliverables: {
+    points: {
       fr: [
-        'Setup et lancement des campagnes',
-        'Pixel et tracking installés proprement',
-        'Visuels et textes rédigés pour vous',
-        'Gestion mensuelle en option',
-        'Rapport clair : dépensé → leads / ventes',
+        'Page d’arrivée dessinée pour un seul objectif',
+        'Pixel et suivi posés proprement, mesure fiable',
+        'Rapport clair : dépensé, contacts, ventes',
       ],
       ar: [
-        'إعداد الحملات وإطلاقها',
-        'بيكسل وتتبّع مضبوطان',
-        'تصاور ونصوص مكتوبة من عندنا',
-        'تسيير شهري اختياري',
-        'تقرير واضح: المصروف ← العملاء / المبيعات',
+        'صفحة وصول مصمَّمة لهدف واحد',
+        'بيكسل وتتبّع مركّبان بإحكام، وقياس موثوق',
+        'تقرير واضح: المصروف، الاتصالات، المبيعات',
       ],
     },
-    audience: {
-      fr: 'Tout client qui a déjà un site ou une boutique et veut des visiteurs qualifiés, pas des vues.',
-      ar: 'كل واحد عندو موقع ولا متجر وحاب زوّار مهتمين بالصح، ماشي غير مشاهدات.',
-    },
-    result: {
-      fr: 'Des visiteurs ciblés qui arrivent sur une page conçue pour convertir — parce qu’on a construit les deux, la publicité et la page.',
-      ar: 'زوّار مستهدفين يوصلو لصفحة مدروسة باش تحوّل — خاطر حنا اللي بنينا الزوج: الإعلان والصفحة.',
-    },
     timeline: {
-      fr: 'Setup en quelques jours',
+      fr: 'Mise en place en quelques jours',
       ar: 'الإعداد في بضعة أيام',
     },
+    visual: { kind: 'drawn', figure: 'campagne' },
+  },
+
+  /*
+   * Les deux offres secondaires.
+   *
+   * Elles n'ont pas de bloc sur /services : deux cartes en bas de page. Mais
+   * elles sont des services entiers, avec leur identifiant, leur délai et
+   * leur place dans le formulaire — `plateforme-sur-mesure` remplace
+   * l'ancien `application-web`, que le configurateur recommandait et que le
+   * visiteur ne trouvait sur aucune page.
+   */
+  {
+    slug: 'plateforme-sur-mesure',
+    tier: 'secondaire',
+    glyph: 'engrenage',
+    name: { fr: 'Plateforme sur mesure', ar: 'منصّة خاصة' },
+    solves: { fr: 'Un outil à vous', ar: 'أداة خاصة بك' },
+    benefit: {
+      fr: 'L’outil suit votre façon de travailler',
+      ar: 'الأداة تتبع طريقتك في العمل',
+    },
+    lead: {
+      fr: 'Quand aucun logiciel du marché ne correspond à votre métier, on construit celui qui manque. On cadre d’abord ce dont vous vous servirez vraiment.',
+      ar: 'حين لا يناسب أي برنامج جاهز مهنتك، نبني الأداة الناقصة. نحدّد أولًا ما ستستعمله فعلًا.',
+    },
+    points: {
+      fr: [
+        'Le besoin cadré avec vous avant la première ligne de code',
+        'Comptes et droits d’accès pour chaque membre de l’équipe',
+        'Une base qui accepte les fonctions que vous ajouterez ensuite',
+      ],
+      ar: [
+        'تحديد الحاجة معك قبل أول سطر برمجي',
+        'حسابات وصلاحيات لكل فرد في الفريق',
+        'قاعدة تقبل الوظائف التي تضيفها لاحقًا',
+      ],
+    },
+    timeline: {
+      fr: 'Défini après le cadrage',
+      ar: 'يُحدَّد بعد تحديد الحاجة',
+    },
+  },
+  {
+    slug: 'invitation-mariage',
+    tier: 'secondaire',
+    glyph: 'anneaux',
+    name: { fr: 'Invitation de mariage', ar: 'دعوة زفاف' },
+    solves: { fr: 'Vos invités confirment', ar: 'مدعوّوك يؤكّدون' },
+    benefit: {
+      fr: 'Vous savez qui vient',
+      ar: 'تعرف من سيحضر',
+    },
+    lead: {
+      fr: 'Une page que vos invités ouvrent depuis WhatsApp, avec le lieu, le programme et la confirmation de présence en un geste.',
+      ar: 'صفحة يفتحها مدعوّوك من واتساب، فيها المكان والبرنامج وتأكيد الحضور بلمسة واحدة.',
+    },
+    points: {
+      fr: [
+        'Le lieu sur une carte, l’itinéraire en un clic',
+        'Le programme de la journée, heure par heure',
+        'La liste des présences, tenue à jour pour vous',
+      ],
+      ar: [
+        'المكان على الخريطة، والطريق بنقرة واحدة',
+        'برنامج اليوم، ساعة بساعة',
+        'قائمة الحضور، محدَّثة باستمرار',
+      ],
+    },
+    timeline: { fr: 'Quelques jours', ar: 'بضعة أيام' },
   },
 ];
+
+/** Les six services qui occupent un bloc entier de /services. */
+export const primaryServices = services.filter((s) => s.tier === 'principal');
+
+/** Les deux offres présentées en cartes, en bas de /services. */
+export const secondaryServices = services.filter((s) => s.tier === 'secondaire');
 
 export function getService(slug: string): Service | undefined {
   return services.find((s) => s.slug === slug);
 }
+
+/** Libellés communs de la page /services. */
+export const showcaseUi = {
+  seeDemo: { fr: 'Voir la démonstration', ar: 'شاهد النموذج' },
+  demoNote: {
+    fr: 'Démonstration — projet fictif conçu par MADDEV',
+    ar: 'نموذج توضيحي — مشروع افتراضي من تصميم MADDEV',
+  },
+  realNote: { fr: 'Client réel', ar: 'زبون حقيقي' },
+  delayLabel: { fr: 'Délai indicatif', ar: 'المدّة التقريبية' },
+  soon: { fr: 'Démonstration en préparation', ar: 'النموذج قيد التحضير' },
+  alsoKicker: { fr: 'Et aussi', ar: 'وأيضًا' },
+  alsoCta: { fr: 'En parler', ar: 'تحدّث معنا' },
+} satisfies Record<string, Bilingual>;

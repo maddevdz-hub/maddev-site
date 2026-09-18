@@ -5,7 +5,7 @@ import { CheckIcon } from '@/components/ui/Check';
 import { Container } from '@/components/ui/Container';
 import { Reveal } from '@/components/ui/Reveal';
 import { ShowcaseFigure } from '@/components/services/ShowcaseVisuals';
-import { showcaseUi, type ShowcaseItem } from '@/content/showcase';
+import { showcaseUi, type Service } from '@/content/services';
 import type { Locale } from '@/i18n/config';
 
 /**
@@ -24,7 +24,7 @@ export function ShowcaseBlock({
   index,
   locale,
 }: {
-  item: ShowcaseItem;
+  item: Service;
   index: number;
   locale: Locale;
 }) {
@@ -38,17 +38,24 @@ export function ShowcaseBlock({
     >
       <Container>
         <div className="grid items-center gap-10 lg:gap-14 xl:gap-16 lg:grid-cols-[1.08fr_.92fr]">
-          {/* Le visuel */}
-          <Reveal
-            className={imageFirst ? 'lg:order-1' : 'lg:order-2'}
-            delay={0.05}
-          >
-            <ShowcaseFigure
-              visual={item.visual}
-              alt={item.benefit[locale]}
-              locale={locale}
-            />
-          </Reveal>
+          {/*
+            Le visuel. Optionnel dans le type parce que les deux offres
+            secondaires n'en ont pas — elles ne passent jamais par ce bloc,
+            mais le type reste honnête plutôt que de promettre une image que
+            deux services sur huit n'ont pas.
+          */}
+          {item.visual ? (
+            <Reveal
+              className={imageFirst ? 'lg:order-1' : 'lg:order-2'}
+              delay={0.05}
+            >
+              <ShowcaseFigure
+                visual={item.visual}
+                alt={item.benefit[locale]}
+                locale={locale}
+              />
+            </Reveal>
+          ) : null}
 
           {/* Le texte, qui accompagne l'image sans la remplacer */}
           <div className={imageFirst ? 'lg:order-2' : 'lg:order-1'}>
@@ -89,7 +96,7 @@ export function ShowcaseBlock({
               <span className="font-semibold text-txt">
                 {showcaseUi.delayLabel[locale]}
               </span>{' '}
-              · {item.delay[locale]}
+              · {item.timeline[locale]}
             </p>
 
             <div className="mt-7 flex flex-wrap items-center gap-3">
