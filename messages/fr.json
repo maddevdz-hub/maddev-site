@@ -27,7 +27,7 @@
       "description": "Comparatif honnête : propriété, visibilité Google, données clients, durée de vie, coût. Et les cas où une page Facebook suffit vraiment."
     },
     "quiz": {
-      "title": "Trouvez votre solution — MADDEV",
+      "title": "Trouvez ce qui manque à votre commerce — MADDEV",
       "description": "Quatre questions, une recommandation claire. Découvrez en une minute le service adapté à votre projet, et recevez une proposition chiffrée sous 24 h."
     }
   },
@@ -258,7 +258,7 @@
   },
   "quiz": {
     "eyebrow": "Configurateur",
-    "title": "Trouvez ce qu’il vous faut",
+    "title": "Trouvez ce qui manque à votre commerce",
     "intro": "Quatre questions, une minute, et vous saurez exactement quel service correspond à votre projet. Nous revenons ensuite vers vous sous 24 h avec une proposition chiffrée.",
     "heroCtaTitle": "Vous ne savez pas par où commencer ?",
     "heroCtaText": "Répondez à 4 questions, on vous oriente",
