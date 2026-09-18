@@ -26,9 +26,32 @@ import {
 // Types
 // ---------------------------------------------------------------------------
 
-export type QuestionId = 'type' | 'goal' | 'produits' | 'budget';
+export type QuestionId = 'situation' | 'goal' | 'produits' | 'budget';
 
-export type ProjectType = 'vitrine' | 'ecommerce' | 'app' | 'refonte';
+/**
+ * La situation du visiteur — ce qu'il TIENT, pas ce qu'il veut commander.
+ *
+ * La première question demandait « Quel est votre projet ? » avec quatre
+ * réponses tirées de notre catalogue : vitrine, e-commerce, application,
+ * refonte. Un gérant de café n'y trouvait rien qui lui ressemble, répondait
+ * « un commerce à présenter », et repartait avec un site vitrine — alors que
+ * le menu QR existe et lui prend une semaine.
+ *
+ * On part donc de son métier. La correspondance vers un service est notre
+ * travail, pas le sien.
+ *
+ * `refonte` est la seule valeur qui ne désigne pas un métier : c'est un
+ * drapeau. Le service à refondre se déduit des réponses suivantes — sinon
+ * quelqu'un qui veut refondre SA boutique recevrait « site vitrine ».
+ */
+export type Situation =
+  | 'restauration'
+  | 'rendez-vous'
+  | 'boutique'
+  | 'notoriete'
+  | 'parc'
+  | 'outil'
+  | 'refonte';
 export type Goal = 'presence' | 'vente' | 'trafic' | 'automatisation';
 export type Produits = 'many' | 'few' | 'none';
 /**
@@ -39,7 +62,7 @@ export type Produits = 'many' | 'few' | 'none';
 export type Budget = 'lt50' | '50-100' | '100-200' | 'gt200' | 'unknown';
 
 export type Answers = {
-  type?: ProjectType;
+  situation?: Situation;
   goal?: Goal;
   produits?: Produits;
   budget?: Budget;
@@ -51,6 +74,9 @@ export type OptionIcon =
   | 'cart'
   | 'idea'
   | 'refresh'
+  | 'couverts'
+  | 'horloge'
+  | 'immeubles'
   | 'badge'
   | 'coins'
   | 'target'
@@ -87,38 +113,67 @@ export type Question = {
 
 export const questions: Question[] = [
   {
-    id: 'type',
+    id: 'situation',
     title: {
-      fr: 'Quel est votre projet ?',
-      ar: 'واش نوع مشروعك؟',
+      fr: 'Vous êtes dans quelle situation ?',
+      ar: 'ما وضع نشاطك اليوم؟',
     },
     subtitle: {
-      fr: 'Choisissez ce qui ressemble le plus à votre situation.',
-      ar: 'اختار اللي يشبه حالتك أكثر.',
+      fr: 'Choisissez ce qui décrit le mieux votre activité aujourd’hui.',
+      ar: 'اختر ما يصف نشاطك اليوم أفضل وصف.',
     },
+    /*
+     * L'ordre suit celui de /services : du plus simple à se représenter au
+     * plus engageant. « J'ai déjà un site » ferme la liste — c'est la seule
+     * réponse qui parle d'un site plutôt que d'un métier.
+     */
     options: [
       {
-        value: 'vitrine',
-        icon: 'store',
+        value: 'restauration',
+        icon: 'couverts',
         label: {
-          fr: 'Un commerce ou une entreprise à présenter',
-          ar: 'محل ولا شركة حاب نعرّف بيها',
+          fr: 'Un restaurant, un café, un fast-food',
+          ar: 'مطعم أو مقهى أو مطعم سريع',
         },
       },
       {
-        value: 'ecommerce',
+        value: 'rendez-vous',
+        icon: 'horloge',
+        label: {
+          fr: 'Un cabinet, un salon, un atelier sur rendez-vous',
+          ar: 'عيادة أو صالون أو ورشة بالموعد',
+        },
+      },
+      {
+        value: 'boutique',
         icon: 'cart',
         label: {
-          fr: 'Vendre des produits en ligne',
-          ar: 'نبيع منتجات على الإنترنت',
+          fr: 'Un commerce avec des produits à vendre',
+          ar: 'متجر بمنتجات للبيع',
         },
       },
       {
-        value: 'app',
+        value: 'notoriete',
+        icon: 'store',
+        label: {
+          fr: 'Une activité à faire connaître',
+          ar: 'نشاط أريد التعريف به',
+        },
+      },
+      {
+        value: 'parc',
+        icon: 'immeubles',
+        label: {
+          fr: 'Un parc de biens ou de véhicules à publier',
+          ar: 'عقارات أو مركبات للنشر',
+        },
+      },
+      {
+        value: 'outil',
         icon: 'idea',
         label: {
-          fr: 'Une idée d’application ou de plateforme',
-          ar: 'فكرة تطبيق ولا منصّة',
+          fr: 'Une idée d’outil métier',
+          ar: 'فكرة أداة لمهنتي',
         },
       },
       {
@@ -126,7 +181,7 @@ export const questions: Question[] = [
         icon: 'refresh',
         label: {
           fr: 'J’ai déjà un site à améliorer',
-          ar: 'عندي موقع وحاب نحسّنو',
+          ar: 'لديّ موقع أريد تحسينه',
         },
       },
     ],
@@ -278,39 +333,63 @@ export function isBudget(value: unknown): value is Budget {
 // ---------------------------------------------------------------------------
 
 export type SituationKey =
-  | 'ecommerceMany'
-  | 'ecommerceFew'
-  | 'ecommerceIntent'
-  | 'appIdea'
+  | 'restauration'
+  | 'rendezVous'
+  | 'boutiqueMany'
+  | 'boutiqueFew'
+  | 'boutiqueIntent'
+  | 'parc'
+  | 'outilIdee'
   | 'automation'
   | 'redesign'
   | 'presenceServices'
   | 'presence'
   | 'traffic';
 
+/**
+ * Une conclusion par service atteignable en recommandation principale.
+ *
+ * `campagne-publicitaire` n'y figure pas : la publicité ne vient jamais
+ * seule, elle s'ajoute en second à un service qui l'accueille. Une campagne
+ * qui mène à une page inexistante ne rapporte rien.
+ */
 export type ConclusionKey =
-  | 'site-vitrine'
+  | 'menu-qr'
+  | 'prise-de-rendez-vous'
   | 'boutique-en-ligne'
+  | 'site-vitrine'
+  | 'plateforme-annonces'
   | 'plateforme-sur-mesure'
-  | 'campagne-publicitaire'
   | 'redesign';
 
 /** Constat : ce que le visiteur vient de nous dire, reformulé. */
 export const situations: Record<SituationKey, Bilingual> = {
-  ecommerceMany: {
+  restauration: {
+    fr: 'Vous servez des clients à table, et votre carte change plus souvent que vous ne la réimprimez.',
+    ar: 'تقدّم الخدمة لزبائن على الطاولات، وقائمتك تتغيّر أكثر مما تعيد طباعتها.',
+  },
+  rendezVous: {
+    fr: 'Votre activité fonctionne sur rendez-vous, et le téléphone sonne pendant que vous êtes avec un client.',
+    ar: 'نشاطك يقوم على المواعيد، والهاتف يرنّ بينما أنت مع زبون.',
+  },
+  boutiqueMany: {
     fr: 'Vous avez un catalogue fourni et vous voulez recevoir des commandes en ligne.',
     ar: 'عندك كتالوج غني وحاب تستقبل الطلبات على الإنترنت.',
   },
-  ecommerceFew: {
+  boutiqueFew: {
     fr: 'Vous vendez quelques produits et vous voulez que vos clients puissent les commander sans vous appeler.',
     ar: 'تبيع شوية من المنتجات وحاب زبائنك يطلبوها بلا ما يتّصلو بيك.',
   },
-  ecommerceIntent: {
+  boutiqueIntent: {
     fr: 'Vous voulez vendre en ligne et encaisser de vraies commandes, pas seulement montrer vos produits.',
     ar: 'حاب تبيع على الإنترنت وتستقبل طلبات حقيقية، ماشي غير تعرض منتجاتك.',
   },
-  appIdea: {
-    fr: 'Vous avez une idée de plateforme et il faut la transformer en produit utilisable.',
+  parc: {
+    fr: 'Vous avez des biens ou des véhicules à publier, et chaque demande commence aujourd’hui par un appel pour savoir ce qui reste disponible.',
+    ar: 'لديك عقارات أو مركبات للنشر، وكل طلب يبدأ اليوم بمكالمة لمعرفة ما بقي متوفّرًا.',
+  },
+  outilIdee: {
+    fr: 'Vous avez une idée d’outil métier et il faut la transformer en quelque chose que votre équipe utilisera vraiment.',
     ar: 'عندك فكرة منصّة ولازم تولّي منتج يتستعمل.',
   },
   automation: {
@@ -337,21 +416,29 @@ export const situations: Record<SituationKey, Bilingual> = {
 
 /** Conclusion : pourquoi ce service répond exactement à ce constat. */
 export const conclusions: Record<ConclusionKey, Bilingual> = {
+  'menu-qr': {
+    fr: 'Un menu QR répond exactement à cela : vos clients scannent le code posé sur la table, et vous changez un prix ou retirez un plat depuis votre téléphone, sans rien réimprimer.',
+    ar: 'قائمة QR تجيب عن هذا تمامًا: يمسح زبائنك الرمز الموضوع على الطاولة، وتغيّر سعرًا أو تحذف طبقًا من هاتفك، دون إعادة طباعة.',
+  },
+  'prise-de-rendez-vous': {
+    fr: 'Un agenda en ligne règle ce problème : vos clients réservent seuls à toute heure, le rappel part la veille sur WhatsApp, et une annulation libère le créneau sans un appel.',
+    ar: 'أجندة على الإنترنت تحلّ هذه المشكلة: يحجز زبائنك بأنفسهم في أي وقت، ويصل التذكير في اليوم السابق عبر واتساب، والإلغاء يحرّر الموعد دون مكالمة.',
+  },
+  'boutique-en-ligne': {
+    fr: 'Une boutique en ligne est ce qui vous fera gagner le plus : catalogue, panier, et commande WhatsApp ou paiement à la livraison, sans intermédiaire.',
+    ar: 'المتجر الإلكتروني هو الأنسب ليك: كتالوج، سلة، وطلب عبر واتساب ولا خلاص عند الاستلام، بلا وسيط.',
+  },
   'site-vitrine': {
     fr: 'Un site vitrine couvre exactement ce besoin : il vous présente, rassure vos visiteurs, et transforme leur intérêt en appel ou en message WhatsApp.',
     ar: 'الموقع التعريفي يغطّي هذي الحاجة بالضبط: يعرّف بيك، يطمّن زوّارك، ويحوّل اهتمامهم لمكالمة ولا رسالة واتساب.',
   },
-  'boutique-en-ligne': {
-    fr: 'Une boutique e-commerce est ce qui vous fera gagner le plus : catalogue, panier, et commande WhatsApp ou paiement à la livraison, sans intermédiaire.',
-    ar: 'المتجر الإلكتروني هو الأنسب ليك: كتالوج، سلة، وطلب عبر واتساب ولا خلاص عند الاستلام، بلا وسيط.',
+  'plateforme-annonces': {
+    fr: 'Une plateforme d’annonces traite cela à la source : vos clients filtrent par wilaya, par budget et par type, consultent la fiche complète, et ne vous appellent qu’une fois décidés.',
+    ar: 'منصّة إعلانات تعالج ذلك من جذوره: يفلتر زبائنك حسب الولاية والميزانية والنوع، ويطّلعون على البطاقة الكاملة، ولا يتّصلون بك إلا بعد أن يقرّروا.',
   },
   'plateforme-sur-mesure': {
-    fr: 'Une application sur mesure est la bonne réponse : on cadre le besoin réel avec vous avant de développer, pour éviter de construire ce que personne n’utilisera.',
+    fr: 'Une plateforme sur mesure est la bonne réponse : on cadre le besoin réel avec vous avant de développer, pour éviter de construire ce que personne n’utilisera.',
     ar: 'التطبيق المخصّص هو الجواب الصح: نحدّدو الحاجة الحقيقية معاك قبل البرمجة، باش ما نبنيوش حاجة ما يستعملها حتى واحد.',
-  },
-  'campagne-publicitaire': {
-    fr: 'Des campagnes bien ciblées amèneront les visiteurs, et comme nous construisons aussi la page d’arrivée, la mesure reste fiable.',
-    ar: 'الحملات المستهدفة تجلب الزوار، وبما أننا نبنيو صفحة الوصول تاني، القياس يبقى موثوق.',
   },
   redesign: {
     fr: 'On repart de votre site existant : on garde ce qui marche, on refait ce qui bloque, et on l’oriente vers ce résultat précis.',
@@ -367,14 +454,24 @@ export const conclusions: Record<ConclusionKey, Bilingual> = {
  * réponse chiffrée sous 24 h ; c'est un humain qui la produit.
  */
 
-/** Réalisation à montrer en exemple, quand il en existe une pertinente. */
+/**
+ * Réalisation à montrer en exemple, quand il en existe une pertinente.
+ *
+ * Le showroom de meubles illustrait `boutique-ecommerce` ici pendant que
+ * /services l'attachait au site vitrine. Le même client réel prouvait donc
+ * deux choses différentes selon la page — et nous n'en avons qu'un.
+ * Il illustre le site vitrine, partout et sans exception.
+ *
+ * Les autres restent vides : on montre un visuel de marque plutôt qu'un
+ * projet qui n'existe pas.
+ */
 const exampleProject: Record<string, string | undefined> = {
-  'site-vitrine': undefined,
-  'boutique-en-ligne': 'showroom-meubles-bba',
-  // Pas de réalisation publiable sur ces deux axes pour l'instant : on
-  // montre un visuel de marque plutôt qu'un projet qui n'existe pas.
+  'site-vitrine': 'showroom-meubles-bba',
+  'menu-qr': undefined,
+  'prise-de-rendez-vous': undefined,
+  'boutique-en-ligne': undefined,
+  'plateforme-annonces': undefined,
   'plateforme-sur-mesure': undefined,
-  'campagne-publicitaire': undefined,
 };
 
 // ---------------------------------------------------------------------------
@@ -393,44 +490,62 @@ export type Recommendation = {
 };
 
 /**
+ * Le service de base, directement déduit du métier du visiteur.
+ *
+ * C'est la table du brief, et elle se lit d'un coup d'œil : à chaque
+ * situation son service. Aucune règle cachée ne vient la contredire — si
+ * quelqu'un dit « je tiens un café », il reçoit le menu QR, pas un site
+ * vitrine parce qu'une autre réponse aurait pesé plus lourd.
+ */
+const BASE_PAR_SITUATION: Record<Exclude<Situation, 'refonte'>, string> = {
+  restauration: 'menu-qr',
+  'rendez-vous': 'prise-de-rendez-vous',
+  boutique: 'boutique-en-ligne',
+  notoriete: 'site-vitrine',
+  parc: 'plateforme-annonces',
+  outil: 'plateforme-sur-mesure',
+};
+
+/**
  * Détermine le service principal.
  *
- * L'ordre des règles est délibéré : l'intention de vendre l'emporte sur tout
- * le reste, puis le besoin d'outil métier. La refonte n'est pas un service à
- * part — c'est une manière d'aborder le service détecté en dessous, sinon un
- * visiteur qui veut refondre SA boutique recevrait une reco « site vitrine ».
+ * `refonte` n'est pas un service : c'est une manière d'aborder celui qu'on
+ * détecte ensuite. Un visiteur qui veut refondre SA boutique doit recevoir
+ * « boutique, en refonte » — pas « site vitrine ».
  */
 function pickPrimarySlug(answers: Answers): string {
-  const { type, goal, produits } = answers;
+  const { situation, goal, produits } = answers;
 
-  if (type === 'ecommerce' || goal === 'vente' || produits === 'many') {
-    return 'boutique-en-ligne';
+  if (situation && situation !== 'refonte') {
+    return BASE_PAR_SITUATION[situation];
   }
-  if (type === 'app' || goal === 'automatisation') {
-    return 'plateforme-sur-mesure';
-  }
-  if (produits === 'few' && goal !== 'presence') {
-    // Quelques produits sans volonté claire de vitrine : la boutique reste
-    // le meilleur point de départ.
-    return 'boutique-en-ligne';
-  }
+
+  /*
+   * Deux cas tombent ici : la refonte, et une première question restée sans
+   * réponse (URL trafiquée). On se rabat sur les réponses suivantes.
+   */
+  if (goal === 'vente' || produits === 'many') return 'boutique-en-ligne';
+  if (goal === 'automatisation') return 'plateforme-sur-mesure';
   return 'site-vitrine';
 }
 
 /** Choisit la phrase de constat la plus proche de ce que le visiteur a dit. */
 function pickSituation(answers: Answers, primarySlug: string): SituationKey {
-  const { type, goal, produits } = answers;
+  const { situation, goal, produits } = answers;
 
-  if (type === 'refonte') return 'redesign';
-
-  if (primarySlug === 'boutique-en-ligne') {
-    if (produits === 'many') return 'ecommerceMany';
-    if (produits === 'few') return 'ecommerceFew';
-    return 'ecommerceIntent';
-  }
+  if (situation === 'refonte') return 'redesign';
+  if (situation === 'restauration') return 'restauration';
+  if (situation === 'rendez-vous') return 'rendezVous';
+  if (situation === 'parc') return 'parc';
 
   if (primarySlug === 'plateforme-sur-mesure') {
-    return goal === 'automatisation' ? 'automation' : 'appIdea';
+    return goal === 'automatisation' ? 'automation' : 'outilIdee';
+  }
+
+  if (primarySlug === 'boutique-en-ligne') {
+    if (produits === 'many') return 'boutiqueMany';
+    if (produits === 'few') return 'boutiqueFew';
+    return 'boutiqueIntent';
   }
 
   if (goal === 'trafic') return 'traffic';
@@ -441,9 +556,14 @@ function pickSituation(answers: Answers, primarySlug: string): SituationKey {
 export function getRecommendation(answers: Answers): Recommendation {
   const primarySlug = pickPrimarySlug(answers);
   const service = getService(primarySlug) ?? services[0];
-  const isRedesign = answers.type === 'refonte';
+  const isRedesign = answers.situation === 'refonte';
 
-  // La publicité ne remplace jamais la reco principale : elle la complète.
+  /*
+   * La publicité ne remplace jamais la recommandation principale : elle la
+   * complète. Le garde-fou vaut pour le jour où une situation la
+   * désignerait en premier — une campagne qui mène à une page inexistante
+   * ne rapporte rien.
+   */
   const secondary =
     answers.goal === 'trafic' && primarySlug !== 'campagne-publicitaire'
       ? getService('campagne-publicitaire')
@@ -454,9 +574,7 @@ export function getRecommendation(answers: Answers): Recommendation {
     secondary,
     isRedesign,
     situationKey: pickSituation(answers, primarySlug),
-    conclusionKey: isRedesign
-      ? 'redesign'
-      : (primarySlug as ConclusionKey),
+    conclusionKey: isRedesign ? 'redesign' : (primarySlug as ConclusionKey),
     exampleProjectSlug: exampleProject[primarySlug],
   };
 }
@@ -473,7 +591,7 @@ export const totalSteps = questions.length;
 // ---------------------------------------------------------------------------
 
 const PARAM_KEYS: Record<QuestionId, string> = {
-  type: 'p',
+  situation: 'p',
   goal: 'o',
   produits: 'v',
   budget: 'b',

@@ -7,7 +7,33 @@ import { cn } from '@/lib/utils';
  * pour que le quiz appartienne visuellement au reste du site.
  */
 const glyphs: Record<OptionIcon, JSX.Element> = {
-  // Q1 — type de projet
+  // Q1 — la situation du visiteur
+  /* Restauration : une fourchette et un couteau, posés comme au couvert. */
+  couverts: (
+    <>
+      <path d="M7 3v7.5a2.5 2.5 0 0 1-2.5 2.5h0A2.5 2.5 0 0 1 2 10.5V3" />
+      <path d="M4.5 3v7" />
+      <path d="M4.5 13v8" />
+      <path d="M16 3c3 0 5.5 3 5.5 7s-2 5-3.5 5h-2Z" />
+      <path d="M18 15v6" />
+    </>
+  ),
+  /* Rendez-vous : une horloge, l'heure réservée. */
+  horloge: (
+    <>
+      <circle cx="12" cy="12" r="8.5" />
+      <path d="M12 7.5V12l3 1.8" />
+    </>
+  ),
+  /* Parc de biens : deux immeubles, l'un derrière l'autre. */
+  immeubles: (
+    <>
+      <path d="M3 21V8.5l6-3.5v16" />
+      <path d="M9 11h8a1.5 1.5 0 0 1 1.5 1.5V21" />
+      <path d="M2 21h20" />
+      <path d="M5.6 10.5h.9M5.6 14h.9M12 14.5h.9M15.2 14.5h.9M12 17.8h.9M15.2 17.8h.9" />
+    </>
+  ),
   store: (
     <>
       <path d="M4 9.5V19a1.5 1.5 0 0 0 1.5 1.5h13A1.5 1.5 0 0 0 20 19V9.5" />
