@@ -90,7 +90,30 @@ const glyphs: Record<OptionIcon, JSX.Element> = {
     </>
   ),
 
-  // Q3 — produits
+  // Q3 — comment les clients vous joignent aujourd'hui
+  /* Un combiné : on appelle, ou on pousse la porte. */
+  telephone: (
+    <>
+      <path d="M6.2 3.5h3.1l1.6 4-2 1.2a11.5 11.5 0 0 0 5.4 5.4l1.2-2 4 1.6v3.1a1.7 1.7 0 0 1-1.9 1.7A15.8 15.8 0 0 1 4.5 5.4a1.7 1.7 0 0 1 1.7-1.9Z" />
+    </>
+  ),
+  /*
+   * Une loupe qui ne trouve rien : le client qui cherche le métier et tombe
+   * sur quelqu'un d'autre. C'est la réponse qui change tout le constat.
+   */
+  introuvable: (
+    <>
+      <circle cx="10.5" cy="10.5" r="6.5" />
+      <path d="m15.4 15.4 4.6 4.6" />
+      <path d="M8.3 8.3l4.4 4.4M12.7 8.3l-4.4 4.4" />
+    </>
+  ),
+  /*
+   * Ces trois-là servaient l'ancienne question « Vendez-vous des produits
+   * physiques ? ». Plus aucune option ne les appelle. Conservées parce
+   * qu'elles ne coûtent rien et qu'un jeu d'icônes ressert ; à retirer avec
+   * leurs entrées de `OptionIcon` si elles n'ont pas resservi d'ici là.
+   */
   boxes: (
     <>
       <rect x="2.5" y="12.5" width="8" height="8" rx="1.4" />

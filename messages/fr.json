@@ -28,7 +28,7 @@
     },
     "quiz": {
       "title": "Trouvez ce qui manque à votre commerce — MADDEV",
-      "description": "Quatre questions, une recommandation claire. Découvrez en une minute le service adapté à votre projet, et recevez une proposition chiffrée sous 24 h."
+      "description": "Quatre questions, une recommandation claire. Découvrez en une minute le service adapté à votre activité, et recevez une proposition chiffrée sous 24 h."
     }
   },
   "nav": {
@@ -259,7 +259,7 @@
   "quiz": {
     "eyebrow": "Configurateur",
     "title": "Trouvez ce qui manque à votre commerce",
-    "intro": "Quatre questions, une minute, et vous saurez exactement quel service correspond à votre projet. Nous revenons ensuite vers vous sous 24 h avec une proposition chiffrée.",
+    "intro": "Quatre questions, une minute, et vous saurez exactement quel service correspond à votre activité. Nous revenons ensuite vers vous sous 24 h avec une proposition chiffrée.",
     "heroCtaTitle": "Vous ne savez pas par où commencer ?",
     "heroCtaText": "Répondez à 4 questions, on vous oriente",
     "start": "Commencer",

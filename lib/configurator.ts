@@ -26,7 +26,7 @@ import {
 // Types
 // ---------------------------------------------------------------------------
 
-export type QuestionId = 'situation' | 'goal' | 'produits' | 'budget';
+export type QuestionId = 'situation' | 'goal' | 'contact' | 'budget';
 
 /**
  * La situation du visiteur — ce qu'il TIENT, pas ce qu'il veut commander.
@@ -53,7 +53,20 @@ export type Situation =
   | 'outil'
   | 'refonte';
 export type Goal = 'presence' | 'vente' | 'trafic' | 'automatisation';
-export type Produits = 'many' | 'few' | 'none';
+
+/**
+ * Comment les clients joignent le visiteur AUJOURD'HUI.
+ *
+ * Cette question remplace « Vendez-vous des produits physiques ? », qui ne
+ * changeait la recommandation que dans la branche refonte — un chemin sur
+ * sept — et ne servait à rien ailleurs.
+ *
+ * Elle ne change aucun service : elle change le CONSTAT. « Ils ne me
+ * trouvent pas encore » dit un problème de visibilité, pas d'outil, et ce
+ * problème se formule différemment selon le métier — un café qu'on ne
+ * trouve pas n'a pas la même plaie qu'un parc de véhicules invisible.
+ */
+export type Contact = 'appel' | 'messagerie' | 'introuvable';
 /**
  * Tranches de budget. Elles servent UNIQUEMENT à qualifier le prospect :
  * la réponse part dans le message qui nous est adressé et n'est jamais
@@ -64,7 +77,7 @@ export type Budget = 'lt50' | '50-100' | '100-200' | 'gt200' | 'unknown';
 export type Answers = {
   situation?: Situation;
   goal?: Goal;
-  produits?: Produits;
+  contact?: Contact;
   budget?: Budget;
 };
 
@@ -77,6 +90,8 @@ export type OptionIcon =
   | 'couverts'
   | 'horloge'
   | 'immeubles'
+  | 'telephone'
+  | 'introuvable'
   | 'badge'
   | 'coins'
   | 'target'
@@ -232,34 +247,34 @@ export const questions: Question[] = [
     ],
   },
   {
-    id: 'produits',
+    id: 'contact',
     title: {
-      fr: 'Vendez-vous des produits physiques ?',
-      ar: 'راك تبيع منتجات فعلية؟',
+      fr: 'Aujourd’hui, comment vos clients vous contactent-ils ?',
+      ar: 'اليوم، كيف يتواصل معك زبائنك؟',
     },
     options: [
       {
-        value: 'many',
-        icon: 'boxes',
+        value: 'appel',
+        icon: 'telephone',
         label: {
-          fr: 'Oui, beaucoup de produits',
-          ar: 'إيه، بزاف من المنتجات',
+          fr: 'Ils appellent ou passent',
+          ar: 'يتّصلون أو يمرّون بالمحل',
         },
       },
       {
-        value: 'few',
-        icon: 'box',
+        value: 'messagerie',
+        icon: 'chat',
         label: {
-          fr: 'Oui, quelques-uns',
-          ar: 'إيه، شوية من المنتجات',
+          fr: 'Messenger ou WhatsApp',
+          ar: 'ماسنجر أو واتساب',
         },
       },
       {
-        value: 'none',
-        icon: 'briefcase',
+        value: 'introuvable',
+        icon: 'introuvable',
         label: {
-          fr: 'Non, je propose des services',
-          ar: 'لا، نقدّم خدمات',
+          fr: 'Ils ne me trouvent pas encore',
+          ar: 'لا يعثرون عليّ بعد',
         },
       },
     ],
@@ -334,17 +349,20 @@ export function isBudget(value: unknown): value is Budget {
 
 export type SituationKey =
   | 'restauration'
+  | 'restaurationInvisible'
   | 'rendezVous'
-  | 'boutiqueMany'
-  | 'boutiqueFew'
-  | 'boutiqueIntent'
+  | 'rendezVousInvisible'
+  | 'boutique'
+  | 'boutiqueInvisible'
+  | 'notoriete'
+  | 'notorieteInvisible'
   | 'parc'
+  | 'parcInvisible'
   | 'outilIdee'
-  | 'automation'
+  | 'outilInvisible'
+  | 'outilAutomatisation'
   | 'redesign'
-  | 'presenceServices'
-  | 'presence'
-  | 'traffic';
+  | 'redesignInvisible';
 
 /**
  * Une conclusion par service atteignable en recommandation principale.
@@ -362,37 +380,67 @@ export type ConclusionKey =
   | 'plateforme-sur-mesure'
   | 'redesign';
 
-/** Constat : ce que le visiteur vient de nous dire, reformulé. */
+/**
+ * Constat : ce que le visiteur vient de nous dire, reformulé.
+ *
+ * Chaque métier a deux versions. La seconde sert quand il répond « ils ne me
+ * trouvent pas encore » : sa plaie n'est alors pas l'outil mais la
+ * visibilité, et le constat doit le dire — sinon on lui explique comment
+ * mieux servir des clients qui ne viennent pas.
+ *
+ * Deux phrases entières, jamais des fragments recollés : en arabe comme en
+ * français, assembler des morceaux produit vite des phrases bancales.
+ */
 export const situations: Record<SituationKey, Bilingual> = {
   restauration: {
     fr: 'Vous servez des clients à table, et votre carte change plus souvent que vous ne la réimprimez.',
     ar: 'تقدّم الخدمة لزبائن على الطاولات، وقائمتك تتغيّر أكثر مما تعيد طباعتها.',
   },
+  restaurationInvisible: {
+    fr: 'On vous découvre en passant devant, et ceux qui ne passent pas ne savent même pas ce que vous servez.',
+    ar: 'يكتشفك الناس حين يمرّون أمامك، ومن لا يمرّ لا يعرف حتى ماذا تقدّم.',
+  },
   rendezVous: {
     fr: 'Votre activité fonctionne sur rendez-vous, et le téléphone sonne pendant que vous êtes avec un client.',
     ar: 'نشاطك يقوم على المواعيد، والهاتف يرنّ بينما أنت مع زبون.',
   },
-  boutiqueMany: {
-    fr: 'Vous avez un catalogue fourni et vous voulez recevoir des commandes en ligne.',
-    ar: 'عندك كتالوج غني وحاب تستقبل الطلبات على الإنترنت.',
+  rendezVousInvisible: {
+    fr: 'Vous travaillez sur rendez-vous, mais rien en ligne ne permet d’en prendre un — ni même de savoir que vous existez.',
+    ar: 'تعمل بالمواعيد، لكن لا شيء على الإنترنت يسمح بحجز موعد، ولا حتى بمعرفة أنك موجود.',
   },
-  boutiqueFew: {
-    fr: 'Vous vendez quelques produits et vous voulez que vos clients puissent les commander sans vous appeler.',
-    ar: 'تبيع شوية من المنتجات وحاب زبائنك يطلبوها بلا ما يتّصلو بيك.',
+  boutique: {
+    fr: 'Vos clients commandent en vous écrivant, et chaque commande se reconstitue message après message.',
+    ar: 'يطلب زبائنك بمراسلتك، وكل طلب يُجمَّع رسالة بعد رسالة.',
   },
-  boutiqueIntent: {
-    fr: 'Vous voulez vendre en ligne et encaisser de vraies commandes, pas seulement montrer vos produits.',
-    ar: 'حاب تبيع على الإنترنت وتستقبل طلبات حقيقية، ماشي غير تعرض منتجاتك.',
+  boutiqueInvisible: {
+    fr: 'Vous avez des produits à vendre, mais il faut déjà vous connaître pour les voir : personne ne tombe dessus par hasard.',
+    ar: 'لديك منتجات للبيع، لكن يجب أن يعرفك المرء مسبقًا ليراها: لا أحد يعثر عليها مصادفة.',
+  },
+  notoriete: {
+    fr: 'Votre activité tourne surtout au bouche-à-oreille, et vous voulez qu’elle tienne debout sans lui.',
+    ar: 'نشاطك يقوم أساسًا على التوصية الشفهية، وتريده أن يصمد دونها.',
+  },
+  notorieteInvisible: {
+    fr: 'Quand quelqu’un cherche votre métier dans votre ville, il tombe sur vos concurrents et jamais sur vous.',
+    ar: 'حين يبحث أحدهم عن مهنتك في مدينتك، يجد منافسيك ولا يجدك أبدًا.',
   },
   parc: {
     fr: 'Vous avez des biens ou des véhicules à publier, et chaque demande commence aujourd’hui par un appel pour savoir ce qui reste disponible.',
     ar: 'لديك عقارات أو مركبات للنشر، وكل طلب يبدأ اليوم بمكالمة لمعرفة ما بقي متوفّرًا.',
   },
+  parcInvisible: {
+    fr: 'Ce que vous proposez n’existe nulle part en ligne : personne ne peut le voir avant de vous avoir appelé.',
+    ar: 'ما تعرضه غير موجود على الإنترنت: لا أحد يمكنه رؤيته قبل أن يتّصل بك.',
+  },
   outilIdee: {
     fr: 'Vous avez une idée d’outil métier et il faut la transformer en quelque chose que votre équipe utilisera vraiment.',
     ar: 'عندك فكرة منصّة ولازم تولّي منتج يتستعمل.',
   },
-  automation: {
+  outilInvisible: {
+    fr: 'Vous partez d’une idée d’outil métier et de rien d’autre : aujourd’hui, personne ne vous trouve en ligne.',
+    ar: 'تنطلق من فكرة أداة لمهنتك ومن لا شيء غيرها: اليوم، لا أحد يعثر عليك على الإنترنت.',
+  },
+  outilAutomatisation: {
     fr: 'Vous voulez automatiser un fonctionnement interne qui vous coûte du temps aujourd’hui.',
     ar: 'حاب تربح الوقت في خدمة داخلية راهي تاكلك وقت اليوم.',
   },
@@ -400,17 +448,9 @@ export const situations: Record<SituationKey, Bilingual> = {
     fr: 'Vous avez déjà un site, mais il ne travaille pas assez pour vous.',
     ar: 'عندك موقع بصح ما يخدمش ليك كيما لازم.',
   },
-  presenceServices: {
-    fr: 'Vous proposez des services et vous voulez une présence en ligne qui inspire confiance.',
-    ar: 'تقدّم خدمات وحاب حضور رقمي يعطي الثقة.',
-  },
-  presence: {
-    fr: 'Vous voulez d’abord exister en ligne, proprement et sérieusement.',
-    ar: 'حاب لوّل حضور على الإنترنت، نظيف وجدّي.',
-  },
-  traffic: {
-    fr: 'Vous cherchez surtout à faire venir des clients qualifiés.',
-    ar: 'راك تدوّر قبل كلش على زبائن مهتمّين فعلًا.',
+  redesignInvisible: {
+    fr: 'Vous avez déjà un site, mais vos clients ne le croisent jamais : il ne vous amène personne.',
+    ar: 'لديك موقع بالفعل، لكن زبائنك لا يصادفونه أبدًا: لا يجلب لك أحدًا.',
   },
 };
 
@@ -512,9 +552,12 @@ const BASE_PAR_SITUATION: Record<Exclude<Situation, 'refonte'>, string> = {
  * `refonte` n'est pas un service : c'est une manière d'aborder celui qu'on
  * détecte ensuite. Un visiteur qui veut refondre SA boutique doit recevoir
  * « boutique, en refonte » — pas « site vitrine ».
+ *
+ * La façon dont ses clients le joignent n'entre pas dans ce calcul : elle
+ * dit une plaie, pas un besoin d'outil. Elle agit sur le constat.
  */
 function pickPrimarySlug(answers: Answers): string {
-  const { situation, goal, produits } = answers;
+  const { situation, goal } = answers;
 
   if (situation && situation !== 'refonte') {
     return BASE_PAR_SITUATION[situation];
@@ -522,35 +565,54 @@ function pickPrimarySlug(answers: Answers): string {
 
   /*
    * Deux cas tombent ici : la refonte, et une première question restée sans
-   * réponse (URL trafiquée). On se rabat sur les réponses suivantes.
+   * réponse (URL trafiquée). On se rabat sur l'objectif.
    */
-  if (goal === 'vente' || produits === 'many') return 'boutique-en-ligne';
+  if (goal === 'vente') return 'boutique-en-ligne';
   if (goal === 'automatisation') return 'plateforme-sur-mesure';
   return 'site-vitrine';
 }
 
+/**
+ * Les deux constats de chaque service : le courant, et celui qu'on sert au
+ * visiteur que personne ne trouve.
+ *
+ * Indexé par service et non par situation : le visiteur en refonte, ou celui
+ * dont la première réponse manque, reçoit quand même le constat du service
+ * qu'on lui recommande.
+ */
+const CONSTAT_PAR_SERVICE: Record<
+  string,
+  { courant: SituationKey; invisible: SituationKey }
+> = {
+  'menu-qr': { courant: 'restauration', invisible: 'restaurationInvisible' },
+  'prise-de-rendez-vous': { courant: 'rendezVous', invisible: 'rendezVousInvisible' },
+  'boutique-en-ligne': { courant: 'boutique', invisible: 'boutiqueInvisible' },
+  'site-vitrine': { courant: 'notoriete', invisible: 'notorieteInvisible' },
+  'plateforme-annonces': { courant: 'parc', invisible: 'parcInvisible' },
+};
+
 /** Choisit la phrase de constat la plus proche de ce que le visiteur a dit. */
 function pickSituation(answers: Answers, primarySlug: string): SituationKey {
-  const { situation, goal, produits } = answers;
+  const { situation, goal, contact } = answers;
+  const invisible = contact === 'introuvable';
 
-  if (situation === 'refonte') return 'redesign';
-  if (situation === 'restauration') return 'restauration';
-  if (situation === 'rendez-vous') return 'rendezVous';
-  if (situation === 'parc') return 'parc';
+  if (situation === 'refonte') {
+    return invisible ? 'redesignInvisible' : 'redesign';
+  }
 
+  /*
+   * L'outil interne garde ses deux angles — une idée à cadrer, ou un
+   * fonctionnement à automatiser. Mais « personne ne me trouve » l'emporte
+   * même ici : le visiteur vient de dire quelque chose sur son commerce, et
+   * un constat qui l'ignore lui apprend seulement qu'on ne l'a pas écouté.
+   */
   if (primarySlug === 'plateforme-sur-mesure') {
-    return goal === 'automatisation' ? 'automation' : 'outilIdee';
+    if (invisible) return 'outilInvisible';
+    return goal === 'automatisation' ? 'outilAutomatisation' : 'outilIdee';
   }
 
-  if (primarySlug === 'boutique-en-ligne') {
-    if (produits === 'many') return 'boutiqueMany';
-    if (produits === 'few') return 'boutiqueFew';
-    return 'boutiqueIntent';
-  }
-
-  if (goal === 'trafic') return 'traffic';
-  if (produits === 'none') return 'presenceServices';
-  return 'presence';
+  const paire = CONSTAT_PAR_SERVICE[primarySlug] ?? CONSTAT_PAR_SERVICE['site-vitrine'];
+  return invisible ? paire.invisible : paire.courant;
 }
 
 export function getRecommendation(answers: Answers): Recommendation {
@@ -593,7 +655,7 @@ export const totalSteps = questions.length;
 const PARAM_KEYS: Record<QuestionId, string> = {
   situation: 'p',
   goal: 'o',
-  produits: 'v',
+  contact: 'v',
   budget: 'b',
 };
 
