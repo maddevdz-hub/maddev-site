@@ -167,10 +167,31 @@ export async function POST(request: Request) {
     );
   }
 
-  // On ne fait confiance qu'aux slugs connus.
+  /*
+   * Le service demandé.
+   *
+   * Un identifiant connu donne son nom. « autre » est un choix volontaire du
+   * formulaire. Tout le reste part TEL QUEL dans l'email.
+   *
+   * Cette ligne écrivait « Non précisé » dès qu'un identifiant ne figurait
+   * pas dans la liste — et c'est arrivé pendant des semaines, le temps que
+   * /services et le formulaire parlent de la même offre. La seule trace de
+   * ce que le visiteur avait demandé était effacée à la dernière étape.
+   *
+   * Une information douteuse se recoupe en rappelant le prospect ; une
+   * information perdue ne revient pas. On la nettoie de ses caractères de
+   * contrôle — elle finit dans un objet d'email — et on la marque comme non
+   * reconnue, pour que personne ne la prenne pour un service du catalogue.
+   */
+  const serviceConnu = services.find((s) => s.slug === payload.service)?.name.fr;
+  const serviceBrut = clean(payload.service, 60);
   const service =
-    services.find((s) => s.slug === payload.service)?.name.fr ??
-    (payload.service === 'autre' ? 'Autre / non défini' : 'Non précisé');
+    serviceConnu ??
+    (payload.service === 'autre'
+      ? 'Autre / non défini'
+        : serviceBrut
+          ? `« ${serviceBrut} » (non reconnu)`
+          : 'Non précisé');
 
   const budget = isBudget(payload.budget)
     ? budgetLabels[payload.budget]
