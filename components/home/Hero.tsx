@@ -4,6 +4,7 @@ import { AmbientBackground } from '@/components/ui/AmbientBackground';
 import { ArrowIcon, ButtonLink } from '@/components/ui/Button';
 import { Container } from '@/components/ui/Container';
 import { Eyebrow } from '@/components/ui/Badge';
+import { withNumerals } from '@/components/ui/Numerals';
 import { href, routes, type Locale } from '@/i18n/config';
 import { cn } from '@/lib/utils';
 import type { Dictionary } from '@/i18n/dictionaries';
@@ -110,8 +111,13 @@ export function Hero({
               {stats.map((stat) => (
                 <div key={stat.label} className="flex flex-col gap-0.5">
                   <dt className="sr-only">{stat.label}</dt>
-                  <dd className="font-display text-xl font-bold text-txt" dir="ltr">
-                    {stat.value}
+                  {/*
+                    Seuls les chiffres sont isolés, pas la valeur entière : en
+                    arabe, « 24 س » mis tout entier de gauche à droite plaçait
+                    l'unité avant le nombre à la lecture.
+                  */}
+                  <dd className="font-display text-xl font-bold text-txt">
+                    {withNumerals(stat.value)}
                   </dd>
                   <dd className="text-xs text-txt2">{stat.label}</dd>
                 </div>

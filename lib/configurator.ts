@@ -205,11 +205,11 @@ export const questions: Question[] = [
     id: 'goal',
     title: {
       fr: 'Votre objectif principal ?',
-      ar: 'واش هدفك الأساسي؟',
+      ar: 'ما هدفك الأساسي؟',
     },
     subtitle: {
       fr: 'Celui qui compte le plus pour vous dans les mois qui viennent.',
-      ar: 'الأهم بالنسبة ليك في الشهور الجاية.',
+      ar: 'الأهم بالنسبة إليك في الأشهر القادمة.',
     },
     options: [
       {
@@ -225,7 +225,7 @@ export const questions: Question[] = [
         icon: 'coins',
         label: {
           fr: 'Vendre et recevoir des commandes',
-          ar: 'نبيع ونستقبل الطلبات',
+          ar: 'البيع واستقبال الطلبات',
         },
       },
       {
@@ -233,7 +233,7 @@ export const questions: Question[] = [
         icon: 'target',
         label: {
           fr: 'Attirer des clients grâce à la publicité',
-          ar: 'نجلب الزبائن بالإعلانات',
+          ar: 'جلب الزبائن عبر الإعلانات',
         },
       },
       {
@@ -241,7 +241,7 @@ export const questions: Question[] = [
         icon: 'gears',
         label: {
           fr: 'Automatiser un processus métier',
-          ar: 'نربح الوقت في خدمة متكرّرة',
+          ar: 'أتمتة عملية متكرّرة',
         },
       },
     ],
@@ -283,11 +283,11 @@ export const questions: Question[] = [
     id: 'budget',
     title: {
       fr: 'Quel budget avez-vous en tête ?',
-      ar: 'شحال الميزانية اللي راك تفكّر فيها؟',
+      ar: 'ما الميزانية التي تفكّر فيها؟',
     },
     subtitle: {
       fr: 'Cela ne change pas notre recommandation — c’est ce qui nous permet de vous répondre avec une proposition juste.',
-      ar: 'هذا ما يبدّلش توصيتنا — بصح يعاوننا نحضّرو عرض مناسب ليك.',
+      ar: 'هذا لا يغيّر توصيتنا، لكنه يساعدنا على أن نرد عليك بعرض مناسب.',
     },
     options: [
       {
@@ -313,7 +313,7 @@ export const questions: Question[] = [
       {
         value: 'unknown',
         icon: 'chat',
-        label: { fr: 'Je ne sais pas encore', ar: 'ما زال ما نعرفش' },
+        label: { fr: 'Je ne sais pas encore', ar: 'لا أعرف بعد' },
       },
     ],
   },
@@ -434,7 +434,7 @@ export const situations: Record<SituationKey, Bilingual> = {
   },
   outilIdee: {
     fr: 'Vous avez une idée d’outil métier et il faut la transformer en quelque chose que votre équipe utilisera vraiment.',
-    ar: 'عندك فكرة منصّة ولازم تولّي منتج يتستعمل.',
+    ar: 'لديك فكرة أداة لمهنتك، ويجب تحويلها إلى شيء يستعمله فريقك فعلًا.',
   },
   outilInvisible: {
     fr: 'Vous partez d’une idée d’outil métier et de rien d’autre : aujourd’hui, personne ne vous trouve en ligne.',
@@ -442,11 +442,11 @@ export const situations: Record<SituationKey, Bilingual> = {
   },
   outilAutomatisation: {
     fr: 'Vous voulez automatiser un fonctionnement interne qui vous coûte du temps aujourd’hui.',
-    ar: 'حاب تربح الوقت في خدمة داخلية راهي تاكلك وقت اليوم.',
+    ar: 'تريد أتمتة عمل داخلي يستهلك وقتك اليوم.',
   },
   redesign: {
     fr: 'Vous avez déjà un site, mais il ne travaille pas assez pour vous.',
-    ar: 'عندك موقع بصح ما يخدمش ليك كيما لازم.',
+    ar: 'لديك موقع بالفعل، لكنه لا يعمل لصالحك بما يكفي.',
   },
   redesignInvisible: {
     fr: 'Vous avez déjà un site, mais vos clients ne le croisent jamais : il ne vous amène personne.',
@@ -466,11 +466,11 @@ export const conclusions: Record<ConclusionKey, Bilingual> = {
   },
   'boutique-en-ligne': {
     fr: 'Une boutique en ligne est ce qui vous fera gagner le plus : catalogue, panier, et commande WhatsApp ou paiement à la livraison, sans intermédiaire.',
-    ar: 'المتجر الإلكتروني هو الأنسب ليك: كتالوج، سلة، وطلب عبر واتساب ولا خلاص عند الاستلام، بلا وسيط.',
+    ar: 'المتجر الإلكتروني هو ما سيكسبك أكثر: كتالوج، وسلّة، وطلب عبر واتساب أو دفع عند الاستلام، دون وسيط.',
   },
   'site-vitrine': {
     fr: 'Un site vitrine couvre exactement ce besoin : il vous présente, rassure vos visiteurs, et transforme leur intérêt en appel ou en message WhatsApp.',
-    ar: 'الموقع التعريفي يغطّي هذي الحاجة بالضبط: يعرّف بيك، يطمّن زوّارك، ويحوّل اهتمامهم لمكالمة ولا رسالة واتساب.',
+    ar: 'الموقع التعريفي يغطّي هذه الحاجة تمامًا: يقدّمك، ويطمئن زوّارك، ويحوّل اهتمامهم إلى مكالمة أو رسالة واتساب.',
   },
   'plateforme-annonces': {
     fr: 'Une plateforme d’annonces traite cela à la source : vos clients filtrent par wilaya, par budget et par type, consultent la fiche complète, et ne vous appellent qu’une fois décidés.',
@@ -478,11 +478,11 @@ export const conclusions: Record<ConclusionKey, Bilingual> = {
   },
   'plateforme-sur-mesure': {
     fr: 'Une plateforme sur mesure est la bonne réponse : on cadre le besoin réel avec vous avant de développer, pour éviter de construire ce que personne n’utilisera.',
-    ar: 'التطبيق المخصّص هو الجواب الصح: نحدّدو الحاجة الحقيقية معاك قبل البرمجة، باش ما نبنيوش حاجة ما يستعملها حتى واحد.',
+    ar: 'المنصّة الخاصة هي الجواب الصحيح: نحدّد معك الحاجة الحقيقية قبل البرمجة، كي لا نبني ما لن يستعمله أحد.',
   },
   redesign: {
     fr: 'On repart de votre site existant : on garde ce qui marche, on refait ce qui bloque, et on l’oriente vers ce résultat précis.',
-    ar: 'ننطلقو من موقعك الحالي: نخلّيو اللي ينجح، ونعاودو اللي يعرقل، ونوجّهوه لهذي النتيجة بالضبط.',
+    ar: 'ننطلق من موقعك الحالي: نحتفظ بما ينجح، ونعيد بناء ما يعرقل، ونوجّهه نحو هذه النتيجة بالذات.',
   },
 };
 

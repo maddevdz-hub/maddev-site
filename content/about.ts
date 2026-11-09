@@ -35,9 +35,9 @@ export const about = {
       'Quand vous écrivez à MADDEV, c’est moi qui réponds.',
     ],
     ar: [
-      'أنا المطوّر اللي راه وراء MADDEV.',
-      'نصمّم ونبرمج بيدي المواقع اللي نسلّمها: ما كاينش وسيط بينك وبين اللي يبني موقعك.',
-      'كي تراسل MADDEV، أنا اللي نردّ عليك.',
+      'أنا المطوّر الذي يقف وراء MADDEV.',
+      'أصمّم وأبرمج بنفسي المواقع التي أسلّمها: لا وسيط بينك وبين من يبني موقعك.',
+      'حين تراسل MADDEV، أنا من يرد عليك.',
     ],
   } as Record<'fr' | 'ar', string[]>,
 
@@ -45,7 +45,7 @@ export const about = {
   why: {
     title: {
       fr: 'Pourquoi MADDEV existe',
-      ar: 'علاش وُجد MADDEV',
+      ar: 'لماذا يوجد MADDEV',
     } as Bilingual,
     paragraphs: {
       fr: [
@@ -54,9 +54,9 @@ export const about = {
         'Un site vous appartient. Il porte votre nom, il apparaît sur Google quand quelqu’un cherche votre métier, et personne ne peut vous le retirer.',
       ],
       ar: [
-        'أغلب التجّار في الجزائر ما عندهمش وجود رقمي غير على فيسبوك. وهذا ينجح — حتى يجي النهار اللي ما ينجحش.',
-        'صفحة فيسبوك أرض مكراة. ما تملكش قوانينها، لا جمهورها، لا بياناتها. وإذا تعلّقت الصفحة غدوة، ما يبقى والو: لا الرسائل، لا الزبائن، لا سنين المنشورات.',
-        'أما الموقع فهو ملكك. يحمل اسمك، ويبان في غوغل كي يدوّر واحد على خدمتك، وحتى واحد ما يقدر ياخذهولك.',
+        'أغلب المحلات في الجزائر لا وجود لها على الإنترنت إلا عبر فيسبوك. وهذا يعمل، إلى أن يأتي اليوم الذي يتوقّف فيه.',
+        'صفحة فيسبوك أرض مستأجرة. لا تملك قواعدها، ولا جمهورها، ولا بياناتها. وإذا علّق فيسبوك الصفحة غدًا، لا يبقى شيء: لا الرسائل، ولا الزبائن، ولا سنوات المنشورات.',
+        'أما الموقع فملكك. يحمل اسمك، ويظهر في غوغل حين يبحث أحدهم عن مهنتك، ولا يستطيع أحد أن ينتزعه منك.',
       ],
     } as Record<'fr' | 'ar', string[]>,
   },
@@ -65,37 +65,37 @@ export const about = {
   how: {
     title: {
       fr: 'Comment je travaille',
-      ar: 'كيفاش نخدم',
+      ar: 'كيف أعمل',
     } as Bilingual,
     points: [
       {
         title: {
           fr: 'La maquette est validée avant la première ligne de code',
-          ar: 'التصميم توافق عليه قبل أول سطر كود',
+          ar: 'توافق على التصميم قبل أول سطر برمجي',
         } as Bilingual,
         text: {
           fr: 'Vous voyez à quoi ressemblera votre site avant qu’il soit construit. Tant que la maquette ne vous convient pas, on la reprend — c’est le moment où changer d’avis ne coûte rien.',
-          ar: 'تشوف شكل موقعك قبل ما يتبنى. وما دام التصميم ما عجبكش، نعاودوه — هذي هي اللحظة اللي ما يكلّفش فيها تبديل الرأي والو.',
+          ar: 'ترى شكل موقعك قبل بنائه. وما دام التصميم لا يعجبك، نعيد العمل عليه. هذه هي اللحظة التي لا يكلّف فيها تغيير الرأي شيئًا.',
         } as Bilingual,
       },
       {
         title: {
           fr: 'Le site vous appartient à 100 %',
-          ar: 'الموقع ملكك 100٪',
+          ar: 'الموقع ملكك بالكامل',
         } as Bilingual,
         text: {
           fr: 'Le code, le nom de domaine et tous les accès sont mis à votre nom et vous sont transférés à la livraison. Vous n’êtes lié à personne, et surtout pas à moi.',
-          ar: 'الكود واسم الموقع وكل الوصولات يتسجّلو باسمك ويتحوّلو ليك يوم التسليم. ما راكش مربوط بحتى واحد، وخاصة ماشي بيا.',
+          ar: 'أسجّل الكود واسم النطاق وكل صلاحيات الدخول باسمك، وأنقلها إليك يوم التسليم. لا تبقى مرتبطًا بأحد، ولا بي أنا.',
         } as Bilingual,
       },
       {
         title: {
           fr: 'Vous savez vous en servir avant que je parte',
-          ar: 'تعرف كيفاش تستعملو قبل ما نروح',
+          ar: 'تعرف كيف تستعمله قبل أن أغادر',
         } as Bilingual,
         text: {
           fr: 'Une heure de formation à la livraison, et un mois de corrections inclus. La maintenance reste une option, jamais une obligation.',
-          ar: 'ساعة تكوين يوم التسليم، وشهر من التصحيحات مشمول. أما الصيانة تبقى خيار، ماشي التزام.',
+          ar: 'ساعة تدريب يوم التسليم، وشهر من التصحيحات مشمول. أما الصيانة فتبقى خيارًا، لا التزامًا.',
         } as Bilingual,
       },
     ],

@@ -18,7 +18,7 @@ export const processSteps: ProcessStep[] = [
     title: { fr: 'Découverte', ar: 'الاكتشاف' },
     summary: {
       fr: 'On comprend votre besoin avant d’écrire la moindre ligne de code.',
-      ar: 'نفهمو واش راك تحتاج قبل ما نكتبو حتى سطر كود.',
+      ar: 'نفهم حاجتك قبل أن نكتب أي سطر برمجي.',
     },
     details: {
       fr: [
@@ -27,9 +27,9 @@ export const processSteps: ProcessStep[] = [
         'Vous recevez un devis chiffré avec un délai ferme',
       ],
       ar: [
-        'مكالمة ولا لقاء باش نفهمو نشاطك وزبائنك',
-        'نحدّدو الهدف الحقيقي: تبيع، تبني الثقة، ولا تربح الوقت',
-        'تاخذ عرض سعر مفصّل مع أجل واضح',
+        'مكالمة أو لقاء لنفهم نشاطك وزبائنك',
+        'نحدّد الهدف الحقيقي: البيع، أو كسب الثقة، أو توفير الوقت',
+        'تستلم عرض سعر مفصّلًا بأجل ثابت',
       ],
     },
   },
@@ -39,7 +39,7 @@ export const processSteps: ProcessStep[] = [
     title: { fr: 'Design', ar: 'التصميم' },
     summary: {
       fr: 'Une maquette validée par vous avant le développement.',
-      ar: 'تصميم تشوفو وتوافق عليه قبل ما نبداو البرمجة.',
+      ar: 'تصميم توافق عليه قبل بدء البرمجة.',
     },
     details: {
       fr: [
@@ -48,9 +48,9 @@ export const processSteps: ProcessStep[] = [
         'Deux tours d’ajustements inclus — on ne code qu’une fois validé',
       ],
       ar: [
-        'تصميم للشاشات المهمة، نبداو بنسخة التيليفون',
-        'نختارو الألوان والخطوط وطريقة الكلام',
-        'جولتين تعديل مشمولين — ما نبرمجو حتى توافق',
+        'تصميم الشاشات الأساسية، بدءًا بنسخة الهاتف',
+        'اختيار الألوان والخطوط وأسلوب المحتوى',
+        'جولتا تعديل مشمولتان: لا نبرمج إلا بعد موافقتك',
       ],
     },
   },
@@ -60,7 +60,7 @@ export const processSteps: ProcessStep[] = [
     title: { fr: 'Développement', ar: 'التطوير' },
     summary: {
       fr: 'Construction avec une technologie moderne, testée au fur et à mesure.',
-      ar: 'نبنيو بتقنيات حديثة، ونختبرو في كل مرحلة.',
+      ar: 'نبني بتقنيات حديثة، ونختبر في كل مرحلة.',
     },
     details: {
       fr: [
@@ -69,9 +69,9 @@ export const processSteps: ProcessStep[] = [
         'Tests sur mobile, tablette et ordinateur',
       ],
       ar: [
-        'موقع سريع، يبان في البحث، ويدوم',
-        'رابط تشوف فيه التقدّم مباشرة',
-        'نختبرو على التيليفون واللوحة والحاسوب',
+        'موقع سريع، يظهر في نتائج البحث، ويدوم',
+        'رابط معاينة تتابع فيه التقدّم مباشرة',
+        'اختبار على الهاتف واللوحة والحاسوب',
       ],
     },
   },
@@ -81,7 +81,7 @@ export const processSteps: ProcessStep[] = [
     title: { fr: 'Lancement', ar: 'الإطلاق' },
     summary: {
       fr: 'Mise en ligne, puis formation pour que vous soyez autonome.',
-      ar: 'نطلقو الموقع، ونوريوك كيفاش تسيّرو بيدك.',
+      ar: 'ننشر الموقع، ثم ندرّبك لتديره بنفسك.',
     },
     details: {
       fr: [
@@ -90,9 +90,9 @@ export const processSteps: ProcessStep[] = [
         'Vérification finale des performances et du référencement',
       ],
       ar: [
-        'نضبطو اسم الموقع والاستضافة وشهادة الأمان',
-        'حصة تكوين باش تسيّر محتواك بيدك',
-        'تحقيق أخير من السرعة والظهور في غوغل',
+        'ضبط اسم النطاق والاستضافة وشهادة الأمان',
+        'جلسة تدريب لتدير محتواك بنفسك',
+        'تحقّق أخير من السرعة والظهور في غوغل',
       ],
     },
   },
@@ -102,7 +102,7 @@ export const processSteps: ProcessStep[] = [
     title: { fr: 'Suivi', ar: 'المتابعة' },
     summary: {
       fr: 'Maintenance et évolution — on reste joignables après la livraison.',
-      ar: 'صيانة وتطوير — نبقاو معاك بعد التسليم.',
+      ar: 'صيانة وتطوير: نبقى في متناولك بعد التسليم.',
     },
     details: {
       fr: [
@@ -111,9 +111,9 @@ export const processSteps: ProcessStep[] = [
         'Option : gestion de vos campagnes publicitaires au mois',
       ],
       ar: [
-        'تحديثات تقنية ونسخ احتياطية بانتظام',
-        'تطويرات ووظائف جديدة كي يكبر نشاطك',
-        'اختياري: نسيّرولك حملاتك الإعلانية كل شهر',
+        'تحديثات تقنية ونسخ احتياطية منتظمة',
+        'تطويرات ووظائف جديدة حين يكبر نشاطك',
+        'اختياري: إدارة حملاتك الإعلانية شهريًا',
       ],
     },
   },

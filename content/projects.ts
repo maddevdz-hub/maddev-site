@@ -51,7 +51,7 @@ export const projects: Project[] = [
     },
     result: {
       fr: 'Un catalogue complet en ligne, où chaque produit part en commande WhatsApp d’un seul geste — référence et options comprises.',
-      ar: 'كتالوج كامل على الإنترنت، كل منتج يتبعث كطلب واتساب بضغطة وحدة — بالمرجع والخيارات.',
+      ar: 'كتالوج كامل على الإنترنت، يتحوّل فيه كل منتج إلى طلب واتساب بلمسة واحدة، مع المرجع والخيارات.',
     },
     highlights: {
       fr: [
@@ -60,7 +60,7 @@ export const projects: Project[] = [
         'Sélecteur de tissus sur les fiches produit',
       ],
       ar: [
-        'كتالوج كامل، يُتصفَّح من التيليفون',
+        'كتالوج كامل يُتصفَّح من الهاتف',
         'طلب عبر واتساب مُعبَّأ مسبقًا بمرجع المنتج',
         'اختيار الأقمشة في صفحات المنتجات',
       ],
