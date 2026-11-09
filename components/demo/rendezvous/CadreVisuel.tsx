@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { Dessin } from "@/components/demo/rendezvous/Dessins";
 import type { Visuel } from "@/content/demos/rendezvous/visuels";
 
 interface Props {
@@ -28,9 +29,13 @@ export function CadreVisuel({ visuel, className = "", sizes = "100vw", prioritai
           style={visuel.cadrage ? { objectPosition: visuel.cadrage } : undefined}
         />
       ) : (
-        // Les dessins vectoriels arrivent à l'étape 2.
-        <div aria-hidden="true" className="reserve absolute inset-3 text-xs">
-          Dessin « {visuel.dessin} »
+        /*
+         * Le dessin, centré sur une trame de points — celle de l'image de
+         * partage. La trame remplit tout le cadre, quelle que soit sa
+         * proportion ; le dessin, lui, garde la sienne.
+         */
+        <div aria-hidden="true" className="dessin-trame absolute inset-0 flex items-center justify-center p-[5%]">
+          <Dessin id={visuel.dessin} className="h-full w-full" />
         </div>
       )}
     </div>

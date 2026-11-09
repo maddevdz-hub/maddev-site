@@ -186,6 +186,17 @@
   }
 
   /* Emplacement réservé à une étape ultérieure (visible pendant la construction). */
+  /*
+   * La trame des dessins : des points espacés régulièrement, centrés pour
+   * que la grille tombe juste au milieu du cadre. Couleur de trait
+   * secondaire, en clair comme en sombre.
+   */
+  .dessin-trame {
+    background-image: radial-gradient(circle, var(--line-2) 1px, transparent 1.4px);
+    background-size: 18px 18px;
+    background-position: center;
+  }
+
   .reserve {
     @apply flex items-center justify-center rounded-2xl border border-dashed border-line-2 text-center text-sm text-ink-2;
   }

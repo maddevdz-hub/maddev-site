@@ -155,12 +155,12 @@ export const services: Service[] = [
     },
     points: {
       fr: [
-        'Agenda par praticien, par motif, par durée',
+        'Créneaux calculés selon la durée de chaque soin',
         'Rappel WhatsApp automatique la veille',
         'Annulation autonome — le créneau se remplit à nouveau',
       ],
       ar: [
-        'أجندة حسب الطبيب وسبب الزيارة والمدّة',
+        'مواعيد تُحسب حسب مدّة كل علاج',
         'تذكير تلقائي عبر واتساب في اليوم السابق',
         'إلغاء ذاتي — والموعد يُملأ من جديد',
       ],

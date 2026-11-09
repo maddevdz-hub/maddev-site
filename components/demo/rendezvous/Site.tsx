@@ -1,4 +1,3 @@
-import type { ReactNode } from "react";
 import { EnteteFixe } from "@/components/demo/rendezvous/EnteteFixe";
 import { HorlogeProvider } from "@/components/demo/rendezvous/Horloge";
 import { PiedDePage } from "@/components/demo/rendezvous/PiedDePage";
@@ -11,10 +10,13 @@ import { Reservation } from "@/components/demo/rendezvous/sections/Reservation";
 import { Soins } from "@/components/demo/rendezvous/sections/Soins";
 
 /**
- * Le site complet. La page d’accueil l’affiche seul ; la page /presentation
- * l’affiche à l’identique et y ajoute la visite guidée (`children`).
+ * Le site complet de la clinique.
+ *
+ * Il a existé une page /presentation qui l’affichait avec une visite guidée
+ * par-dessus. Retirée : elle s’adressait à un cabinet précis (« Voici votre
+ * cabinet »), alors que cette démonstration parle à des prospects.
  */
-export function Site({ maintenant, children }: { maintenant: number; children?: ReactNode }) {
+export function Site({ maintenant }: { maintenant: number }) {
   return (
     <HorlogeProvider initial={maintenant}>
       <ReservationProvider>
@@ -28,7 +30,6 @@ export function Site({ maintenant, children }: { maintenant: number; children?: 
           <Questions />
         </main>
         <PiedDePage />
-        {children}
       </ReservationProvider>
     </HorlogeProvider>
   );
