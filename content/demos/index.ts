@@ -1,6 +1,6 @@
 import type { DemoBrand } from './types';
 import { cafe } from './menu';
-import { cabinet } from './rendezvous';
+import { cabinet } from './rendezvous/marque';
 
 /**
  * Registre des démonstrations.
@@ -38,8 +38,8 @@ export const demos: Demo[] = [
     ...cabinet,
     slug: 'rendezvous',
     path: '/demo/rendezvous',
-    palette: { bg: '#0d2b31', ink: '#ffffff', accent: '#7fd3da' },
-    mood: 'Pétrole et menthe',
+    palette: { bg: '#f6f1e7', ink: '#13213a', accent: '#1f5a44' },
+    mood: 'Ivoire et vert sapin',
   },
 ];
 

@@ -49,31 +49,75 @@ const SHOTS = [
     scrollTo: 96,
   },
   {
-    file: 'capture-rendezvous.png',
-    url: '/demo/rendezvous',
-    viewport: { width: 760, height: 468 },
     /*
-     * On ne capture pas la première étape, qui ne montre que deux noms : on
-     * conduit la démo jusqu'à l'agenda, où l'on voit les créneaux libres, les
-     * créneaux pris barrés et le vendredi fermé. C'est cet écran-là qui prouve
-     * le service ; une capture de la page d'accueil n'en prouverait aucun.
+     * Nom de fichier propre à la démo, et pas « capture-rendezvous » : le
+     * cache d'images de Next et celui de Vercel rangent par adresse. Une
+     * capture remplacée sous le même nom resterait servie dans son ancienne
+     * version — c'est arrivé quand la clinique a remplacé le cabinet Amel.
+     */
+    file: 'capture-el-yasmine.png',
+    url: '/demo/rendezvous',
+    /*
+     * 1040 px : la démo passe en mise en page large, calendrier et
+     * récapitulatif côte à côte. À 760 elle bascule en mise en page mobile,
+     * aérée, et l'agenda ne tient plus dans l'image.
+     */
+    viewport: { width: 1040, height: 640 },
+    /*
+     * On ne capture pas l'accueil, qui ne prouve rien : on conduit la démo
+     * jusqu'à l'agenda. Un soin choisi, le jour qui offre le plus de créneaux,
+     * une heure retenue — on voit alors les jours complets, le vendredi
+     * fermé, les heures libres et le récapitulatif rempli. C'est cet écran
+     * qui prouve le service.
+     *
+     * Chaque élément est EXIGÉ : s'il manque, le script s'arrête en le
+     * nommant. L'ancienne version cliquait « si possible » et photographiait
+     * en silence le mauvais écran le jour où un libellé changeait.
      */
     async prepare(page) {
-      const clickByText = (text) =>
-        page.evaluate((t) => {
-          const btn = [...document.querySelectorAll('#reserver button')].find(
-            (b) => b.textContent.includes(t),
-          );
-          btn?.click();
-        }, text);
+      const exiger = async (selecteur) => {
+        const ok = await page.evaluate((s) => !!document.querySelector(s), selecteur);
+        if (!ok) throw new Error(`capture-el-yasmine : « ${selecteur} » introuvable — la démo a changé, le cadrage est à revoir.`);
+      };
+      const pause = (ms) => new Promise((r) => setTimeout(r, ms));
 
-      await clickByText('Amel Benhamou');
-      await new Promise((r) => setTimeout(r, 300));
-      await clickByText('Détartrage');
-      await new Promise((r) => setTimeout(r, 400));
+      await exiger('[data-soin="detartrage"]');
+      await page.evaluate(() => document.querySelector('[data-soin="detartrage"]').click());
+      await pause(400);
+
+      await exiger('[data-jour]');
+      const jour = await page.evaluate(async () => {
+        let meilleur = null;
+        let max = -1;
+        for (const j of document.querySelectorAll('[data-jour]')) {
+          j.click();
+          await new Promise((r) => setTimeout(r, 120));
+          const n = document.querySelectorAll('[data-visite=horaires] [data-debut]').length;
+          if (n > max) { max = n; meilleur = j.getAttribute('data-jour'); }
+        }
+        document.querySelector(`[data-jour="${meilleur}"]`).click();
+        return { meilleur, max };
+      });
+      if (jour.max < 1) throw new Error('capture-el-yasmine : aucun jour ne propose de créneau.');
+      await pause(400);
+
+      await exiger('[data-visite=horaires] [data-debut]');
+      await page.evaluate(() => document.querySelector('[data-visite=horaires] [data-debut]').click());
+      await pause(400);
+
+      /*
+       * Cadrage : « 01 Soin » juste sous l'en-tête collant. Dans ces 640 px
+       * tiennent les six soins et leurs durées, la semaine avec ses jours
+       * complets et son vendredi fermé, et le récapitulatif prêt à confirmer.
+       *
+       * Défilement instantané imposé : la démo défile en douceur, et une
+       * capture prise pendant l'animation tombait n'importe où.
+       */
       await page.evaluate(() => {
-        const cible = document.querySelector('#reserver');
-        if (cible) window.scrollTo(0, cible.offsetTop + 52);
+        document.documentElement.style.scrollBehavior = 'auto';
+        const soin = document.querySelector('[data-soin]');
+        const fixe = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--hauteur-fixe')) || 0;
+        window.scrollTo(0, soin.getBoundingClientRect().top + window.scrollY - fixe - 94);
       });
     },
   },
@@ -104,8 +148,20 @@ const browser = await puppeteer.launch({
   args: ['--hide-scrollbars', '--force-color-profile=srgb'],
 });
 
-for (const shot of SHOTS) {
+// `node scripts/captures.mjs capture-el-yasmine.png` ne refait que celle-là.
+const demandees = process.argv.slice(2);
+const aFaire = demandees.length ? SHOTS.filter((s) => demandees.includes(s.file)) : SHOTS;
+if (demandees.length && aFaire.length !== demandees.length) {
+  console.error(`Capture inconnue. Disponibles : ${SHOTS.map((s) => s.file).join(', ')}`);
+  process.exit(1);
+}
+
+for (const shot of aFaire) {
   const page = await browser.newPage();
+  // Thème clair imposé : la démo de rendez-vous a un thème sombre, et Chrome
+  // suit celui de Windows. Sans cette ligne, la capture dépendrait de la
+  // machine qui la prend.
+  await page.emulateMediaFeatures([{ name: 'prefers-color-scheme', value: 'light' }]);
   await page.setViewport({ ...shot.viewport, deviceScaleFactor: 2 });
   const target = shot.absolute ? shot.url : `${BASE}${shot.url}`;
   await page.goto(target, { waitUntil: 'networkidle0', timeout: 45000 });

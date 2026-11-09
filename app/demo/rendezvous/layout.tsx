@@ -1,61 +1,96 @@
-import type { Metadata, Viewport } from 'next';
-import type { ReactNode } from 'react';
-import { Inter, Sora } from 'next/font/google';
+import type { Metadata, Viewport } from "next";
+import localFont from "next/font/local";
+import "./rendezvous.css";
+import { reglages } from "@/content/demos/rendezvous/reglages";
+import { ThemeScript } from "@/components/demo/rendezvous/ThemeScript";
+import { adresseDuSite } from "@/lib/demos/rendezvous/site";
 
-import './rendezvous.css';
-import { cabinet } from '@/content/demos/rendezvous';
+// Polices servies depuis le dépôt (app/fonts), jamais par un lien externe.
+const serif = localFont({
+  src: "./fonts/newsreader-latin-normal.woff2",
+  weight: "200 800",
+  style: "normal",
+  variable: "--font-serif",
+  display: "swap",
+  adjustFontFallback: "Times New Roman",
+});
 
-/**
- * Enveloppe de la démonstration « Cabinet dentaire Amel ».
+const sans = localFont({
+  src: "./fonts/inter-latin-normal.woff2",
+  weight: "100 900",
+  style: "normal",
+  variable: "--font-sans",
+  display: "swap",
+  adjustFontFallback: "Arial",
+});
+
+const { cabinet } = reglages;
+
+/*
+ * Démonstration « prise de rendez-vous » de MADDEV.
  *
- * Elle rend son propre <html> : la démo vit hors de app/[locale], donc elle
- * n'hérite ni de l'en-tête, ni du pied de page, ni des polices du studio.
+ * Clinique FICTIVE. Elle vit hors de app/[locale] et rend son propre <html> :
+ * elle n'hérite ni de l'en-tête, ni des polices, ni de la palette du studio.
+ * Un visiteur doit voir le site d'une clinique, pas une page MADDEV déguisée.
  *
- * Polices choisies pour ce métier seul : Sora, géométrique et un peu
- * technique, pour les titres ; Inter pour le texte courant, taillé pour les
- * interfaces denses. Aucune n'est utilisée ailleurs sur le site.
- *
- * Readex Pro a été retirée avec la version arabe — une police chargée pour
- * un texte qui n'existe plus est du poids gratuit sur chaque visite.
+ * Le titre et la description le disent aussi : un aperçu de partage circule
+ * sans le bandeau, il doit porter la mention à lui seul.
  */
-
-const sora = Sora({
-  subsets: ['latin'],
-  weight: ['500', '600', '700'],
-  variable: '--font-sora',
-  display: 'swap',
-});
-
-const inter = Inter({
-  subsets: ['latin'],
-  weight: ['400', '500', '600'],
-  variable: '--font-inter',
-  display: 'swap',
-});
-
-export const viewport: Viewport = {
-  themeColor: '#0d2b31',
-  colorScheme: 'light',
-  width: 'device-width',
-  initialScale: 1,
-};
+const titre = `${cabinet.nom} — Orthodontie et esthétique dentaire à ${cabinet.quartier}`;
+const description = `Orthodontie et esthétique dentaire à ${cabinet.quartier}, ${cabinet.ville}. Réservez votre rendez-vous en ligne, en une minute. Démonstration — projet fictif conçu par MADDEV.`;
 
 export const metadata: Metadata = {
-  title: `${cabinet.name} — ${cabinet.sector}`,
-  description: cabinet.solves,
-  // Un projet fictif indexé finirait par être pris pour un vrai cabinet,
-  // avec de vrais patients au bout du fil.
-  robots: { index: false, follow: false, nocache: true },
+  // Les liens de l’aperçu de partage doivent être absolus.
+  metadataBase: adresseDuSite(),
+  title: titre,
+  description,
+  applicationName: cabinet.nom,
+  openGraph: {
+    type: "website",
+    locale: "fr_FR",
+    siteName: cabinet.nom,
+    title: cabinet.nom,
+    description,
+    url: "/demo/rendezvous",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: cabinet.nom,
+    description,
+  },
+  robots: {
+    index: false,
+    follow: false,
+    nocache: true,
+    googleBot: { index: false, follow: false },
+  },
+  formatDetection: { telephone: false, email: false, address: false },
 };
 
-export default function RendezvousDemoLayout({
-  children,
-}: {
-  children: ReactNode;
-}) {
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#f6f1e7" },
+    { media: "(prefers-color-scheme: dark)", color: "#0d1626" },
+  ],
+};
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="fr" dir="ltr" className={`${sora.variable} ${inter.variable}`}>
-      <body className="min-h-dvh">{children}</body>
+    <html lang="fr" className={`${serif.variable} ${sans.variable}`} suppressHydrationWarning>
+      <head>
+        <ThemeScript />
+      </head>
+      <body className="min-h-dvh">
+        <a
+          href="#contenu"
+          className="bouton-primaire sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60]"
+        >
+          Aller au contenu
+        </a>
+        {children}
+      </body>
     </html>
   );
 }

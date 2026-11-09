@@ -168,10 +168,10 @@ export const services: Service[] = [
     timeline: { fr: '2 à 3 semaines', ar: 'من أسبوعين إلى ثلاثة' },
     visual: {
       kind: 'capture',
-      src: '/services/capture-rendezvous.png',
+      src: '/services/capture-el-yasmine.png',
       frame: 'screen',
-      width: 1520,
-      height: 936,
+      width: 2080,
+      height: 1280,
     },
     demoHref: '/demo/rendezvous',
   },

@@ -1,3 +1,15 @@
+/*
+ * Configuration Tailwind déclarée explicitement, et ce n'est pas décoratif.
+ *
+ * La démo « prise de rendez-vous » a sa propre configuration, chargée par
+ * `@config`. Or le plugin Tailwind 3 garde ce chemin en mémoire pour les
+ * feuilles qu'il traite ensuite : sans cette ligne, cette feuille-ci était
+ * compilée avec la palette de la clinique, et tout le site tombait en
+ * erreur 500 (« font-body n'existe pas »). Chaque feuille nomme donc la
+ * sienne ; l'ordre de compilation ne compte plus.
+ */
+@config "../tailwind.config.ts";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
