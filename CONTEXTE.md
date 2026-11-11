@@ -73,28 +73,24 @@ non mesurable.
 **Arabe standard moderne** partout où il reste de l'arabe, c'est-à-dire sur
 le site MADDEV lui-même. Décidé en septembre 2026, après trois bascules.
 Les démonstrations, elles, sont passées en français seul et ne sont plus
-concernées (§10).
+concernées (§11).
 
 On écrit `ماذا`, `لماذا`, `كيف`, `متى`, `الذي`, `التي`, `يمكنك`, `تُقدَّم` ;
 on évite le parlé algérien : `شنو`, `واش`, `علاش`, `كيفاش`, `إمتى`, `شحال`,
 `كلش`, `راك`, `اللي`, `ما ...ش`, `بزاف`, `دروك`, `بصح`.
 
-> ⚠️ **La règle et l'état du code divergent aujourd'hui. Lire ceci avant de
-> toucher à une chaîne arabe.**
+> **État au 11 novembre 2026 : conforme.** Les 8 pages du site
+> (`content/`, `messages/ar.json`) ont été converties d'un bloc en standard
+> moderne (101 chaînes de `ar.json` plus le contenu de `content/*.ts`), puis
+> vérifiées par script. Les démonstrations n'ont plus d'arabe (§11).
 >
-> | | Registre | |
-> | --- | --- | --- |
-> | Les 8 pages du site (`content/`, `messages/ar.json`) | **darija** | conversion à faire — voir §7 |
-> | Les démonstrations | **sans objet** | elles sont en français seul depuis septembre 2026 (§10) |
->
-> Le site a été écrit en darija sur consigne, puis la règle a été inversée
-> alors que la conversion du site était explicitement remise à plus tard. Ce
-> n'est donc pas une incohérence oubliée : c'est un chantier ouvert, listé
-> dans §7. Tant qu'il n'est pas fait, un visiteur qui passe de `/ar/services`
-> à `/demo/menu/ar` change de registre.
+> Le script de contrôle cherche des **mots entiers**, pas des sous-chaînes :
+> sinon `بوراك`, `التيليفون` et `إمتى` déclenchent de faux positifs. Il vérifie
+> aussi la ponctuation (virgule arabe `،`, point-virgule `؛`, point
+> d'interrogation `؟`), l'absence de tatwil et celle des chiffres arabo-indiens.
 
 > **Historique.** La règle a changé quatre fois : parlé → standard → parlé →
-> standard. Chaque bascule coûte une soixantaine de remplacements sur six
+> standard (cinquième état : la conversion du site, faite). Chaque bascule coûte une soixantaine de remplacements sur six
 > fichiers. **Ne pas la rouvrir sans décision écrite**, et si elle est
 > rouverte, convertir d'un bloc plutôt que page par page — c'est le mélange
 > des registres qui fait paraître un site assemblé, pas le registre choisi.
@@ -183,7 +179,7 @@ Huit pages, servies en arabe et en français sous un préfixe de langue
 | Route | Contenu | État |
 | --- | --- | --- |
 | `/` | Hero, réassurance, 4 services, réalisation vedette, 3 piliers, FAQ, CTA | terminé |
-| `/services` | 4 blocs détaillés, formules récurrentes, CTA | terminé |
+| `/services` | 6 blocs (image dominante) + carte invitation, CTA | terminé |
 | ~~`/realisations`~~ | **supprimée** en septembre 2026 — redirige en 301 vers `/services` | — |
 | `/process` | 5 étapes, timeline verticale | terminé |
 | `/a-propos` | Qui je suis, pourquoi MADDEV, comment je travaille | photo manquante |
@@ -191,7 +187,7 @@ Huit pages, servies en arabe et en français sous un préfixe de langue
 | `/contact` | Formulaire, coordonnées, FAQ | terminé |
 | `/quiz` | Configurateur 4 questions + résultat | terminé |
 | `/demo/menu` | Démonstration Café Zitouna (hors chrome MADDEV) | terminée |
-| `/demo/rendezvous` | Démonstration Cabinet dentaire Amel | terminée |
+| `/demo/rendezvous` | Démonstration Clinique Dentaire El Yasmine (projet fictif) | terminée |
 
 Plus : `sitemap.xml` (16 URL avec hreflang), `robots.txt`,
 `manifest.webmanifest`, image Open Graph 1200×630 générée à la volée, 404 et
@@ -201,7 +197,7 @@ Plus : `sitemap.xml` (16 URL avec hreflang), `robots.txt`,
 
 | Fichier | Contient |
 | --- | --- |
-| `content/services.ts` | Les 4 services : `benefit`, `name`, promesse, description, livrables, cible, résultat, délai |
+| `content/services.ts` | **Source unique des 8 services** (6 principaux, 2 secondaires) : `benefit`, `name`, `lead`, `points`, délai, visuel, démo ou client réel. Lue par `/services`, l'accueil, le formulaire, le configurateur, le JSON-LD et l'API de contact. Exporte aussi `showcaseUi` (libellés des blocs, dont « Demander un devis ») |
 | `content/projects.ts` | Réalisations : titre, type, résultat, chiffres **mesurés**, lien |
 | `content/process.ts` | Les 5 étapes |
 | `content/about.ts` | Page « qui sommes-nous », photo, identité facultative |
@@ -482,54 +478,36 @@ Services), la réassurance est sous le formulaire de contact, l'audit du ton
 français est passé, et la performance mobile a été corrigée à la racine —
 plus aucun élément n'est livré invisible (voir §6 et §8).
 
-### 1. Les six démonstrations restantes
+### 1. Les quatre démonstrations restantes
 
 Une seule à la fois, terminée et montrée avant de passer à la suivante :
-sept chantiers ouverts donnent sept moitiés de travail. Le tableau des sept,
-avec ce que chacune doit prouver, est en §9.
+des chantiers ouverts en parallèle donnent autant de moitiés de travail. Le
+tableau, avec ce que chacune doit prouver, est en §11. Restent : boutique,
+annonces, mariage, campagne.
 
-Après chaque démo : captures desktop et mobile dans les deux langues, liste
-des photos à fournir, mise à jour de ce fichier.
+Après chaque démo : captures desktop et mobile, liste des photos à fournir,
+mise à jour de ce fichier.
 
-### 2. Convertir l'arabe du site en standard moderne
+### 2. Le vrai logo (étape 5 de la remise à niveau)
 
-Les huit pages sont en darija ; la règle en vigueur est le standard (§2).
-Environ 110 chaînes dans `content/*.ts` et `messages/ar.json`. À faire d'un
-bloc, jamais page par page — c'est le mélange qui se voit.
+Les SVG du logo doivent arriver dans `public/logo/`. À mettre à jour
+ensemble : `components/brand/DDMark.tsx`, `DDPattern.tsx`, `app/icon.svg`,
+`app/apple-icon.png`, `public/icons/`, `public/maddev-*.svg`. Le lockup garde
+`dir="ltr"`. **`maddev-brand/` n'est pas la source** : ce sont des visuels de
+réseaux sociaux et une planche en PNG (ignoré par git).
 
-Le travail a déjà été fait une fois dans l'autre sens : les remplacements
-sont mécaniques, mais la relecture ne l'est pas.
+### 3. Design et vérifications finales (étapes 7 et 8)
 
-### 3. Refaire la page `/services`
-
-Chaque service devient un bloc large et visuel : capture réelle de sa
-démonstration cadrée dans un mockup, le bénéfice en titre, deux lignes
-maximum, trois points concrets, un bouton « Voir la démonstration ». Les
-blocs alternent visuellement.
-
-**Des captures optimisées, jamais d'iframe ni de démo intégrée en direct** —
-la page doit rester sous 2 s. Elle attend donc que les démos existent : la
-faire maintenant obligerait à la refaire.
-
-### 4. Étendre l'offre
-
-Ajouter aux services et aux options du configurateur : QR Menu, prise de
-rendez-vous, invitation. Touche `content/services.ts`, `lib/configurator.ts`
-et les deux dictionnaires. À faire **une fois**, quand les démos existent.
-
-### 5. Captures des démos pour la galerie
-
-`/realisations` affiche aujourd'hui, pour chaque démo, une vignette aux
-couleurs de la démo et son nom — honnête, mais ce n'est pas une capture. Les
-prendre toutes en une passe une fois les sept prêtes : sept fichiers pris au
-même moment se tiennent, sept fichiers pris au fil de l'eau non.
+Un seul accent par écran, rythme vertical de `/services`, états de focus
+visibles, aucune cible tactile sous 44 px ; puis typecheck, build (dev
+arrêté), 16 pages à 390 px, `npm run vues`, `npm run captures`, Lighthouse
+sur une démo.
 
 ### 6. Assets manquants
 
 | Quoi | Où le déposer |
 | --- | --- |
 | Pack de marque (favicons, lockup SVG couleur et blanc) | `public/logo/` |
-| Capture du projet client | `public/projects/showroom-meubles-bba.png` puis renseigner `image` |
 | Photo du fondateur | `public/about/` puis renseigner `about.photo` |
 | Photos des démonstrations | `public/demo/<démo>/` — listes fournies démo par démo |
 
@@ -538,13 +516,12 @@ apple-touch étaient recadrées sur un fragment, régénérées depuis la 512).
 
 ### 7. Avant publication
 
-- **Pousser sur GitHub.** Le dépôt local existe, les commits sont faits, mais
-  le projet ne vit encore que sur un disque dur. Procédure pas à pas dans le
-  README, section « Mettre le code sur GitHub ».
+- Le code est sur GitHub (`maddevdz-hub/maddev-site`, branche `main`), une
+  étape = un commit poussé.
 - `RESEND_API_KEY` dans les variables Vercel — sans elle, le formulaire
   fonctionne mais les demandes restent dans les logs.
-- Relecture de tout l'arabe par un locuteur natif, après la conversion en
-  standard : il a été écrit sans relecture humaine.
+- Relecture de tout l'arabe par un locuteur natif : la conversion en standard
+  est faite et vérifiée par script, mais sans relecture humaine.
 - Test réel de l'ajout à l'écran d'accueil sur iOS et Android.
 - Brancher `maddev.dev` (procédure dans le README).
 
@@ -568,7 +545,7 @@ Ce qui a été mesuré et doit le rester :
 - **Contenu livré visible** : zéro élément rendu par le serveur en
   `opacity: 0` sur les 16 pages. C'était la cause unique du LCP dégradé.
 
-      for p in "" services realisations process a-propos site-ou-facebook contact quiz; do
+      for p in "" services process a-propos site-ou-facebook contact quiz; do
         curl -s "http://localhost:3000/fr/$p" | grep -c 'opacity:0'
       done
 
@@ -591,6 +568,11 @@ Et, après chaque étape, la vérification que ces trois commandes ne font pas :
 ---
 
 ## 9. La page /realisations a été supprimée
+
+> Nettoyage de novembre 2026 : plus aucun lien n'y renvoie (seule la
+> redirection 301 subsiste), la chaîne « Voir nos réalisations » est supprimée
+> des deux dictionnaires, et `/services` n'affiche plus « Démonstration en
+> préparation » — un badge ne dit que ce qui existe.
 
 Septembre 2026. **Raison : un seul client réel.** Une page « Réalisations »
 avec un projet unique souligne le vide au lieu de montrer la force. Le
@@ -647,12 +629,32 @@ sous le titre, **trois points** et pas cinq, le délai, un bouton.
 **conduit la démo** jusqu'à l'écran qui prouve quelque chose — l'agenda avec
 ses créneaux pris pour le cabinet, la carte pour le café.
 
+Le script **échoue franchement** : si une page répond en erreur (statut ≥ 400)
+ou si un élément attendu manque, il s'arrête avec un code de sortie non nul et
+laisse le fichier existant intact. Les captures sont `capture-menu.png`,
+`capture-el-yasmine.png` (nom changé avec la démo : `next/image` met en cache
+par URL, un même nom aurait servi l'ancienne image) et `capture-showroom.jpg`.
+
 Refaire les captures après toute modification d'une démo. Une capture faite à
 la main finit toujours par dater, et l'on se retrouve à vendre un écran qui
 n'existe plus.
 
 Le showroom de meubles est capturé sur son **site en ligne**, en JPEG : c'est
-une photographie, elle pèse dix fois moins qu'en PNG.
+une photographie, elle pèse dix fois moins qu'en PNG. La même capture alimente
+la carte du projet vedette de l'accueil (`image` dans `content/projects.ts`) :
+sans elle, la carte affichait un cadre gris vide.
+
+### Une seule source pour les services
+
+`content/services.ts` décrit les 8 services une fois. `/services`, l'accueil,
+le menu déroulant du formulaire, le configurateur, les données structurées et
+`app/api/contact/route.ts` la lisent ; ajouter ou renommer un service se fait
+à cet endroit seulement. Le site vitrine n'a **pas** de démo `/demo/vitrine` :
+c'est le vrai showroom (client réel, sans bande fictive) qui l'illustre,
+partout, y compris comme `exampleProject` du configurateur.
+
+Chemin du devis : `contact?service=<slug>`. Un slug inconnu n'est pas perdu : il
+apparaît dans l'email sous la forme `« slug » (non reconnu)`.
 
 ### Les services sans démonstration
 
@@ -716,7 +718,7 @@ qu'elle ne rapporterait. **Le site MADDEV, lui, reste bilingue.**
 Conséquence dans le code : le contenu des démos utilise des chaînes simples
 (`name: 'Café Zitouna'`) là où le site utilise `{ fr, ar }`. Les routes n'ont
 plus de segment de langue, et les polices arabes ont été retirées des deux
-démos existantes — une police chargée pour un texte qui n'existe plus est du
+démos — une police chargée pour un texte qui n'existe plus est du
 poids gratuit sur chaque visite.
 
 ### Routage
@@ -738,7 +740,7 @@ rien dessert plus qu'elle ne sert.
 
 Deux exigences de fond, également non négociables :
 
-- **Identité propre à chaque démo.** Sept fois le même gabarit repeint se
+- **Identité propre à chaque démo.** Six fois le même gabarit repeint se
   repère en trois secondes et prouve l'inverse de ce qu'on veut montrer. Une
   menuiserie d'art, une clinique et une agence immobilière n'ont ni les mêmes
   couleurs, ni la même typographie, ni la même densité.
@@ -749,14 +751,17 @@ Deux exigences de fond, également non négociables :
 Cible de qualité : le niveau d'un studio européen. C'est l'écart avec ce que
 livre un prestataire local qui doit sauter aux yeux.
 
-### État des sept démonstrations
+### État des démonstrations
+
+Six démonstrations prévues, dont deux terminées. Le site vitrine n'en a pas :
+le vrai showroom le remplace (voir §10). L'ancienne « Atelier Nour » est
+abandonnée.
 
 | Démo | Route | Ce qu'elle doit prouver | État |
 | --- | --- | --- | --- |
 | Café Zitouna | `/demo/menu` | la carte change en 30 s, sans réimprimer | **terminée** |
-| Atelier Nour — menuiserie d'art | `/demo/vitrine` | le visiteur a envie de commander une pièce | à faire |
 | Zahra Cosmétiques | `/demo/boutique` | la commande arrive complète — produit, variante, quantité, wilaya — en un seul message WhatsApp | à faire |
-| Cabinet dentaire Amel | `/demo/rendezvous` | le téléphone cesse de sonner. Le cœur n'est PAS la prise de rendez-vous : c'est le rappel WhatsApp la veille et l'annulation autonome | **terminée** |
+| Clinique Dentaire El Yasmine (fictive) | `/demo/rendezvous` | le téléphone cesse de sonner. Le cœur n'est PAS la prise de rendez-vous : c'est le rappel WhatsApp la veille et l'annulation autonome | **terminée** |
 | Dar Immo | `/demo/annonces` | recherche wilaya / budget / type / pièces, fiche avec galerie et plan, demande de visite. Le client trouve sans appeler quinze fois | à faire |
 | Moncef & Lina | `/demo/mariage` | les invités confirment en un clic. **L'aperçu WhatsApp est vital** : des centaines de personnes le verront avant d'ouvrir. Registre littéraire | à faire |
 | Sofa Prestige | `/demo/campagne` | où mène une campagne publicitaire et pourquoi la page convertit. Une page, un objectif | à faire |
@@ -885,14 +890,34 @@ mesuré sur un pixel que personne ne lit reste un échec faux.
 
 ### Ce qui existe pour la prise de rendez-vous
 
-    app/demo/rendezvous/[locale]/     layout, CSS local, page
-    components/demo/rendezvous/       BookingFlow, AmelMarks
-    content/demos/rendezvous.ts       praticiens, motifs, horaires, textes
+    app/demo/rendezvous/              layout (html, métadonnées noindex), page, CSS local, images de partage
+    components/demo/rendezvous/       Site, sections/ (Accueil, Questions…), Dessins, CadreVisuel
+    content/demos/rendezvous/         reglages, soins, marque
+    lib/demos/rendezvous/             calcul des créneaux, formats
+    tailwind.rendezvous.config.ts     config Tailwind propre à la démo
 
-Identité : pétrole `#0d2b31`, menthe et blanc, angles nets — l'inverse du
-café, qui est chaud et arrondi. Sora + Inter en latin, Readex Pro en arabe.
-Zéro image bitmap : quatre SVG dessinés (arcade dentaire, motif zellige,
-figure de planning, glyphes).
+Cette démo a été **portée** dans le projet depuis un dossier séparé, avec
+réécriture des alias. Son identité est **fictive de bout en bout** : Clinique
+Dentaire El Yasmine, Hydra (Alger), orthodontie et esthétique dentaire, samedi
+au jeudi de 8 h à 16 h. Aucun chiffre de confiance n'est affiché ; les trois
+faits de l'accueil sont ceux de la démo (6 j/7, rappel 24 h avant, 6 soins avec
+leur durée réelle).
+
+**Règle absolue : aucune trace d'une identité réelle** (nom du cabinet
+d'origine, quartier, praticien, note ou nombre d'avis) dans le code, les
+métadonnées, les images de partage, le README, les commentaires **et les
+messages de commit**. À vérifier par recherche dans tout le dépôt avant chaque
+livraison.
+
+Pas de visite guidée, volontairement : la page a été supprimée. Les six soins
+et l'arcade dentaire sont **dessinés** en SVG (`Dessins.tsx`, variables CSS de
+la démo), jamais un cadre vide. Une FAQ de cinq questions (`<details>`, la
+première ouverte) répond aux objections.
+
+**Piège Tailwind 3 : `@config` fuit.** Le `@config` d'une feuille de style
+s'applique aux feuilles suivantes du même processus. Chaque feuille (`globals.css`,
+`menu.css`, `rendezvous.css`) déclare donc son propre `@config` ; sans cela, tout
+le site répondait en 500 (« la classe `font-body` n'existe pas »).
 
 **Le mécanisme à ne pas casser.** Réserver un créneau l'ajoute à `booked` :
 il apparaît alors « Pris » dans l'agenda. L'annuler l'en retire, et le
@@ -947,3 +972,7 @@ Les tournants du projet, pour comprendre pourquoi le site est dans cet état.
 | `/realisations` supprimée | Un seul client réel : la page soulignait le vide. 301 vers `/services`, qui devient la page unique de la preuve |
 | `/services` refaite autour des captures | L'image domine, trois points par bloc au lieu de cinq, captures produites par script |
 | Démos en français seul | Elles s'adressent à des professionnels francophones ; six versions arabes à maintenir coûtaient plus qu'elles ne rapportaient. Le site reste bilingue |
+| Registre arabe : conversion faite | Cinquième état : 101 chaînes de `ar.json` et `content/*.ts` en standard moderne, d'un seul bloc, vérifiées par script |
+| Source unique des services | `content/services.ts` : 8 services, lus partout ; configurateur couvrant 7 situations ; le showroom illustre le site vitrine |
+| Démo rendez-vous refaite | Clinique Dentaire El Yasmine, entièrement fictive, dessins SVG, FAQ, sans visite guidée |
+| Nettoyage `/services` | Plus de « en préparation », libellé du devis dans la source, captures qui échouent franchement |
