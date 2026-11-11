@@ -394,7 +394,7 @@ export const showcaseUi = {
   },
   realNote: { fr: 'Client réel', ar: 'زبون حقيقي' },
   delayLabel: { fr: 'Délai indicatif', ar: 'المدّة التقريبية' },
-  soon: { fr: 'Démonstration en préparation', ar: 'النموذج قيد التحضير' },
+  quote: { fr: 'Demander un devis', ar: 'اطلب عرض سعر' },
   alsoKicker: { fr: 'Et aussi', ar: 'وأيضًا' },
   alsoCta: { fr: 'En parler', ar: 'تحدّث معنا' },
 } satisfies Record<string, Bilingual>;

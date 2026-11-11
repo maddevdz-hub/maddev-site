@@ -59,18 +59,25 @@ export function ShowcaseBlock({
 
           {/* Le texte, qui accompagne l'image sans la remplacer */}
           <div className={imageFirst ? 'lg:order-2' : 'lg:order-1'}>
-            <p className="mb-3 inline-flex items-center gap-2 rounded-full border border-line2 px-3 py-1 text-[12px] font-semibold uppercase tracking-[.12em] text-txt2">
-              {item.realClient ? (
-                <>
-                  <span className="h-1.5 w-1.5 rounded-full bg-coral2" />
-                  {showcaseUi.realNote[locale]}
-                </>
-              ) : item.demoHref ? (
-                showcaseUi.demoNote[locale]
-              ) : (
-                showcaseUi.soon[locale]
-              )}
-            </p>
+            {/*
+              Le badge ne dit que ce qui existe : un client réel, ou une
+              démonstration qu'on peut ouvrir. Il annonçait aussi
+              « Démonstration en préparation » — souligner ce qui manque,
+              c'est exactement ce qui a fait supprimer /realisations. Le
+              visuel dessiné suffit.
+            */}
+            {item.realClient || item.demoHref ? (
+              <p className="mb-3 inline-flex items-center gap-2 rounded-full border border-line2 px-3 py-1 text-[12px] font-semibold uppercase tracking-[.12em] text-txt2">
+                {item.realClient ? (
+                  <>
+                    <span className="h-1.5 w-1.5 rounded-full bg-coral2" />
+                    {showcaseUi.realNote[locale]}
+                  </>
+                ) : (
+                  showcaseUi.demoNote[locale]
+                )}
+              </p>
+            ) : null}
 
             <h2 className="text-[clamp(1.7rem,3.6vw,2.5rem)] font-bold leading-[1.12] tracking-tight text-txt">
               {item.benefit[locale]}
@@ -117,7 +124,7 @@ export function ShowcaseBlock({
                 href={`/${locale}/contact?service=${item.slug}`}
                 className="inline-flex min-h-[44px] items-center text-[15px] font-semibold text-txt2 underline underline-offset-4 transition-colors hover:text-txt"
               >
-                {locale === 'ar' ? 'اطلب عرضًا' : 'Demander un devis'}
+                {showcaseUi.quote[locale]}
               </Link>
             </div>
           </div>

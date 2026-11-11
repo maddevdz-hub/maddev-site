@@ -46,26 +46,28 @@ export const projects: Project[] = [
       ar: 'معرض أثاث — برج بوعريريج',
     },
     kind: {
-      fr: 'Site e-commerce complet',
-      ar: 'متجر إلكتروني متكامل',
+      fr: 'Site vitrine',
+      ar: 'موقع تعريفي',
     },
     result: {
-      fr: 'Un catalogue complet en ligne, où chaque produit part en commande WhatsApp d’un seul geste — référence et options comprises.',
-      ar: 'كتالوج كامل على الإنترنت، يتحوّل فيه كل منتج إلى طلب واتساب بلمسة واحدة، مع المرجع والخيارات.',
+      fr: 'Toute la collection présentée en ligne, et sur chaque meuble un bouton WhatsApp qui transmet la référence et les options choisies.',
+      ar: 'المجموعة كاملة معروضة على الإنترنت، وعلى كل قطعة زر واتساب ينقل المرجع والخيارات المختارة.',
     },
     highlights: {
       fr: [
-        'Catalogue complet, consultable depuis le téléphone',
-        'Commande WhatsApp pré-remplie avec la référence',
+        'La collection présentée pièce par pièce, lisible sur téléphone',
+        'Message WhatsApp pré-rempli avec la référence',
         'Sélecteur de tissus sur les fiches produit',
       ],
       ar: [
-        'كتالوج كامل يُتصفَّح من الهاتف',
-        'طلب عبر واتساب مُعبَّأ مسبقًا بمرجع المنتج',
+        'المجموعة معروضة قطعة قطعة، وتُقرأ بسهولة على الهاتف',
+        'رسالة واتساب معبّأة مسبقًا بمرجع المنتج',
         'اختيار الأقمشة في صفحات المنتجات',
       ],
     },
     demoUrl: 'https://henna-meubles-2026.vercel.app',
+    // Capture réelle du site livré (même fichier que /services).
+    image: '/services/capture-showroom.jpg',
     stats: [
       {
         value: '67',

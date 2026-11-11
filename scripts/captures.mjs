@@ -164,7 +164,12 @@ for (const shot of aFaire) {
   await page.emulateMediaFeatures([{ name: 'prefers-color-scheme', value: 'light' }]);
   await page.setViewport({ ...shot.viewport, deviceScaleFactor: 2 });
   const target = shot.absolute ? shot.url : `${BASE}${shot.url}`;
-  await page.goto(target, { waitUntil: 'networkidle0', timeout: 45000 });
+  const reponse = await page.goto(target, { waitUntil: 'networkidle0', timeout: 45000 });
+  // Une page en erreur se photographie très bien : on s'arrête plutôt que de
+  // publier sur /services la capture d'une 404 ou d'une 500.
+  if (!reponse || reponse.status() >= 400) {
+    throw new Error(`${shot.file} : ${target} a répondu ${reponse ? reponse.status() : 'rien'} — capture annulée.`);
+  }
 
   // Les polices Google arrivent après le premier rendu : sans cette attente,
   // la capture montre la police de repli et la démo paraît bâclée.

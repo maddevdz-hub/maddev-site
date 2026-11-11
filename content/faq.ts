@@ -41,8 +41,8 @@ export const faq: FaqItem[] = [
       ar: 'كم يستغرق إنجاز موقعي؟',
     },
     answer: {
-      fr: 'Entre une et six semaines selon le projet. Un site vitrine part sur une à deux semaines ; une boutique complète demande davantage. Le délai exact est fixé avant de commencer, pas en cours de route.',
-      ar: 'بين أسبوع وستة أسابيع حسب المشروع. يستغرق الموقع التعريفي أسبوعًا إلى أسبوعين، ويحتاج المتجر الكامل إلى وقت أطول. نحدّد الأجل بدقة قبل أن نبدأ، لا في منتصف العمل.',
+      fr: 'Cela dépend du service : une semaine pour un menu QR, une à deux pour un site vitrine, six à huit pour une plateforme d’annonces. Le délai exact est fixé avant de commencer, pas en cours de route.',
+      ar: 'يتوقّف ذلك على الخدمة: أسبوع لقائمة QR، وأسبوع إلى أسبوعين لموقع تعريفي، ومن 6 إلى 8 أسابيع لمنصّة إعلانات. نحدّد الأجل بدقة قبل أن نبدأ، لا في منتصف العمل.',
     },
   },
   {

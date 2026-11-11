@@ -12,3 +12,9 @@ yarn-error.log*
 .vercel
 next-env.d.ts
 tsconfig.tsbuildinfo
+
+# Visuels de réseaux sociaux et planche du logo, en PNG : ce n'est pas la
+# source du logo (celle-ci est dans public/logo/, en SVG).
+maddev-brand/
+# Document interne : ne doit jamais partir sur GitHub.
+MADDEV-Guide-Formules-Interne.pdf
