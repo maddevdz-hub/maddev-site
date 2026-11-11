@@ -189,7 +189,6 @@ function HeroEmblem({ alt }: { alt: string }) {
       />
 
       <DDMark
-        gradientId="dd-hero-mark"
         title={alt}
         className="relative w-[38%] drop-shadow-[0_0_28px_rgba(255,90,95,.35)]"
       />

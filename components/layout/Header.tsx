@@ -100,7 +100,7 @@ export function Header({
       >
         <Container>
           <div className="flex h-16 items-center justify-between gap-4 lg:h-[72px]">
-            <Logo locale={locale} gradientId="dd-header" />
+            <Logo locale={locale} />
 
             <nav
               aria-label={nav.home}

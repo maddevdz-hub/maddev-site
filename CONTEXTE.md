@@ -156,18 +156,24 @@ connaissance de la langue.
 
 ### Logo
 
-Le symbole est **deux « D » qui se chevauchent** en dégradé corail. Source
-unique : `components/brand/DDMark.tsx`. Le filigrane (`DDPattern.tsx`), le
-favicon (`app/icon.svg`) et les icônes d'application reprennent les mêmes
-tracés — les mettre à jour **ensemble**.
+Le symbole est **deux « D » qui se chevauchent**, en deux aplats : `#ff5a5f`
+devant, `#ff8a5f` derrière, **sans dégradé**. Le D de derrière porte une
+réserve autour de celui de devant.
+
+Source unique : **`public/logo/maddev-mark.svg`** (dossier en minuscules : git
+et Linux distinguent la casse, Windows non). `npm run logo` en dérive tout :
+`components/brand/dd-paths.ts` (lu par `DDMark.tsx`, `DDPattern.tsx` et
+l'image de partage), `app/icon.svg`, `app/apple-icon.png`, `public/icons/*.png`
+et `public/maddev-*.svg`. Ne jamais retoucher un fichier dérivé à la main.
 
 - Le mot-symbole « MADDEV » est rendu en **HTML**, pas dans le SVG, pour
   garantir la police du site.
 - Le conteneur du lockup porte **`dir="ltr"`**, toujours. Voir §6.
-- Fond sombre : version couleur. Fond clair : `maddev-logo-light.svg`.
-
-> Les fichiers du pack de marque n'ont jamais été fournis. Le symbole actuel
-> a été **reconstruit** d'après la charte, et les icônes générées depuis lui.
+- Fond sombre : `maddev-logo-dark.svg` (texte clair). Fond clair :
+  `maddev-logo-light.svg` (texte sombre). Le site lui-même n'a qu'un thème,
+  sombre.
+- `maddev-brand/` n'est pas la source (visuels de réseaux sociaux, ignoré par
+  git).
 
 ---
 
@@ -488,15 +494,7 @@ annonces, mariage, campagne.
 Après chaque démo : captures desktop et mobile, liste des photos à fournir,
 mise à jour de ce fichier.
 
-### 2. Le vrai logo (étape 5 de la remise à niveau)
-
-Les SVG du logo doivent arriver dans `public/logo/`. À mettre à jour
-ensemble : `components/brand/DDMark.tsx`, `DDPattern.tsx`, `app/icon.svg`,
-`app/apple-icon.png`, `public/icons/`, `public/maddev-*.svg`. Le lockup garde
-`dir="ltr"`. **`maddev-brand/` n'est pas la source** : ce sont des visuels de
-réseaux sociaux et une planche en PNG (ignoré par git).
-
-### 3. Design et vérifications finales (étapes 7 et 8)
+### 2. Design et vérifications finales (étapes 7 et 8)
 
 Un seul accent par écran, rythme vertical de `/services`, états de focus
 visibles, aucune cible tactile sous 44 px ; puis typecheck, build (dev
@@ -507,7 +505,6 @@ sur une démo.
 
 | Quoi | Où le déposer |
 | --- | --- |
-| Pack de marque (favicons, lockup SVG couleur et blanc) | `public/logo/` |
 | Photo du fondateur | `public/about/` puis renseigner `about.photo` |
 | Photos des démonstrations | `public/demo/<démo>/` — listes fournies démo par démo |
 
@@ -976,3 +973,4 @@ Les tournants du projet, pour comprendre pourquoi le site est dans cet état.
 | Source unique des services | `content/services.ts` : 8 services, lus partout ; configurateur couvrant 7 situations ; le showroom illustre le site vitrine |
 | Démo rendez-vous refaite | Clinique Dentaire El Yasmine, entièrement fictive, dessins SVG, FAQ, sans visite guidée |
 | Nettoyage `/services` | Plus de « en préparation », libellé du devis dans la source, captures qui échouent franchement |
+| Vrai logo | Source unique `public/logo/maddev-mark.svg`, deux aplats sans dégradé ; `npm run logo` régénère tracés, favicon, icônes et lockups |

@@ -25,7 +25,6 @@ export default function LocaleLoading() {
           className="flex flex-col items-center gap-5"
         >
           <DDMark
-            gradientId="dd-loading"
             className="w-16 animate-halo"
             title={t.loading}
           />

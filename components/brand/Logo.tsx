@@ -12,12 +12,10 @@ export function Logo({
   locale,
   className,
   showWordmark = true,
-  gradientId = 'dd-logo',
 }: {
   locale: Locale;
   className?: string;
   showWordmark?: boolean;
-  gradientId?: string;
 }) {
   return (
     <Link
@@ -37,7 +35,6 @@ export function Logo({
       aria-label="MADDEV"
     >
       <DDMark
-        gradientId={gradientId}
         className="h-7 w-auto transition-transform duration-500 group-hover:scale-[1.06] motion-reduce:transform-none"
       />
       {showWordmark ? (

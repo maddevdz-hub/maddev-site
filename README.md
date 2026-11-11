@@ -292,15 +292,23 @@ devis » de la page Services pointent vers `/contact?service=boutique-ecommerce`
 
 ## Le logo
 
-Les fichiers de référence n'étaient pas disponibles au moment de la
-construction : le symbole **DD** (deux « D » qui se chevauchent en dégradé
-corail) a été reconstruit d'après la charte. Pour le remplacer par les
-originaux :
+Le symbole **DD** — deux « D » qui se chevauchent, en deux aplats corail
+(`#ff5a5f` devant, `#ff8a5f` derrière, sans dégradé) — a **une seule source** :
 
-- **Sur le site**, le tracé vit dans `components/brand/DDMark.tsx` — c'est la
-  seule source. Le motif en filigrane (`DDPattern.tsx`) et le favicon
-  (`app/icon.svg`) reprennent les mêmes chemins : pensez à les mettre à jour
-  ensemble.
+    public/logo/maddev-mark.svg
+
+Tout le reste en dérive. Pour changer le logo, remplacer ce fichier puis :
+
+    npm run logo
+
+Le script (`scripts/logo.mjs`, aucun serveur nécessaire) régénère d'un coup
+`components/brand/dd-paths.ts`, `app/icon.svg`, `app/apple-icon.png`, les
+trois PNG de `public/icons/` et les cinq `public/maddev-*.svg`. Il s'arrête
+avec une erreur si la source n'a pas la forme attendue : un `viewBox` et
+exactement deux tracés, celui de derrière d'abord.
+
+- **Sur le site**, `DDMark.tsx`, le filigrane `DDPattern.tsx` et l'image de
+  partage lisent `dd-paths.ts`, fichier généré : ne pas le modifier à la main.
 - **Dans `public/`**, les fichiers `maddev-logo-*.svg` et `maddev-icon-*.svg`
   sont des assets autonomes pour les usages hors site (documents, réseaux).
   Le mot-symbole y est du texte SVG avec une pile de polices de repli ; sur le

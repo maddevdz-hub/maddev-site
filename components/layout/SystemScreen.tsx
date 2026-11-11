@@ -39,7 +39,7 @@ export function SystemScreen({
       <AmbientBackground patternId={patternId} intensity="soft" />
       <Container>
         <div className="mx-auto flex max-w-lg flex-col items-center gap-6 text-center">
-          <DDMark gradientId={`${patternId}-mark`} className="w-20 opacity-70" />
+          <DDMark className="w-20 opacity-70" />
 
           <p className="numerals font-display text-5xl font-bold text-gradient">
             {code}

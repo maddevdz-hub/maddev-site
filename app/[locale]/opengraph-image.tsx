@@ -1,5 +1,12 @@
 import { ImageResponse } from 'next/og';
 import { locales } from '@/i18n/config';
+import {
+  DD_BACK,
+  DD_BACK_COLOR,
+  DD_FRONT,
+  DD_FRONT_COLOR,
+  DD_VIEWBOX,
+} from '@/components/brand/dd-paths';
 
 /**
  * Image de partage 1200×630, servie pour les deux langues.
@@ -50,25 +57,10 @@ export default async function OpengraphImage() {
           fontFamily: 'sans-serif',
         }}
       >
-        {/* Monogramme DD — mêmes tracés que components/brand/DDMark.tsx */}
-        <svg width="182" height="136" viewBox="0 0 134 100">
-          <defs>
-            <linearGradient id="og-dd" x1="0" y1="1" x2="1" y2="0">
-              <stop offset="0%" stopColor="#ff5a5f" />
-              <stop offset="100%" stopColor="#ff8a5f" />
-            </linearGradient>
-          </defs>
-          <path
-            d="M18 12 H44 A38 38 0 0 1 44 88 H18 Z M32 26 H44 A24 24 0 0 1 44 74 H32 Z"
-            fill="url(#og-dd)"
-            fillRule="evenodd"
-          />
-          <path
-            d="M52 12 H78 A38 38 0 0 1 78 88 H52 Z M66 26 H78 A24 24 0 0 1 78 74 H66 Z"
-            fill="url(#og-dd)"
-            fillRule="evenodd"
-            opacity="0.72"
-          />
+        {/* Monogramme DD — tracés générés depuis public/logo/maddev-mark.svg */}
+        <svg width="191" height="136" viewBox={DD_VIEWBOX}>
+          <path d={DD_BACK} fill={DD_BACK_COLOR} />
+          <path d={DD_FRONT} fill={DD_FRONT_COLOR} />
         </svg>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 22 }}>

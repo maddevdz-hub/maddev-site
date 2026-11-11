@@ -1,11 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 134 100" width="134" height="100" role="img" aria-label="MADDEV">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 454 324" width="454" height="324" role="img" aria-label="MADDEV">
   <title>MADDEV</title>
-  <defs>
-    <linearGradient id="maddev-coral" x1="0" y1="1" x2="1" y2="0">
-      <stop offset="0%" stop-color="#ff5a5f"/>
-      <stop offset="100%" stop-color="#ff8a5f"/>
-    </linearGradient>
-  </defs>
-  <path d="M18 12 H44 A38 38 0 0 1 44 88 H18 Z M32 26 H44 A24 24 0 0 1 44 74 H32 Z" fill="url(#maddev-coral)" fill-rule="evenodd"/>
-  <path d="M52 12 H78 A38 38 0 0 1 78 88 H52 Z M66 26 H78 A24 24 0 0 1 78 74 H66 Z" fill="url(#maddev-coral)" fill-rule="evenodd" opacity="0.72"/>
+  <path fill="#ff8a5f" d="M195.91 10.87A24 24 0 0 1 216 0H292A162 162 0 0 1 292 324H216A24 24 0 0 1 195.91 313.13A179 179 0 0 0 239 274.78V277H292A115 115 0 0 0 292 47H239V49.22A179 179 0 0 0 195.91 10.87ZM192 128.24A98 98 0 0 1 192 195.76Z"/>
+  <path fill="#ff5a5f" d="M24 0H100A162 162 0 0 1 100 324H24A24 24 0 0 1 0 300V24A24 24 0 0 1 24 0ZM47 47V277H100A115 115 0 0 0 100 47Z"/>
 </svg>

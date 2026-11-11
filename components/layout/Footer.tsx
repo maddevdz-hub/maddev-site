@@ -36,7 +36,7 @@ export function Footer({
         <div className="grid gap-12 py-14 sm:py-16 lg:grid-cols-[1.6fr_1fr_1fr_1.2fr] lg:gap-8">
           {/* Marque */}
           <div className="flex flex-col gap-4">
-            <Logo locale={locale} gradientId="dd-footer-logo" />
+            <Logo locale={locale} />
             <p className="max-w-xs text-sm leading-relaxed text-txt2">
               {t.tagline}
             </p>

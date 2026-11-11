@@ -10,6 +10,7 @@
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
     "captures": "node scripts/captures.mjs",
+    "logo": "node scripts/logo.mjs",
     "vues": "node scripts/verifie-vues.mjs",
     "photos": "node scripts/photos.mjs",
     "contraste": "node scripts/contraste.mjs"

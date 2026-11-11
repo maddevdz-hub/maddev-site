@@ -1,4 +1,5 @@
 import { cn } from '@/lib/utils';
+import { DD_BACK, DD_FRONT, DD_WIDTH } from './dd-paths';
 
 /**
  * Motif DD répété en filigrane très subtil.
@@ -31,16 +32,10 @@ export function DDPattern({
           patternUnits="userSpaceOnUse"
           patternTransform="rotate(-12)"
         >
-          <g
-            transform={`scale(${(scale * 0.42) / 134})`}
-            fill="#ffffff"
-            fillRule="evenodd"
-          >
-            <path d="M18 12 H44 A38 38 0 0 1 44 88 H18 Z M32 26 H44 A24 24 0 0 1 44 74 H32 Z" />
-            <path
-              d="M52 12 H78 A38 38 0 0 1 78 88 H52 Z M66 26 H78 A24 24 0 0 1 78 74 H66 Z"
-              opacity="0.6"
-            />
+          {/* Mêmes tracés que le logo (dd-paths.ts, généré). */}
+          <g transform={`scale(${(scale * 0.42) / DD_WIDTH})`} fill="#ffffff">
+            <path d={DD_BACK} opacity="0.6" />
+            <path d={DD_FRONT} />
           </g>
         </pattern>
       </defs>
