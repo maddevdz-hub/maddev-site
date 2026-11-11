@@ -37,8 +37,13 @@ const config: Config = {
       },
       backgroundImage: {
         brand: 'linear-gradient(120deg,#ff5a5f,#ff8a5f)',
+        /*
+         * Fond teinté, volontairement PLAT (un seul ton). Le dégradé `brand`
+         * est réservé au titre de tête de page et au bouton principal : un
+         * seul accent par écran.
+         */
         'brand-soft':
-          'linear-gradient(120deg,rgba(255,90,95,.16),rgba(255,138,95,.16))',
+          'linear-gradient(rgba(255,90,95,.16),rgba(255,90,95,.16))',
       },
       boxShadow: {
         card: '0 1px 0 0 rgba(255,255,255,.04) inset, 0 20px 50px -30px rgba(0,0,0,.9)',

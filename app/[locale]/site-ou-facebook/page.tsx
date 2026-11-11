@@ -139,7 +139,7 @@ export default async function ComparePage({
                     <td className="border-s border-line p-5 text-sm leading-relaxed text-txt2">
                       {row.facebook[locale]}
                     </td>
-                    <td className="border-s border-coral/25 bg-brand-soft/60 p-5 text-sm leading-relaxed text-txt">
+                    <td className="border-s border-coral/25 bg-coral/10 p-5 text-sm leading-relaxed text-txt">
                       {row.website[locale]}
                     </td>
                   </tr>

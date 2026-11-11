@@ -94,7 +94,7 @@ export default async function OpengraphImage() {
                 width: 56,
                 height: 6,
                 borderRadius: 3,
-                background: 'linear-gradient(120deg,#ff5a5f,#ff8a5f)',
+                background: '#ff5a5f',
               }}
             />
             <div

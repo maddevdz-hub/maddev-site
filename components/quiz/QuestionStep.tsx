@@ -155,7 +155,7 @@ export function QuestionStep({
                 className={cn(
                   'inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border transition-colors duration-300',
                   isSelected
-                    ? 'border-coral/50 bg-brand text-[#1a0c0c]'
+                    ? 'border-coral/50 bg-coral text-[#1a0c0c]'
                     : 'border-line bg-white/[.03] text-coral2 group-hover:border-coral/35',
                 )}
               >

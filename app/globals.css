@@ -112,7 +112,10 @@
 }
 
 @layer components {
-  /* Texte en dégradé — la signature visuelle de la marque. */
+  /*
+   * Texte en dégradé — réservé au titre de tête de page (un seul accent par
+   * écran). Partout ailleurs : `text-coral`, en aplat.
+   */
   .text-gradient {
     @apply bg-brand bg-clip-text text-transparent;
     /* Sécurise le rendu du dégradé sur les descendantes de lettres arabes */

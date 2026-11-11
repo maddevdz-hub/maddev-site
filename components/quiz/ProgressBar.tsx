@@ -40,7 +40,7 @@ export function ProgressBar({
         className="h-1.5 w-full overflow-hidden rounded-full bg-white/[.07]"
       >
         <span
-          className="block h-full w-full rounded-full bg-brand transition-transform duration-500 ease-out origin-left rtl:origin-right motion-reduce:transition-none"
+          className="block h-full w-full rounded-full bg-coral transition-transform duration-500 ease-out origin-left rtl:origin-right motion-reduce:transition-none"
           style={{ transform: `scaleX(${ratio})` }}
         />
       </div>

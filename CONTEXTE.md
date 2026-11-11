@@ -134,7 +134,24 @@ Attention aux faux positifs : `بوراك` contient `راك`, `التيليفو�
 | `coral2` | `#ff8a5f` | Accent secondaire |
 | `txt` | `#f4f2ef` | Texte principal |
 | `txt2` | `#a8a4ad` | Texte secondaire |
-| `bg-brand` | `linear-gradient(120deg,#ff5a5f,#ff8a5f)` | Dégradé signature |
+| `bg-brand` | `linear-gradient(120deg,#ff5a5f,#ff8a5f)` | Dégradé signature — **réservé**, voir ci-dessous |
+
+**Un seul accent par écran.** Le dégradé n'apparaît qu'à deux endroits : le
+titre de tête de page (`.text-gradient`, sur le `h1`) et le bouton principal
+(`Button` variante `primary`). Tout le reste est en corail plat : titres de
+section (`text-coral`), bascule de langue, barre du quiz, pastilles, fonds
+teintés (`bg-brand-soft`, un seul ton malgré son nom). Ne pas réintroduire
+`bg-brand` ailleurs.
+
+**Accessibilité tactile et clavier.** Aucune cible sous 44 px et un contour
+de focus visible sur tout élément interactif (règle globale `:focus-visible`
+de `globals.css`), mesurés par script sur les 14 pages du site et les 2 démos
+à 390 px, menu mobile ouvert compris.
+
+**Blocs de `/services`.** L'image passe en premier sur mobile ; le bouton
+principal y prend toute la largeur et « Demander un devis » reste un lien
+souligné, centré dessous. L'écart image-texte reste nettement plus petit que
+l'écart entre deux blocs.
 
 **Il n'y a volontairement pas de troisième niveau de gris.** Un ancien token
 `txt3` (`#6a6874`) donnait 3,5:1 sur `ink`, sous le seuil AA de 4,5:1. Il a
@@ -494,12 +511,10 @@ annonces, mariage, campagne.
 Après chaque démo : captures desktop et mobile, liste des photos à fournir,
 mise à jour de ce fichier.
 
-### 2. Design et vérifications finales (étapes 7 et 8)
+### 2. Vérifications finales (étape 8)
 
-Un seul accent par écran, rythme vertical de `/services`, états de focus
-visibles, aucune cible tactile sous 44 px ; puis typecheck, build (dev
-arrêté), 16 pages à 390 px, `npm run vues`, `npm run captures`, Lighthouse
-sur une démo.
+Typecheck, build (dev arrêté), 16 pages à 390 px, `npm run vues`,
+`npm run captures`, Lighthouse sur une démo.
 
 ### 6. Assets manquants
 
@@ -974,3 +989,4 @@ Les tournants du projet, pour comprendre pourquoi le site est dans cet état.
 | Démo rendez-vous refaite | Clinique Dentaire El Yasmine, entièrement fictive, dessins SVG, FAQ, sans visite guidée |
 | Nettoyage `/services` | Plus de « en préparation », libellé du devis dans la source, captures qui échouent franchement |
 | Vrai logo | Source unique `public/logo/maddev-mark.svg`, deux aplats sans dégradé ; `npm run logo` régénère tracés, favicon, icônes et lockups |
+| Design : un accent par écran | Dégradé réservé au titre de tête et au bouton principal ; `/services` aéré, bouton pleine largeur sur mobile ; monochromes du logo en aplat plein |

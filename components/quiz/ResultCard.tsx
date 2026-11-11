@@ -109,7 +109,7 @@ export function ResultCard({
             <div className="flex flex-col gap-2">
               <h2 className="text-[clamp(1.5rem,4.5vw,2.3rem)] font-bold leading-tight tracking-tight text-txt">
                 {t.titlePrefix}{' '}
-                <span className="text-gradient">{serviceName}</span>
+                <span className="text-coral">{serviceName}</span>
               </h2>
               {isRedesign ? (
                 <Badge tone="brand" className="w-fit">

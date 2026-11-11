@@ -44,7 +44,7 @@ export function ProjectCard({
             <div key={stat.value} className="flex flex-col gap-1">
               <dt className="sr-only">{stat.label[locale]}</dt>
               <dd
-                className="numerals text-lg font-bold text-gradient sm:text-xl"
+                className="numerals text-lg font-bold text-coral sm:text-xl"
                 dir="ltr"
               >
                 {stat.value}

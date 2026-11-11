@@ -85,7 +85,7 @@ export function Header({
     <>
       <a
         href="#main"
-        className="sr-only rounded-full bg-brand px-4 py-2 text-sm font-semibold text-[#1a0c0c] focus:not-sr-only focus:fixed focus:start-4 focus:top-4 focus:z-[60]"
+        className="sr-only rounded-full bg-coral px-4 py-2 text-sm font-semibold text-[#1a0c0c] focus:not-sr-only focus:fixed focus:start-4 focus:top-4 focus:z-[60]"
       >
         {nav.skipToContent}
       </a>
@@ -122,7 +122,7 @@ export function Header({
                   {isActive(item.path) ? (
                     <span
                       aria-hidden="true"
-                      className="absolute inset-x-3.5 -bottom-0.5 h-px bg-brand"
+                      className="absolute inset-x-3.5 -bottom-0.5 h-px bg-coral"
                     />
                   ) : null}
                 </Link>
@@ -194,7 +194,7 @@ export function Header({
                   {isActive(item.path) ? (
                     <span
                       aria-hidden="true"
-                      className="h-1.5 w-1.5 rounded-full bg-brand"
+                      className="h-1.5 w-1.5 rounded-full bg-coral"
                     />
                   ) : null}
                 </Link>

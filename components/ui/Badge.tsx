@@ -43,7 +43,7 @@ export function Eyebrow({
     >
       <span
         aria-hidden="true"
-        className="h-1.5 w-1.5 shrink-0 rounded-full bg-brand"
+        className="h-1.5 w-1.5 shrink-0 rounded-full bg-coral"
       />
       {children}
     </span>

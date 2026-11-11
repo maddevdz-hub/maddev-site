@@ -47,7 +47,7 @@ export function FeaturedWork({
               <div key={stat.value} className="flex flex-col gap-0.5">
                 <dt className="sr-only">{stat.label[locale]}</dt>
                 <dd
-                  className="numerals text-xl font-bold text-gradient"
+                  className="numerals text-xl font-bold text-coral"
                   dir="ltr"
                 >
                   {stat.value}

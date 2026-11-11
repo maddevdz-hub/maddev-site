@@ -41,7 +41,7 @@ export function SystemScreen({
         <div className="mx-auto flex max-w-lg flex-col items-center gap-6 text-center">
           <DDMark className="w-20 opacity-70" />
 
-          <p className="numerals font-display text-5xl font-bold text-gradient">
+          <p className="numerals font-display text-5xl font-bold text-coral">
             {code}
           </p>
 

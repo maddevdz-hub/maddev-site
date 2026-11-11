@@ -73,7 +73,7 @@ export function LangToggle({
       <span
         aria-hidden="true"
         className={cn(
-          'absolute inset-y-0.5 start-0.5 w-[calc(50%-0.125rem)] rounded-full bg-brand',
+          'absolute inset-y-0.5 start-0.5 w-[calc(50%-0.125rem)] rounded-full bg-coral',
           'transition-transform duration-300 ease-out motion-reduce:transition-none',
           locale === 'ar' ? 'translate-x-0' : 'ltr:translate-x-full rtl:-translate-x-full',
         )}
