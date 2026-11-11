@@ -64,13 +64,13 @@ export const DD_FRONT_COLOR = '${frontColor}';
 );
 
 // ── 2. Les SVG autonomes ───────────────────────────────────────────────
-const marque = (cBack, cFront, opBack = '') =>
-  `<path fill="${cBack}"${opBack} d="${back}"/>\n  <path fill="${cFront}" d="${front}"/>`;
+const marque = (cBack, cFront) =>
+  `<path fill="${cBack}" d="${back}"/>\n  <path fill="${cFront}" d="${front}"/>`;
 
-const icone = (cBack, cFront, opBack) =>
+const icone = (cBack, cFront) =>
   `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" aria-label="MADDEV">
   <title>MADDEV</title>
-  ${marque(cBack, cFront, opBack)}
+  ${marque(cBack, cFront)}
 </svg>
 `;
 
@@ -82,8 +82,11 @@ ecrit(
 `,
 );
 ecrit('public/maddev-icon-coral.svg', icone(backColor, frontColor));
-ecrit('public/maddev-icon-dark.svg', icone('#0e0f14', '#0e0f14', ' opacity="0.6"'));
-ecrit('public/maddev-icon-light.svg', icone('#f4f2ef', '#f4f2ef', ' opacity="0.6"'));
+// Monochromes : aplat plein, jamais d'opacité. La réserve autour du D de
+// devant sépare les deux lettres ; une opacité donnerait un gris qui change
+// selon le fond et pâlit à l'impression.
+ecrit('public/maddev-icon-dark.svg', icone('#0e0f14', '#0e0f14'));
+ecrit('public/maddev-icon-light.svg', icone('#f4f2ef', '#f4f2ef'));
 
 // Lockup : symbole de 76 de haut, calé sur la ligne du mot.
 const k = 76 / H;

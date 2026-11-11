@@ -42,7 +42,12 @@ export function DDMark({ className, title }: DDMarkProps) {
   );
 }
 
-/** Version monochrome, utilisée en filigrane et dans les fonds. */
+/**
+ * Version monochrome, utilisée en filigrane et dans les fonds.
+ * Aplat plein, sans opacité : la réserve autour du D de devant suffit à
+ * séparer les deux lettres, et une opacité donnerait un gris qui change
+ * selon le fond.
+ */
 export function DDMarkMono({
   className,
   color = 'currentColor',
@@ -57,7 +62,7 @@ export function DDMarkMono({
       className={cn('block', className)}
       aria-hidden="true"
     >
-      <path d={DD_BACK} fill={color} opacity="0.6" />
+      <path d={DD_BACK} fill={color} />
       <path d={DD_FRONT} fill={color} />
     </svg>
   );

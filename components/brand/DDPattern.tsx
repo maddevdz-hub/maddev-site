@@ -34,7 +34,7 @@ export function DDPattern({
         >
           {/* Mêmes tracés que le logo (dd-paths.ts, généré). */}
           <g transform={`scale(${(scale * 0.42) / DD_WIDTH})`} fill="#ffffff">
-            <path d={DD_BACK} opacity="0.6" />
+            <path d={DD_BACK} />
             <path d={DD_FRONT} />
           </g>
         </pattern>

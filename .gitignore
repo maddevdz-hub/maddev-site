@@ -16,5 +16,14 @@ tsconfig.tsbuildinfo
 # Visuels de réseaux sociaux et planche du logo, en PNG : ce n'est pas la
 # source du logo (celle-ci est dans public/logo/, en SVG).
 maddev-brand/
-# Document interne : ne doit jamais partir sur GitHub.
+# Documents internes : ne doivent jamais partir sur GitHub.
 MADDEV-Guide-Formules-Interne.pdf
+MADDEV-Plan-Lancement.pdf
+SOURCE.txt
+
+# Captures et images de travail posées à la racine. Les images du site
+# vivent dans public/ et app/, jamais ici.
+/*.png
+/*.jpg
+/*.jpeg
+/*.webp
