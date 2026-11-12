@@ -105,7 +105,7 @@
       "pillars": {
         "builders": {
           "title": "On construit et on fait vendre",
-          "text": "Développeurs et annonceurs à la fois. Quand on lance vos publicités, on connaît chaque ligne de code de la page d'arrivée — donc on mesure juste et on optimise vraiment."
+          "text": "On code et on gère la publicité, les deux à la fois. Quand on lance vos publicités, on connaît chaque ligne de code de la page d'arrivée — donc on mesure juste et on optimise vraiment."
         },
         "clarity": {
           "title": "Pas de jargon, pas de surprise",
@@ -210,7 +210,7 @@
       "submit": "Envoyer la demande",
       "sending": "Envoi en cours…",
       "successTitle": "Message reçu",
-      "successText": "Merci — on vous répond sous 24 heures ouvrées. Pour une réponse immédiate, écrivez-nous sur WhatsApp.",
+      "successText": "Merci — on vous répond sous 24 h. Pour une réponse immédiate, écrivez-nous sur WhatsApp.",
       "errorTitle": "L'envoi a échoué",
       "errorText": "Réessayez dans un instant, ou contactez-nous directement sur WhatsApp.",
       "required": "Ce champ est obligatoire",
