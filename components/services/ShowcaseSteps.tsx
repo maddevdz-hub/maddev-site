@@ -10,9 +10,10 @@ import type { Locale } from '@/i18n/config';
  * image est un état réel de la démo, produit par `npm run captures` — jamais
  * une recomposition.
  *
- * Sur mobile, la bande défile horizontalement à l'intérieur de son cadre
- * (la page, elle, ne dépasse jamais) : trois téléphones côte à côte dans
- * 390 px seraient illisibles.
+ * Sous 640 px : une colonne. Les trois écrans défilaient horizontalement,
+ * et le premier était coupé net sans rien pour l'annoncer — rien ne disait
+ * qu'il y avait quelque chose à côté. Une colonne se parcourt avec le reste
+ * de la page, dans le même geste.
  *
  * `sizes` annonce 640 px sur grand écran alors que l'image en occupe moins :
  * c'est voulu. Sans cela, Next sert la variante de 256 ou 384 px, et un
@@ -27,11 +28,11 @@ export function ShowcaseSteps({
   locale: Locale;
 }) {
   return (
-    <ol className="-mx-5 mt-14 flex snap-x snap-mandatory gap-5 overflow-x-auto px-5 pb-2 sm:mx-0 sm:mt-20 sm:grid sm:grid-cols-3 sm:gap-6 sm:overflow-visible sm:px-0 sm:pb-0 lg:gap-10">
+    <ol className="mt-14 grid gap-10 sm:mt-20 sm:grid-cols-3 sm:gap-6 lg:gap-10">
       {steps.map((step, i) => (
         <li
           key={step.src}
-          className="flex w-[68%] shrink-0 snap-center flex-col items-center gap-4 sm:w-auto"
+          className="flex flex-col items-center gap-4"
         >
           <div className="w-full max-w-[260px] rounded-[1.8rem] border border-line2 bg-ink3 p-1.5 shadow-[0_24px_50px_-24px_rgba(0,0,0,.75)]">
             <div className="overflow-hidden rounded-[1.4rem]">

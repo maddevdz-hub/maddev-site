@@ -1,4 +1,4 @@
-import type { Bilingual, BilingualList } from './services';
+import type { Bilingual } from './services';
 
 /** Une vue réelle du site livré, avec sa légende. */
 export type ProjectShot = { src: string; caption: Bilingual };
@@ -33,10 +33,6 @@ export type Project = {
    * une reconstitution d'interface.
    */
   image?: string;
-  /** La situation du client, en une phrase. */
-  context?: Bilingual;
-  /** Ce qui a été livré. Uniquement ce qui existe sur le site en ligne. */
-  delivered?: BilingualList;
   /** Captures prises sur l'URL réelle par `npm run captures`. */
   shots?: ProjectShot[];
 };
@@ -51,7 +47,6 @@ export type Project = {
 export const realisationUi = {
   eyebrow: { fr: 'Réalisation', ar: 'إنجاز' },
   title: { fr: 'Un client, un site en ligne', ar: 'زبون واحد، وموقع على الإنترنت' },
-  contextLabel: { fr: 'Le contexte', ar: 'السياق' },
   deliveredLabel: { fr: 'Ce qui a été fait', ar: 'ما الذي أُنجز' },
   visit: { fr: 'Voir le site', ar: 'زيارة الموقع' },
 } satisfies Record<string, Bilingual>;
@@ -90,24 +85,6 @@ export const projects: Project[] = [
       ],
     },
     demoUrl: 'https://henna-meubles-2026.vercel.app',
-    context: {
-      fr: 'Un showroom de meubles à Bordj Bou Arréridj, qui vendait par Facebook et par téléphone : aucune adresse à donner, et la collection à décrire message après message.',
-      ar: 'معرض أثاث في برج بوعريريج، كان يبيع عبر فيسبوك والهاتف: لا عنوان يعطيه لزبائنه، ويصف المجموعة في كل مرة رسالةً برسالة.',
-    },
-    delivered: {
-      fr: [
-        'Un site vitrine en français et en arabe, à son nom',
-        'Le catalogue complet, pièce par pièce, avec fiche et photos',
-        'Un bouton WhatsApp sur chaque pièce, qui transmet la référence',
-        'Les pages nécessaires pour apparaître dans une recherche Google',
-      ],
-      ar: [
-        'موقع تعريفي بالفرنسية والعربية، باسمه',
-        'الكتالوج كاملًا، قطعة قطعة، بصفحة وصور لكل واحدة',
-        'زر واتساب على كل قطعة ينقل مرجعها',
-        'الصفحات اللازمة للظهور في بحث غوغل',
-      ],
-    },
     shots: [
       {
         src: '/services/realisation-showroom-accueil.jpg',

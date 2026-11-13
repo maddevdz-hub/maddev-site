@@ -20,6 +20,13 @@ import type { Locale } from '@/i18n/config';
  * Aucune bande « projet fictif » ici : ce serait mentir dans l'autre sens.
  * Aucun chiffre de résultat non plus, et aucun témoignage : nous n'en avons
  * pas.
+ *
+ * ⚠️ Le texte vient entièrement de content/projects.ts, qui ne décrit que
+ * ce qui est VÉRIFIABLE sur le site en ligne : l'activité, la ville, ce qui
+ * a été livré, le lien. Une première version racontait ici comment le
+ * client vendait avant — Facebook, téléphone, messages — information que
+ * personne ne nous avait donnée. Ne rien ajouter qui ne se constate pas en
+ * ouvrant le site.
  */
 export function RealisationSection({
   project,
@@ -28,7 +35,7 @@ export function RealisationSection({
   project: Project;
   locale: Locale;
 }) {
-  if (!project.context || !project.delivered || !project.shots) return null;
+  if (!project.shots) return null;
 
   return (
     <section
@@ -49,7 +56,7 @@ export function RealisationSection({
             </h2>
 
             <p className="text-[16px] leading-relaxed text-txt2 sm:text-[17px]">
-              {project.context[locale]}
+              {project.result[locale]}
             </p>
 
             <ButtonLink href={project.demoUrl ?? '#'} size="lg" external>
@@ -63,7 +70,7 @@ export function RealisationSection({
               {realisationUi.deliveredLabel[locale]}
             </h3>
             <ul className="flex flex-col gap-3">
-              {project.delivered[locale].map((item) => (
+              {project.highlights[locale].map((item) => (
                 <li key={item} className="flex items-start gap-2.5">
                   <CheckIcon className="mt-0.5 h-5 w-5" />
                   <span className="text-[15px] leading-relaxed text-txt">
@@ -79,14 +86,17 @@ export function RealisationSection({
           Trois vues du site en ligne. Les deux premières sont des écrans
           larges, la troisième un téléphone : elle garde donc sa proportion
           au lieu d'être étirée.
+
+          Une colonne sous 640 px : en bande défilante, la première vue était
+          coupée sans rien pour l'annoncer.
         */}
-        <ul className="-mx-5 mt-12 flex snap-x snap-mandatory gap-5 overflow-x-auto px-5 pb-2 sm:mx-0 sm:mt-16 sm:grid sm:grid-cols-[1fr_1fr_.52fr] sm:items-start sm:gap-6 sm:overflow-visible sm:px-0 sm:pb-0">
+        <ul className="mt-12 grid gap-8 sm:mt-16 sm:grid-cols-[1fr_1fr_.52fr] sm:items-start sm:gap-6">
           {project.shots.map((shot) => {
             const telephone = shot.src.includes('produit');
             return (
               <li
                 key={shot.src}
-                className="flex w-[78%] shrink-0 snap-center flex-col gap-3 sm:w-auto"
+                className="flex flex-col gap-3"
               >
                 <div
                   className={
