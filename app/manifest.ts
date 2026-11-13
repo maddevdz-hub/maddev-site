@@ -16,7 +16,7 @@ export default function manifest(): MetadataRoute.Manifest {
     name: 'MADDEV',
     short_name: 'MADDEV',
     description:
-      'Des sites qui rapportent des commandes — studio digital algérien.',
+      'Des sites qui rapportent des commandes — studio web algérien.',
     start_url: '/',
     display: 'standalone',
     background_color: '#0e0f14',

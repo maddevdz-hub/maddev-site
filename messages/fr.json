@@ -47,7 +47,7 @@
   },
   "home": {
     "hero": {
-      "eyebrow": "Studio digital · Algérie",
+      "eyebrow": "Studio web · Algérie",
       "titleLine1": "Des sites qui rapportent",
       "titleAccent": "des commandes",
       "subtitle": "Votre client trouve le produit, choisit ses options, et vous envoie une commande complète. Vous n’avez plus qu’à préparer le colis.",
@@ -303,7 +303,7 @@
     }
   },
   "footer": {
-    "tagline": "Studio digital algérien. On conçoit, on développe, et on fait venir les clients.",
+    "tagline": "Studio web algérien. On conçoit, on développe, et on fait venir les clients.",
     "navTitle": "Navigation",
     "servicesTitle": "Services",
     "contactTitle": "Contact",
