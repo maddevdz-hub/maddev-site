@@ -60,7 +60,7 @@ export const processSteps: ProcessStep[] = [
     title: { fr: 'Développement', ar: 'التطوير' },
     summary: {
       fr: 'Construction avec une technologie moderne, testée au fur et à mesure.',
-      ar: 'نبني بتقنيات حديثة، ونختبر في كل مرحلة.',
+      ar: 'نبني الموقع، ونختبره في كل مرحلة.',
     },
     details: {
       fr: [
@@ -71,7 +71,7 @@ export const processSteps: ProcessStep[] = [
       ar: [
         'موقع سريع، يظهر في نتائج البحث، ويدوم',
         'رابط معاينة تتابع فيه التقدّم مباشرة',
-        'اختبار على الهاتف واللوحة والحاسوب',
+        'اختبار على الهاتف والجهاز اللوحي والحاسوب',
       ],
     },
   },

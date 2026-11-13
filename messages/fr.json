@@ -113,7 +113,7 @@
         },
         "validation": {
           "title": "Vous validez avant qu’on code",
-          "text": "On vous montre la maquette d’abord. Tant qu’elle ne vous plaît pas, on la reprend. Aucune ligne de code n’est écrite avant votre accord."
+          "text": "On vous montre la maquette d’abord, et deux tours d’ajustements sont inclus. Aucune ligne de code n’est écrite avant votre accord."
         }
       }
     },

@@ -160,9 +160,9 @@ export const services: Service[] = [
         'Annulation autonome — le créneau se remplit à nouveau',
       ],
       ar: [
-        'مواعيد تُحسب حسب مدّة كل علاج',
+        'مواعيد تُحسب وفق مدّة كل خدمة',
         'تذكير تلقائي عبر واتساب في اليوم السابق',
-        'إلغاء ذاتي — والموعد يُملأ من جديد',
+        'يلغي الزبون بنفسه، والموعد يُملأ من جديد',
       ],
     },
     timeline: { fr: '2 à 3 semaines', ar: 'من أسبوعين إلى ثلاثة' },
@@ -216,7 +216,7 @@ export const services: Service[] = [
     },
     lead: {
       fr: 'Un site qui sort dans Google quand quelqu’un cherche votre métier dans votre ville, et qui donne envie d’entrer.',
-      ar: 'موقع يظهر في غوغل حين يبحث أحدهم عن مهنتك في مدينتك، ويدعو إلى الدخول.',
+      ar: 'موقع يظهر في غوغل حين يبحث أحدهم عن مهنتك في مدينتك، ويشجّع على زيارتك.',
     },
     points: {
       fr: [
@@ -247,8 +247,8 @@ export const services: Service[] = [
     slug: 'plateforme-annonces',
     tier: 'principal',
     glyph: 'recherche',
-    name: { fr: 'Annonces', ar: 'إعلانات' },
-    solves: { fr: 'Chercher, filtrer, trouver', ar: 'بحث وفلترة وعثور' },
+    name: { fr: 'Annonces', ar: 'إعلانات مبوّبة' },
+    solves: { fr: 'Chercher, filtrer, trouver', ar: 'بحث سريع ونتيجة دقيقة' },
     benefit: {
       fr: 'Vos clients trouvent sans vous appeler',
       ar: 'زبائنك يجدون دون أن يتّصلوا بك',
@@ -266,7 +266,7 @@ export const services: Service[] = [
       ar: [
         'فلاتر مركّبة: الولاية، الميزانية، النوع، المساحة',
         'بطاقة مفصّلة بمعرض صور وموقع',
-        'طلب زيارة يصل مؤهَّلًا',
+        'طلب زيارة يصلك بتفاصيله كاملة',
       ],
     },
     timeline: { fr: '6 à 8 semaines', ar: 'من 6 إلى 8 أسابيع' },
@@ -284,7 +284,7 @@ export const services: Service[] = [
     },
     lead: {
       fr: 'Des campagnes Facebook, Instagram et TikTok qui mènent à une page conçue pour convertir. La page fait partie du service — une publicité qui tombe dans le vide ne rapporte rien.',
-      ar: 'حملات على فيسبوك وإنستغرام وتيك توك تقود إلى صفحة مصمَّمة للتحويل. الصفحة جزء من الخدمة — إعلان يقود إلى الفراغ لا يعود بشيء.',
+      ar: 'حملات على فيسبوك وإنستغرام وتيك توك تقود إلى صفحة مصمَّمة لتحويل الزائر إلى زبون. الصفحة جزء من الخدمة — إعلان يقود إلى الفراغ لا يعود بشيء.',
     },
     points: {
       fr: [
@@ -294,7 +294,7 @@ export const services: Service[] = [
       ],
       ar: [
         'صفحة وصول مصمَّمة لهدف واحد',
-        'بيكسل وتتبّع مركّبان بإحكام، وقياس موثوق',
+        'تتبّع مضبوط للزيارات والطلبات، وقياس موثوق',
         'تقرير واضح: المصروف، الاتصالات، المبيعات',
       ],
     },

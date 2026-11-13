@@ -42,7 +42,7 @@ export const faq: FaqItem[] = [
     },
     answer: {
       fr: 'Cela dépend du service : une semaine pour un menu QR, une à deux pour un site vitrine, six à huit pour une plateforme d’annonces. Le délai exact est fixé avant de commencer, pas en cours de route.',
-      ar: 'يتوقّف ذلك على الخدمة: أسبوع لقائمة QR، وأسبوع إلى أسبوعين لموقع تعريفي، ومن 6 إلى 8 أسابيع لمنصّة إعلانات. نحدّد الأجل بدقة قبل أن نبدأ، لا في منتصف العمل.',
+      ar: 'يتوقّف ذلك على الخدمة: أسبوع لقائمة QR، وأسبوع إلى أسبوعين لموقع تعريفي، ومن 6 إلى 8 أسابيع لمنصّة إعلانات. أحدّد الأجل بدقة قبل أن أبدأ، لا في منتصف العمل.',
     },
   },
   {
@@ -74,8 +74,8 @@ export const faq: FaqItem[] = [
       ar: 'وإن لم تعجبني النتيجة؟',
     },
     answer: {
-      fr: 'Vous validez la maquette avant qu’une seule ligne de code soit écrite. Tant qu’elle ne vous convient pas, on la reprend — c’est justement le moment où changer d’avis ne coûte rien.',
-      ar: 'توافق على التصميم قبل أن نكتب أي سطر برمجي. وما دام لا يعجبك، نعيد العمل عليه. هذه بالضبط اللحظة التي لا يكلّف فيها تغيير الرأي شيئًا.',
+      fr: 'Vous validez la maquette avant que j’écrive une seule ligne de code. Deux tours d’ajustements sont inclus — c’est justement le moment où changer d’avis ne coûte rien.',
+      ar: 'توافق على التصميم قبل أن أكتب أي سطر برمجي. وجولتا تعديل مشمولتان في العرض. هذه بالضبط اللحظة التي لا يكلّف فيها تغيير الرأي شيئًا.',
     },
     link: {
       route: 'process',
@@ -90,7 +90,7 @@ export const faq: FaqItem[] = [
     },
     answer: {
       fr: 'Le site est à vous. Un mois de corrections est inclus : si quelque chose ne va pas, je le règle. Passé ce délai, la maintenance est une option que vous prenez ou non.',
-      ar: 'يصبح الموقع ملكك. يشمل العرض شهرًا من التصحيحات: إذا ظهر خلل، أصلحه. وبعد هذه المدة، تبقى الصيانة خيارًا تأخذه أو تتركه.',
+      ar: 'يصبح الموقع ملكك. يشمل العرض شهرًا من التصحيحات: إذا ظهر خلل، أتكفّل بإصلاحه. وبعد هذه المدة، تبقى الصيانة خيارًا تأخذه أو تتركه.',
     },
   },
   {

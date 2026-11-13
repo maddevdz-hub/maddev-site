@@ -54,7 +54,7 @@ export const about = {
         'Un site vous appartient. Il porte votre nom, il apparaît sur Google quand quelqu’un cherche votre métier, et personne ne peut vous le retirer.',
       ],
       ar: [
-        'أغلب المحلات في الجزائر لا وجود لها على الإنترنت إلا عبر فيسبوك. وهذا يعمل، إلى أن يأتي اليوم الذي يتوقّف فيه.',
+        'أغلب المحلات في الجزائر لا وجود لها على الإنترنت إلا عبر فيسبوك. وهذا ينفع، إلى أن يتوقّف يومًا.',
         'صفحة فيسبوك أرض مستأجرة. لا تملك قواعدها، ولا جمهورها، ولا بياناتها. وإذا علّق فيسبوك الصفحة غدًا، لا يبقى شيء: لا الرسائل، ولا الزبائن، ولا سنوات المنشورات.',
         'أما الموقع فملكك. يحمل اسمك، ويظهر في غوغل حين يبحث أحدهم عن مهنتك، ولا يستطيع أحد أن ينتزعه منك.',
       ],
@@ -74,8 +74,8 @@ export const about = {
           ar: 'توافق على التصميم قبل أول سطر برمجي',
         } as Bilingual,
         text: {
-          fr: 'Vous voyez à quoi ressemblera votre site avant qu’il soit construit. Tant que la maquette ne vous convient pas, on la reprend — c’est le moment où changer d’avis ne coûte rien.',
-          ar: 'ترى شكل موقعك قبل بنائه. وما دام التصميم لا يعجبك، نعيد العمل عليه. هذه هي اللحظة التي لا يكلّف فيها تغيير الرأي شيئًا.',
+          fr: 'Vous voyez à quoi ressemblera votre site avant qu’il soit construit. Deux tours d’ajustements sont inclus — c’est le moment où changer d’avis ne coûte rien.',
+          ar: 'ترى شكل موقعك قبل بنائه. وجولتا تعديل مشمولتان في العرض. هذه هي اللحظة التي لا يكلّف فيها تغيير الرأي شيئًا.',
         } as Bilingual,
       },
       {

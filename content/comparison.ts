@@ -36,7 +36,7 @@ export const comparisonRows: ComparisonRow[] = [
     },
     website: {
       fr: 'Le site est indexé et peut apparaître sur ces recherches, avec une fiche Google Maps liée.',
-      ar: 'يفهرس غوغل الموقع، فيمكن أن يظهر في هذه البحوث، مع بطاقة مرتبطة في خرائط غوغل.',
+      ar: 'يفهرس غوغل الموقع، فيمكن أن يظهر في نتائج هذا البحث، مع بطاقة مرتبطة في خرائط غوغل.',
     },
   },
   {

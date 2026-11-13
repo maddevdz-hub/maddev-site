@@ -148,7 +148,7 @@ export const questions: Question[] = [
         icon: 'couverts',
         label: {
           fr: 'Un restaurant, un café, un fast-food',
-          ar: 'مطعم أو مقهى أو مطعم سريع',
+          ar: 'مطعم أو مقهى أو محل وجبات سريعة',
         },
       },
       {
@@ -438,7 +438,7 @@ export const situations: Record<SituationKey, Bilingual> = {
   },
   outilInvisible: {
     fr: 'Vous partez d’une idée d’outil métier et de rien d’autre : aujourd’hui, personne ne vous trouve en ligne.',
-    ar: 'تنطلق من فكرة أداة لمهنتك ومن لا شيء غيرها: اليوم، لا أحد يعثر عليك على الإنترنت.',
+    ar: 'تنطلق من فكرة أداة لمهنتك فقط: اليوم لا أحد يعثر عليك على الإنترنت.',
   },
   outilAutomatisation: {
     fr: 'Vous voulez automatiser un fonctionnement interne qui vous coûte du temps aujourd’hui.',
@@ -466,7 +466,7 @@ export const conclusions: Record<ConclusionKey, Bilingual> = {
   },
   'boutique-en-ligne': {
     fr: 'Une boutique en ligne est ce qui vous fera gagner le plus : catalogue, panier, et commande WhatsApp ou paiement à la livraison, sans intermédiaire.',
-    ar: 'المتجر الإلكتروني هو ما سيكسبك أكثر: كتالوج، وسلّة، وطلب عبر واتساب أو دفع عند الاستلام، دون وسيط.',
+    ar: 'المتجر الإلكتروني هو ما سيعود عليك بأكبر فائدة: كتالوج، وسلّة، وطلب عبر واتساب أو دفع عند الاستلام، دون وسيط.',
   },
   'site-vitrine': {
     fr: 'Un site vitrine couvre exactement ce besoin : il vous présente, rassure vos visiteurs, et transforme leur intérêt en appel ou en message WhatsApp.',
@@ -474,7 +474,7 @@ export const conclusions: Record<ConclusionKey, Bilingual> = {
   },
   'plateforme-annonces': {
     fr: 'Une plateforme d’annonces traite cela à la source : vos clients filtrent par wilaya, par budget et par type, consultent la fiche complète, et ne vous appellent qu’une fois décidés.',
-    ar: 'منصّة إعلانات تعالج ذلك من جذوره: يفلتر زبائنك حسب الولاية والميزانية والنوع، ويطّلعون على البطاقة الكاملة، ولا يتّصلون بك إلا بعد أن يقرّروا.',
+    ar: 'منصّة إعلانات تعالج ذلك من جذوره: يصفّي زبائنك العروض حسب الولاية والميزانية والنوع، ويطّلعون على البطاقة الكاملة، ولا يتّصلون بك إلا بعد أن يقرّروا.',
   },
   'plateforme-sur-mesure': {
     fr: 'Une plateforme sur mesure est la bonne réponse : on cadre le besoin réel avec vous avant de développer, pour éviter de construire ce que personne n’utilisera.',
