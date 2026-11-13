@@ -7,6 +7,7 @@ import { Reveal } from '@/components/ui/Reveal';
 import { ShowcaseFigure } from '@/components/services/ShowcaseVisuals';
 import { DemoEmbed } from '@/components/services/DemoEmbed';
 import { ShowcaseSteps } from '@/components/services/ShowcaseSteps';
+import { ServiceJourney } from '@/components/services/ServiceJourney';
 import { showcaseUi, type Service } from '@/content/services';
 import type { Locale } from '@/i18n/config';
 
@@ -51,7 +52,19 @@ export function ShowcaseBlock({
             mais le type reste honnête plutôt que de promettre une image que
             deux services sur huit n'ont pas.
           */}
-          {item.visual ? (
+          {item.journey ? (
+            <Reveal
+              className={imageFirst ? 'lg:order-1' : 'lg:order-2'}
+              delay={0.05}
+            >
+              <ServiceJourney
+                glyph={item.glyph}
+                steps={item.journey}
+                locale={locale}
+                note={showcaseUi.demoOnRequest[locale]}
+              />
+            </Reveal>
+          ) : item.visual ? (
             <Reveal
               className={imageFirst ? 'lg:order-1' : 'lg:order-2'}
               delay={0.05}
@@ -70,7 +83,6 @@ export function ShowcaseBlock({
                     <ShowcaseFigure
                       visual={item.visual}
                       alt={item.benefit[locale]}
-                      locale={locale}
                     />
                   }
                 />
@@ -78,7 +90,6 @@ export function ShowcaseBlock({
                 <ShowcaseFigure
                   visual={item.visual}
                   alt={item.benefit[locale]}
-                  locale={locale}
                 />
               )}
             </Reveal>

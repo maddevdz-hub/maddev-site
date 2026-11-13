@@ -52,17 +52,17 @@ export type ServiceGlyphName =
   | 'engrenage'
   | 'anneaux';
 
-export type ServiceVisualSpec =
-  /** Capture réelle de la démonstration, cadrée dans un mockup. */
-  | {
-      kind: 'capture';
-      src: string;
-      frame: 'phone' | 'screen';
-      width: number;
-      height: number;
-    }
-  /** Visuel dessiné, tant que la démonstration n'existe pas. */
-  | { kind: 'drawn'; figure: 'boutique' | 'annonces' | 'campagne' };
+/** Capture réelle de la démonstration, cadrée dans un mockup. */
+export type ServiceVisualSpec = {
+  kind: 'capture';
+  src: string;
+  frame: 'phone' | 'screen';
+  width: number;
+  height: number;
+};
+
+/** Une étape du parcours d'un service sans démonstration. */
+export type ServiceJourneyStep = { title: Bilingual; text: Bilingual };
 
 /** Un écran du parcours d'une démo, avec sa légende. */
 export type ServiceStep = { src: string; caption: Bilingual };
@@ -96,6 +96,12 @@ export type Service = {
   /** LE délai indicatif. Il n'en existe pas d'autre ailleurs. */
   timeline: Bilingual;
   visual?: ServiceVisualSpec;
+  /**
+   * Services sans démonstration : le mécanisme en trois étapes — ce que fait
+   * le client, ce que fait le site, ce que reçoit le commerçant. Remplace
+   * les compositions qui imitaient une capture d'écran.
+   */
+  journey?: ServiceJourneyStep[];
   /** Lien vers la démonstration, quand elle existe. */
   demoHref?: string;
   /**
@@ -239,7 +245,29 @@ export const services: Service[] = [
       ],
     },
     timeline: { fr: '4 à 6 semaines', ar: 'من 4 إلى 6 أسابيع' },
-    visual: { kind: 'drawn', figure: 'boutique' },
+    journey: [
+      {
+        title: { fr: 'Le client choisit', ar: 'الزبون يختار' },
+        text: {
+          fr: 'Il parcourt le catalogue, ouvre une fiche, choisit la taille, la couleur et la quantité.',
+          ar: 'يتصفّح الكتالوج، ويفتح صفحة المنتج، ويختار المقاس واللون والكمّية.',
+        },
+      },
+      {
+        title: { fr: 'Le site rassemble la commande', ar: 'الموقع يجمع الطلب' },
+        text: {
+          fr: 'Panier, wilaya de livraison, coordonnées : tout est réuni avant l’envoi, sans échange de messages.',
+          ar: 'السلّة وولاية التوصيل ومعلومات التواصل: كل شيء يُجمع قبل الإرسال، دون تبادل رسائل.',
+        },
+      },
+      {
+        title: { fr: 'Vous recevez une commande complète', ar: 'يصلك طلب مكتمل' },
+        text: {
+          fr: 'Elle arrive par WhatsApp ou dans votre espace, référence et options comprises. Vous préparez le colis.',
+          ar: 'يصلك عبر واتساب أو في مساحتك، بمرجعه وخياراته. ولا يبقى عليك سوى تجهيز الطرد.',
+        },
+      },
+    ],
   },
   {
     slug: 'site-vitrine',
@@ -312,7 +340,29 @@ export const services: Service[] = [
       ],
     },
     timeline: { fr: '6 à 8 semaines', ar: 'من 6 إلى 8 أسابيع' },
-    visual: { kind: 'drawn', figure: 'annonces' },
+    journey: [
+      {
+        title: { fr: 'Le visiteur filtre', ar: 'الزائر يصفّي' },
+        text: {
+          fr: 'Wilaya, budget, type, surface : il réduit la liste à ce qui l’intéresse vraiment.',
+          ar: 'الولاية والميزانية والنوع والمساحة: يختصر القائمة إلى ما يهمّه فعلًا.',
+        },
+      },
+      {
+        title: { fr: 'Il ouvre la fiche entière', ar: 'يفتح البطاقة كاملة' },
+        text: {
+          fr: 'Photos, description, localisation : il sait à quoi s’attendre avant de décrocher.',
+          ar: 'الصور والوصف والموقع: يعرف ما ينتظره قبل أن يتّصل.',
+        },
+      },
+      {
+        title: { fr: 'Vous recevez une demande de visite', ar: 'تصلك طلبات الزيارة' },
+        text: {
+          fr: 'Elle arrive avec le bien concerné et les coordonnées. Plus d’appels pour redire ce qui est déjà écrit.',
+          ar: 'يصلك الطلب بالعقار المعني ومعلومات التواصل. لا مكالمات لإعادة ما هو مكتوب أصلًا.',
+        },
+      },
+    ],
   },
   {
     slug: 'campagne-publicitaire',
@@ -344,7 +394,29 @@ export const services: Service[] = [
       fr: 'Mise en place en quelques jours',
       ar: 'الإعداد في بضعة أيام',
     },
-    visual: { kind: 'drawn', figure: 'campagne' },
+    journey: [
+      {
+        title: { fr: 'La publicité touche votre public', ar: 'الإعلان يصل إلى جمهورك' },
+        text: {
+          fr: 'Facebook, Instagram ou TikTok, ciblés sur votre wilaya et votre clientèle.',
+          ar: 'فيسبوك أو إنستغرام أو تيك توك، موجّهة إلى ولايتك وزبائنك.',
+        },
+      },
+      {
+        title: { fr: 'Elle mène à une page faite pour ça', ar: 'يقود إلى صفحة مصمّمة لذلك' },
+        text: {
+          fr: 'Un seul message, une seule action. La page fait partie du service : une publicité qui tombe dans le vide ne rapporte rien.',
+          ar: 'رسالة واحدة وإجراء واحد. الصفحة جزء من الخدمة: إعلان يقود إلى الفراغ لا يعود بشيء.',
+        },
+      },
+      {
+        title: { fr: 'Vous voyez ce que chaque dinar a donné', ar: 'ترى ما حقّقه كل دينار' },
+        text: {
+          fr: 'Dépense, contacts reçus, ventes : un rapport clair, pas des graphiques décoratifs.',
+          ar: 'المصروف والاتصالات والمبيعات: تقرير واضح، لا رسوم بيانية للزينة.',
+        },
+      },
+    ],
   },
 
   /*
@@ -435,6 +507,10 @@ export const showcaseUi = {
   demoFrameTitle: {
     fr: 'Démonstration essayable',
     ar: 'نموذج توضيحي قابل للتجربة',
+  },
+  demoOnRequest: {
+    fr: 'Démonstration sur demande',
+    ar: 'نموذج توضيحي عند الطلب',
   },
   demoNote: {
     fr: 'Démonstration — projet fictif conçu par MADDEV',
