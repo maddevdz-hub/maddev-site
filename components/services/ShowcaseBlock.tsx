@@ -154,7 +154,10 @@ export function ShowcaseBlock({
                 <ButtonLink
                   href={item.realClient.url}
                   size="lg"
-                  external
+                  // Une ancre reste dans la page : ni nouvel onglet, ni
+                  // composant Link, qui refuserait un href commençant par #.
+                  external={!item.realClient.url.startsWith('#')}
+                  raw={item.realClient.url.startsWith('#')}
                   className="w-full sm:w-auto"
                 >
                   {item.realClient.label[locale]}

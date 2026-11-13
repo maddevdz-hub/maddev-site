@@ -275,9 +275,14 @@ export const services: Service[] = [
       width: 2200,
       height: 1400,
     },
+    /*
+     * Le client réel a sa propre section plus bas (#realisation) : le bloc
+     * le signale et y renvoie, au lieu d'envoyer le visiteur hors du site
+     * au milieu du catalogue.
+     */
     realClient: {
-      url: 'https://henna-meubles-2026.vercel.app',
-      label: { fr: 'Voir le site en ligne', ar: 'زيارة الموقع' },
+      url: '#realisation',
+      label: { fr: 'Voir la réalisation', ar: 'اطّلع على الإنجاز' },
     },
   },
   {

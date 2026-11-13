@@ -285,6 +285,29 @@ const SHOTS = [
     absolute: true,
     viewport: { width: 1100, height: 700 },
   },
+  /*
+   * La réalisation, en trois vues prises sur le site en ligne du client :
+   * l'accueil, la collection, une fiche produit sur téléphone. Version
+   * française du site, la même pour les deux langues de /services.
+   */
+  {
+    file: 'realisation-showroom-accueil.jpg',
+    url: 'https://henna-meubles-2026.vercel.app/fr',
+    absolute: true,
+    viewport: { width: 1280, height: 800 },
+  },
+  {
+    file: 'realisation-showroom-collection.jpg',
+    url: 'https://henna-meubles-2026.vercel.app/fr/collection',
+    absolute: true,
+    viewport: { width: 1280, height: 800 },
+  },
+  {
+    file: 'realisation-showroom-produit.jpg',
+    url: 'https://henna-meubles-2026.vercel.app/fr/produit/salon-modulaire-ivoire',
+    absolute: true,
+    viewport: TELEPHONE,
+  },
 ];
 
 const executablePath = CHROME_CANDIDATES.find((p) => existsSync(p));
@@ -317,7 +340,13 @@ for (const shot of aFaire) {
   await page.emulateMediaFeatures([{ name: 'prefers-color-scheme', value: 'light' }]);
   await page.setViewport({ ...shot.viewport, deviceScaleFactor: 2 });
   const target = shot.absolute ? shot.url : `${BASE}${shot.url}`;
-  const reponse = await page.goto(target, { waitUntil: 'networkidle0', timeout: 45000 });
+  // Un site externe peut garder une connexion ouverte (vidéo, mesure
+  // d'audience) et ne jamais atteindre le silence réseau complet : on y
+  // tolère deux requêtes en cours. Nos propres démos, elles, doivent se taire.
+  const reponse = await page.goto(target, {
+    waitUntil: shot.absolute ? 'networkidle2' : 'networkidle0',
+    timeout: 60000,
+  });
   // Une page en erreur se photographie très bien : on s'arrête plutôt que de
   // publier sur /services la capture d'une 404 ou d'une 500.
   if (!reponse || reponse.status() >= 400) {
@@ -334,7 +363,8 @@ for (const shot of aFaire) {
   if (shot.prepare) {
     await shot.prepare(page);
   }
-  await new Promise((r) => setTimeout(r, 500));
+  // Les images d'un site externe finissent d'arriver après la navigation.
+  await new Promise((r) => setTimeout(r, shot.absolute ? 2500 : 500));
 
   const file = resolve(OUT, shot.file);
   const jpeg = shot.file.endsWith('.jpg');

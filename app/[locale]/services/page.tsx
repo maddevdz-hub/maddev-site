@@ -8,6 +8,7 @@ import { CtaSection } from '@/components/ui/CtaSection';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 import { ShowcaseBlock } from '@/components/services/ShowcaseBlock';
 import { ShowcaseSummary } from '@/components/services/ShowcaseSummary';
+import { RealisationSection } from '@/components/services/RealisationSection';
 import { RecurringServices } from '@/components/services/RecurringServices';
 import { ServiceGlyph } from '@/components/services/ServiceGlyphs';
 import {
@@ -20,6 +21,7 @@ import { openGraph } from '@/lib/metadata';
 import { HashScroll } from '@/components/ui/HashScroll';
 import { href, isLocale, routes, type Locale } from '@/i18n/config';
 import { services } from '@/content/services';
+import { projects } from '@/content/projects';
 import { site } from '@/content/site';
 
 /**
@@ -151,6 +153,13 @@ export default async function ServicesPage({
           locale={locale}
         />
       ))}
+
+      {/*
+        La réalisation : le seul client réel, hors de la liste des services.
+        Elle vient après les six blocs — la placer au milieu couperait
+        l'alternance gauche/droite des services.
+      */}
+      <RealisationSection project={projects[0]} locale={locale} />
 
       {/*
         Les deux offres secondaires, côte à côte.

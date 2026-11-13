@@ -39,6 +39,7 @@ type CommonProps = {
 export function ButtonLink({
   href,
   external = false,
+  raw = false,
   variant = 'primary',
   size = 'md',
   className,
@@ -47,6 +48,8 @@ export function ButtonLink({
 }: CommonProps & {
   href: string;
   external?: boolean;
+  /** Ancre de la même page : un <a> simple, sans préchargement de route. */
+  raw?: boolean;
 } & Omit<ComponentPropsWithoutRef<'a'>, 'href' | 'className' | 'children'>) {
   const classes = cn(base, variants[variant], sizes[size], className);
 
@@ -59,6 +62,14 @@ export function ButtonLink({
         className={classes}
         {...rest}
       >
+        {children}
+      </a>
+    );
+  }
+
+  if (raw) {
+    return (
+      <a href={href} className={classes} {...rest}>
         {children}
       </a>
     );
