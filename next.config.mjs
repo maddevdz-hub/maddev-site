@@ -1,6 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  // Pas d'en-tête « X-Powered-By: Next.js » dans les réponses.
+  poweredByHeader: false,
   images: {
     formats: ['image/avif', 'image/webp'],
   },
