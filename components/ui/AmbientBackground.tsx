@@ -1,9 +1,10 @@
-import { DDPattern } from '@/components/brand/DDPattern';
 import { cn } from '@/lib/utils';
 
 /**
- * Fond décoratif : deux dégradés radiaux corail qui « respirent » lentement,
- * plus le motif DD en filigrane. Purement visuel — aucun contenu, aucun
+ * Fond décoratif : deux dégradés radiaux corail qui « respirent » lentement.
+ * Le motif DD en filigrane a été retiré : derrière du texte, il répétait le
+ * monogramme déjà présent dans l'en-tête et dans le hero. `patternId` est
+ * conservé pour ne pas casser les appels existants. Purement visuel — aucun contenu, aucun
  * impact sur la mise en page (position absolue, pointer-events désactivés).
  *
  * L'animation `breathe` est neutralisée par la règle prefers-reduced-motion
@@ -11,7 +12,6 @@ import { cn } from '@/lib/utils';
  */
 export function AmbientBackground({
   className,
-  patternId = 'dd-ambient',
   intensity = 'default',
 }: {
   className?: string;
@@ -48,12 +48,6 @@ export function AmbientBackground({
             'radial-gradient(circle, rgba(255,138,95,.16) 0%, rgba(255,138,95,0) 68%)',
           animationDelay: '-7s',
         }}
-      />
-      <DDPattern
-        id={patternId}
-        opacity={strong ? 0.022 : 0.014}
-        scale={140}
-        className="mask-fade"
       />
     </div>
   );

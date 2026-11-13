@@ -1,7 +1,6 @@
 ﻿import Link from 'next/link';
 import { Logo } from '@/components/brand/Logo';
 import { Container } from '@/components/ui/Container';
-import { DDPattern } from '@/components/brand/DDPattern';
 import { primaryServices } from '@/content/services';
 import { site, whatsappLink } from '@/content/site';
 import { href, routes, type Locale } from '@/i18n/config';
@@ -29,9 +28,7 @@ export function Footer({
   ];
 
   return (
-    <footer className="relative overflow-hidden border-t border-line bg-ink2">
-      <DDPattern opacity={0.014} scale={150} id="dd-footer" />
-
+    <footer className="relative overflow-hidden border-t border-line bg-ink2 pb-[68px] sm:pb-0">
       <Container className="relative">
         <div className="grid gap-12 py-14 sm:py-16 lg:grid-cols-[1.6fr_1fr_1fr_1.2fr] lg:gap-8">
           {/* Marque */}

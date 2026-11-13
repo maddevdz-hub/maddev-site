@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
 import { Hero } from '@/components/home/Hero';
+import { QuizEntry } from '@/components/home/QuizEntry';
 import { TrustBar } from '@/components/home/TrustBar';
 import { ServicesPreview } from '@/components/home/ServicesPreview';
 import { FeaturedWork } from '@/components/home/FeaturedWork';
@@ -38,6 +39,7 @@ export default async function HomePage({
   return (
     <>
       <Hero locale={locale} dict={dict} />
+      <QuizEntry locale={locale} dict={dict} />
       <TrustBar dict={dict} />
       <ServicesPreview locale={locale} dict={dict} />
       <FeaturedWork locale={locale} dict={dict} />

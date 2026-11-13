@@ -45,13 +45,8 @@ export function SectionHeading({
         {accent ? (
           <>
             <br />
-            {/*
-              Un seul accent par écran : le dégradé est réservé au titre de
-              tête de page (h1). Les titres de section sont en corail plat.
-            */}
-            <span className={Tag === 'h1' ? 'text-gradient' : 'text-coral'}>
-              {accent}
-            </span>
+            {/* Corail plat : le dégradé est réservé au bouton principal. */}
+            <span className="text-coral">{accent}</span>
           </>
         ) : null}
       </Tag>

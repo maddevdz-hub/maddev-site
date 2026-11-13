@@ -112,16 +112,6 @@
 }
 
 @layer components {
-  /*
-   * Texte en dégradé — réservé au titre de tête de page (un seul accent par
-   * écran). Partout ailleurs : `text-coral`, en aplat.
-   */
-  .text-gradient {
-    @apply bg-brand bg-clip-text text-transparent;
-    /* Sécurise le rendu du dégradé sur les descendantes de lettres arabes */
-    padding-bottom: 0.08em;
-  }
-
   /* Carte standard : fond ink3, bordure discrète, ombre profonde. */
   .card {
     @apply rounded-3xl border border-line bg-ink3/70 shadow-card backdrop-blur-sm;

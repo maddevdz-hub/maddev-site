@@ -5,8 +5,9 @@ import { ArrowIcon, ButtonLink } from '@/components/ui/Button';
 import { Container } from '@/components/ui/Container';
 import { Eyebrow } from '@/components/ui/Badge';
 import { withNumerals } from '@/components/ui/Numerals';
+import { ServiceIconGlyph } from '@/components/ui/ServiceIcon';
+import { primaryServices } from '@/content/services';
 import { href, routes, type Locale } from '@/i18n/config';
-import { cn } from '@/lib/utils';
 import type { Dictionary } from '@/i18n/dictionaries';
 
 /**
@@ -34,12 +35,12 @@ export function Hero({
 
   return (
     <section className="relative isolate overflow-hidden">
-      <AmbientBackground patternId="dd-hero" />
+      <AmbientBackground />
 
       <Container>
-        <div className="grid items-center gap-12 py-16 sm:py-20 lg:grid-cols-[1.1fr_.9fr] lg:gap-10 lg:py-28">
+        <div className="grid items-center gap-12 py-10 sm:py-16 lg:grid-cols-[1.1fr_.9fr] lg:gap-10 lg:py-20">
           {/* Colonne texte */}
-          <div className="flex flex-col items-start gap-6">
+          <div className="flex flex-col items-start gap-5 sm:gap-6">
             <Eyebrow>{t.eyebrow}</Eyebrow>
 
             <h1
@@ -47,7 +48,7 @@ export function Hero({
             >
               {t.titleLine1}
               <br />
-              <span className="text-gradient">{t.titleAccent}</span>
+              <span className="text-coral">{t.titleAccent}</span>
             </h1>
 
             <p
@@ -56,57 +57,49 @@ export function Hero({
               {t.subtitle}
             </p>
 
-            <div
-              className="flex flex-col gap-3 sm:flex-row sm:items-center"
+            {/*
+              UN bouton principal. L'action secondaire permanente est
+              « Demander un devis », dans l'en-tête (barre fixe sur mobile) :
+              le premier écran porte donc une action principale et une
+              secondaire, pas cinq appels à l'action.
+            */}
+            <ButtonLink
+              href={href(locale, routes.contact)}
+              size="lg"
+              className="w-full sm:w-auto"
             >
-              <ButtonLink href={href(locale, routes.contact)} size="lg">
-                {t.ctaPrimary}
-                <ArrowIcon className="group-hover:translate-x-0.5 rtl:group-hover:-translate-x-0.5" />
-              </ButtonLink>
-              <ButtonLink
-                href={href(locale, routes.services)}
-                variant="secondary"
-                size="lg"
-              >
-                {t.ctaSecondary}
-              </ButtonLink>
-            </div>
+              {t.ctaPrimary}
+              <ArrowIcon className="group-hover:translate-x-0.5 rtl:group-hover:-translate-x-0.5" />
+            </ButtonLink>
 
             {/*
-              Porte d'entrée pour le visiteur qui ne sait pas encore ce qu'il
-              cherche : quatre questions valent mieux qu'un formulaire vide.
-
-              Traitée en carte, pas en pilule : elle doit accrocher l'œil sans
-              rivaliser avec les deux CTA principaux. D'où un fond corail
-              translucide plutôt que le dégradé plein, réservé à l'action
-              principale. La lueur qui respire attire le regard ; elle n'anime
-              qu'une ombre, donc rien à recalculer dans la mise en page.
+              Les six services, visibles sans défiler. Ce sont des liens de
+              navigation, pas des boutons : chacun mène à son bloc de
+              /services. Un visiteur doit savoir ce qu'on vend avant de
+              toucher à la molette.
             */}
-            <div className="w-full pt-2 sm:w-auto">
-              <Link
-                href={href(locale, routes.quiz)}
-                className="group flex w-full animate-glow-pulse items-center gap-3.5 rounded-2xl border border-coral/30 bg-coral/[.09] px-4 py-3.5 transition-[transform,background-color,border-color] duration-300 hover:scale-[1.02] hover:border-coral/60 hover:bg-coral/[.15] motion-reduce:hover:transform-none sm:w-auto"
-              >
-                <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-coral/30 bg-brand-soft transition-colors duration-300 group-hover:border-coral/55">
-                  <SparkGlyph className="h-5 w-5 animate-twinkle" />
-                </span>
-
-                <span className="flex flex-1 flex-col gap-0.5 text-start">
-                  <span className="text-[15px] font-bold leading-snug text-txt sm:text-base">
-                    {dict.quiz.heroCtaTitle}
-                  </span>
-                  <span className="text-[13px] leading-snug text-txt2 transition-colors duration-300 group-hover:text-txt sm:text-sm">
-                    {dict.quiz.heroCtaText}
-                  </span>
-                </span>
-
-                <ArrowIcon className="h-4 w-4 shrink-0 text-coral2 transition-transform group-hover:translate-x-0.5 rtl:group-hover:-translate-x-0.5" />
-              </Link>
-            </div>
+            <nav aria-label={dict.nav.services} className="w-full">
+              <ul className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+                {primaryServices.map((service) => (
+                  <li key={service.slug}>
+                    <Link
+                      href={`${href(locale, routes.services)}#${service.slug}`}
+                      className="flex min-h-[48px] items-center gap-2.5 rounded-xl border border-line bg-white/[.03] px-3 py-2 text-[14px] font-semibold leading-tight text-txt transition-colors duration-200 hover:border-coral/45 hover:bg-white/[.06]"
+                    >
+                      <ServiceIconGlyph
+                        name={service.glyph}
+                        className="h-[18px] w-[18px] shrink-0 text-coral2"
+                      />
+                      {service.name[locale]}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
 
             {/* Mini-statistiques */}
             <dl
-              className="mt-2 flex flex-wrap items-stretch gap-x-8 gap-y-4 border-t border-line pt-6"
+              className="flex w-full flex-wrap items-stretch gap-x-8 gap-y-4 border-t border-line pt-6"
             >
               {stats.map((stat) => (
                 <div key={stat.label} className="flex flex-col gap-0.5">
@@ -134,21 +127,6 @@ export function Hero({
         </div>
       </Container>
     </section>
-  );
-}
-
-/** Petite étincelle décorative devant l'entrée du configurateur. */
-function SparkGlyph({ className }: { className?: string }) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="currentColor"
-      aria-hidden="true"
-      className={cn('h-4 w-4 shrink-0 text-coral2', className)}
-    >
-      <path d="M12 2.5 13.7 8.3 19.5 10 13.7 11.7 12 17.5 10.3 11.7 4.5 10 10.3 8.3 12 2.5Z" />
-      <path d="M18.5 15.5 19.3 18 21.5 18.8 19.3 19.6 18.5 22 17.7 19.6 15.5 18.8 17.7 18Z" />
-    </svg>
   );
 }
 

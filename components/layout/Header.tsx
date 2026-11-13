@@ -130,26 +130,17 @@ export function Header({
             </nav>
 
             <div className="flex items-center gap-2 sm:gap-3">
-              {/*
-                Accès au configurateur depuis n'importe quelle page.
-                Volontairement traité comme une action et non comme un
-                élément de navigation : il ne rejoint pas la liste des
-                pages, qui doit rester courte et lisible.
-              */}
-              <Link
-                href={href(locale, routes.quiz)}
-                aria-label={nav.quiz}
-                title={nav.quiz}
-                className="hidden items-center gap-2 rounded-full border border-coral/25 bg-coral/[.07] px-3.5 py-2 text-sm font-medium text-txt2 transition-colors duration-300 hover:border-coral/50 hover:bg-coral/[.12] hover:text-txt md:inline-flex"
-              >
-                <SparkGlyph />
-                <span className="hidden lg:inline">{nav.quiz}</span>
-              </Link>
-
               <LangToggle locale={locale} label={nav.switchLanguage} />
 
+              {/*
+                « Demander un devis », toujours accessible. Volontairement en
+                bouton SECONDAIRE : le dégradé est réservé à l'action
+                principale de chaque écran. Sous 640 px, l'en-tête n'a pas la
+                place — le même bouton vit dans une barre fixe en bas d'écran.
+              */}
               <ButtonLink
                 href={href(locale, routes.contact)}
+                variant="secondary"
                 size="md"
                 className="hidden sm:inline-flex"
               >
@@ -208,17 +199,27 @@ export function Header({
                 {nav.quiz}
               </Link>
 
-              <ButtonLink
-                href={href(locale, routes.contact)}
-                size="lg"
-                className="mt-3 w-full sm:hidden"
-              >
-                {nav.cta}
-              </ButtonLink>
             </nav>
           </Container>
         </div>
       </header>
+
+      {/*
+        Barre fixe du devis, mobile seulement. Absente sur la page contact
+        (on y est déjà) et quand le menu est ouvert.
+      */}
+      {!menuOpen && !isActive(routes.contact) ? (
+        <div className="fixed inset-x-0 bottom-0 z-40 border-t border-line bg-ink/90 px-4 pb-[max(0.625rem,env(safe-area-inset-bottom))] pt-2.5 backdrop-blur-xl sm:hidden">
+          <ButtonLink
+            href={href(locale, routes.contact)}
+            variant="secondary"
+            size="md"
+            className="w-full"
+          >
+            {nav.cta}
+          </ButtonLink>
+        </div>
+      ) : null}
     </>
   );
 }
