@@ -17,6 +17,7 @@ import {
 } from '@/content/services';
 import { getDictionary } from '@/i18n/dictionaries';
 import { openGraph } from '@/lib/metadata';
+import { HashScroll } from '@/components/ui/HashScroll';
 import { href, isLocale, routes, type Locale } from '@/i18n/config';
 import { services } from '@/content/services';
 import { site } from '@/content/site';
@@ -90,6 +91,7 @@ export default async function ServicesPage({
 
   return (
     <>
+      <HashScroll />
       <script
         type="application/ld+json"
         // Contenu généré par nous, à partir de content/services.ts.
