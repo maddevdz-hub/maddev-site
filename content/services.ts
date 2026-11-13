@@ -64,6 +64,9 @@ export type ServiceVisualSpec =
   /** Visuel dessiné, tant que la démonstration n'existe pas. */
   | { kind: 'drawn'; figure: 'boutique' | 'annonces' | 'campagne' };
 
+/** Un écran du parcours d'une démo, avec sa légende. */
+export type ServiceStep = { src: string; caption: Bilingual };
+
 export type Service = {
   /** Identifiant stable : ancre `/services#slug`, valeur du formulaire, clé d'email. */
   slug: string;
@@ -95,6 +98,12 @@ export type Service = {
   visual?: ServiceVisualSpec;
   /** Lien vers la démonstration, quand elle existe. */
   demoHref?: string;
+  /**
+   * Le parcours de la démo en trois écrans réels (`npm run captures`).
+   * Réservé aux services qui ont une démo : on ne légende pas ce qu'on ne
+   * peut pas montrer.
+   */
+  steps?: ServiceStep[];
   /**
    * Projet réel plutôt que démonstration : le showroom de meubles.
    * Il ne porte PAS la mention « fictif » — ce serait mentir dans l'autre sens.
@@ -138,6 +147,20 @@ export const services: Service[] = [
       height: 1720,
     },
     demoHref: '/demo/menu',
+    steps: [
+      {
+        src: '/services/etape-zitouna-1.png',
+        caption: { fr: 'Le client scanne', ar: 'الزبون يمسح الرمز' },
+      },
+      {
+        src: '/services/etape-zitouna-2.png',
+        caption: { fr: 'Il lit la carte', ar: 'يتصفّح القائمة' },
+      },
+      {
+        src: '/services/etape-zitouna-3.png',
+        caption: { fr: 'Il appelle le serveur', ar: 'ينادي النادل' },
+      },
+    ],
   },
   {
     slug: 'prise-de-rendez-vous',
@@ -174,6 +197,20 @@ export const services: Service[] = [
       height: 1280,
     },
     demoHref: '/demo/rendezvous',
+    steps: [
+      {
+        src: '/services/etape-el-yasmine-1.png',
+        caption: { fr: 'Le client choisit la prestation', ar: 'الزبون يختار الخدمة' },
+      },
+      {
+        src: '/services/etape-el-yasmine-2.png',
+        caption: { fr: 'Il choisit son créneau', ar: 'يختار الموعد' },
+      },
+      {
+        src: '/services/etape-el-yasmine-3.png',
+        caption: { fr: 'Il reçoit la confirmation', ar: 'يتلقّى التأكيد' },
+      },
+    ],
   },
   {
     slug: 'boutique-en-ligne',

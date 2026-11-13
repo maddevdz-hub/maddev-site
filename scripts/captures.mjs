@@ -32,6 +32,78 @@ const CHROME_CANDIDATES = [
   'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe',
 ].filter(Boolean);
 
+/** Écran de téléphone des parcours en trois étapes. */
+const TELEPHONE = { width: 390, height: 760 };
+
+const pause = (ms) => new Promise((r) => setTimeout(r, ms));
+
+/** Arrête le script en nommant l'élément manquant. */
+async function exiger(page, capture, selecteur) {
+  const ok = await page.evaluate((s) => !!document.querySelector(s), selecteur);
+  if (!ok) throw new Error(`${capture} : « ${selecteur} » introuvable — la démo a changé, le parcours est à revoir.`);
+}
+
+/**
+ * Clique le premier élément visible dont le texte correspond. `debut` : le
+ * texte doit commencer par la valeur (une carte de plat porte aussi son prix).
+ */
+async function cliquerTexte(page, capture, texte, balise = 'button', debut = false) {
+  const ok = await page.evaluate(
+    (texte, balise, debut) => {
+      const net = (e) => (e.getAttribute('aria-label') || e.textContent || '').replace(/\s+/g, ' ').trim();
+      const cible = [...document.querySelectorAll(balise)]
+        .filter((e) => e.getBoundingClientRect().width > 0)
+        .reverse()
+        .find((e) => (debut ? net(e).startsWith(texte) : net(e) === texte));
+      if (!cible) return false;
+      cible.click();
+      return true;
+    },
+    texte,
+    balise,
+    debut,
+  );
+  if (!ok) throw new Error(`${capture} : bouton « ${texte} » introuvable — la démo a changé, le parcours est à revoir.`);
+}
+
+/** Place l'élément à `marge` pixels du haut, sans animation. */
+async function cadrer(page, selecteur, marge) {
+  await page.evaluate(
+    (s, marge) => {
+      document.documentElement.style.scrollBehavior = 'auto';
+      const e = document.querySelector(s);
+      window.scrollTo(0, e.getBoundingClientRect().top + window.scrollY - marge);
+    },
+    selecteur,
+    marge,
+  );
+}
+
+/** Rendez-vous : un soin, le jour le plus ouvert, la première heure libre. */
+async function choisirCreneau(page, capture) {
+  await exiger(page, capture, '[data-soin="detartrage"]');
+  await page.evaluate(() => document.querySelector('[data-soin="detartrage"]').click());
+  await pause(400);
+  await exiger(page, capture, '[data-jour]');
+  const max = await page.evaluate(async () => {
+    let meilleur = null;
+    let max = -1;
+    for (const j of document.querySelectorAll('[data-jour]')) {
+      j.click();
+      await new Promise((r) => setTimeout(r, 120));
+      const n = document.querySelectorAll('[data-visite=horaires] [data-debut]').length;
+      if (n > max) { max = n; meilleur = j.getAttribute('data-jour'); }
+    }
+    if (meilleur) document.querySelector(`[data-jour="${meilleur}"]`).click();
+    return max;
+  });
+  if (max < 1) throw new Error(`${capture} : aucun jour ne propose de créneau.`);
+  await pause(400);
+  await exiger(page, capture, '[data-visite=horaires] [data-debut]');
+  await page.evaluate(() => document.querySelector('[data-visite=horaires] [data-debut]').click());
+  await pause(400);
+}
+
 /**
  * Ce qu'on capture, et dans quel cadre.
  *
@@ -119,6 +191,87 @@ const SHOTS = [
         const fixe = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--hauteur-fixe')) || 0;
         window.scrollTo(0, soin.getBoundingClientRect().top + window.scrollY - fixe - 94);
       });
+    },
+  },
+  /*
+   * ── Les trois écrans de chaque démo ──────────────────────────────────
+   *
+   * Une capture seule montre un écran ; trois montrent un parcours. Chaque
+   * écran est un état RÉEL de la démo, atteint en la conduisant : rien n'est
+   * recomposé. Si un bouton attendu a disparu, le script s'arrête.
+   *
+   * Menu : il n'existe pas d'écran « gérant » dans la démo. Le parcours
+   * montré est donc celui du client du café — l'affiche, la carte, l'appel
+   * du serveur — et pas une modification de prix qu'on ne sait pas montrer.
+   */
+  {
+    file: 'etape-zitouna-1.png',
+    url: '/demo/menu/affiche',
+    viewport: TELEPHONE,
+    // Sous la bande d'avertissement : le QR code et sa consigne.
+    scrollTo: 40,
+  },
+  {
+    file: 'etape-zitouna-2.png',
+    url: '/demo/menu',
+    viewport: TELEPHONE,
+    scrollTo: 96,
+  },
+  {
+    file: 'etape-zitouna-3.png',
+    url: '/demo/menu',
+    viewport: TELEPHONE,
+    async prepare(page) {
+      // Deux plats ajoutés à la commande, puis l'appel du serveur ouvert.
+      for (const plat of ['Café arabe', 'Msemen au miel']) {
+        await cliquerTexte(page, 'etape-zitouna-3', plat, 'button', true);
+        await pause(500);
+        await cliquerTexte(page, 'etape-zitouna-3', 'Ajouter à ma commande');
+        await pause(300);
+        await cliquerTexte(page, 'etape-zitouna-3', 'Fermer');
+        await pause(400);
+      }
+      // Le bouton porte aussi le nombre de plats de la commande.
+      await cliquerTexte(page, 'etape-zitouna-3', 'Appeler le serveur', 'button', true);
+      await pause(700);
+    },
+  },
+  {
+    file: 'etape-el-yasmine-1.png',
+    url: '/demo/rendezvous',
+    viewport: TELEPHONE,
+    async prepare(page) {
+      await exiger(page, 'etape-el-yasmine-1', '[data-soin="detartrage"]');
+      await page.evaluate(() => document.querySelector('[data-soin="detartrage"]').click());
+      await pause(400);
+      await cadrer(page, '[data-soin]', 70);
+    },
+  },
+  {
+    file: 'etape-el-yasmine-2.png',
+    url: '/demo/rendezvous',
+    viewport: TELEPHONE,
+    async prepare(page) {
+      await choisirCreneau(page, 'etape-el-yasmine-2');
+      await cadrer(page, '[data-jour]', 110);
+    },
+  },
+  {
+    file: 'etape-el-yasmine-3.png',
+    url: '/demo/rendezvous',
+    viewport: TELEPHONE,
+    async prepare(page) {
+      await choisirCreneau(page, 'etape-el-yasmine-3');
+      await exiger(page, 'etape-el-yasmine-3', 'input[name="prenom"]');
+      // « Démo » et le numéro d'exemple de la démo elle-même : aucune
+      // personne inventée dans une capture.
+      await page.type('input[name="prenom"]', 'Démo');
+      await page.type('input[name="telephone"]', '0555 12 34 56');
+      await exiger(page, 'etape-el-yasmine-3', '[data-visite="confirmer"]');
+      await page.evaluate(() => document.querySelector('[data-visite="confirmer"]').click());
+      await page.waitForSelector('[data-visite="rappel-whatsapp"]', { timeout: 8000 });
+      await pause(900);
+      await cadrer(page, '[data-visite="rappel-whatsapp"]', 330);
     },
   },
   {

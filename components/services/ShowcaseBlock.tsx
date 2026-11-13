@@ -6,6 +6,7 @@ import { Container } from '@/components/ui/Container';
 import { Reveal } from '@/components/ui/Reveal';
 import { ShowcaseFigure } from '@/components/services/ShowcaseVisuals';
 import { DemoEmbed } from '@/components/services/DemoEmbed';
+import { ShowcaseSteps } from '@/components/services/ShowcaseSteps';
 import { showcaseUi, type Service } from '@/content/services';
 import type { Locale } from '@/i18n/config';
 
@@ -169,6 +170,8 @@ export function ShowcaseBlock({
             </div>
           </div>
         </div>
+
+        {item.steps ? <ShowcaseSteps steps={item.steps} locale={locale} /> : null}
       </Container>
     </section>
   );

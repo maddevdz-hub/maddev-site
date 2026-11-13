@@ -657,6 +657,12 @@ laisse le fichier existant intact. Les captures sont `capture-menu.png`,
 `capture-el-yasmine.png` (nom changé avec la démo : `next/image` met en cache
 par URL, un même nom aurait servi l'ancienne image) et `capture-showroom.jpg`.
 
+Chaque démo a aussi son **parcours en trois écrans** (`etape-zitouna-1…3.png`,
+`etape-el-yasmine-1…3.png`), pris en conduisant la démo sur un écran de
+téléphone. La démo du menu n'a **pas d'écran gérant** : son parcours est celui
+du client du café (affiche QR, carte, appel du serveur), pas une modification
+de prix qu'on ne sait pas montrer. Ne pas la simuler.
+
 Refaire les captures après toute modification d'une démo. Une capture faite à
 la main finit toujours par dater, et l'on se retrouve à vendre un écran qui
 n'existe plus.

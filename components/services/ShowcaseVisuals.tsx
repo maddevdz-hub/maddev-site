@@ -42,7 +42,7 @@ export function ShowcaseFigure({
           alt={alt}
           width={visual.width}
           height={visual.height}
-          sizes="(max-width: 1024px) 60vw, 300px"
+          sizes="(min-width: 768px) 640px, 80vw"
           className="h-auto w-full"
         />
       </PhoneFrame>
@@ -53,7 +53,7 @@ export function ShowcaseFigure({
           alt={alt}
           width={visual.width}
           height={visual.height}
-          sizes="(max-width: 1024px) 92vw, 620px"
+          sizes="(max-width: 1024px) 92vw, 640px"
           className="h-auto w-full"
         />
       </ScreenFrame>
