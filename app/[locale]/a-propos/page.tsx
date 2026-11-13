@@ -198,7 +198,7 @@ function Portrait() {
       aria-hidden="true"
       className="relative flex aspect-[4/5] w-full items-center justify-center overflow-hidden rounded-3xl border border-line bg-gradient-to-br from-coral/[.12] via-transparent to-coral2/[.08]"
     >
-      <DDPattern id="dd-portrait" opacity={0.018} scale={110} />
+      <DDPattern id="dd-portrait" variant="fill" opacity={0.018} scale={110} />
       <DDMark className="relative w-[38%] opacity-70" />
     </div>
   );

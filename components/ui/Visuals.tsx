@@ -113,7 +113,7 @@ export function ServiceVisual({
         className,
       )}
     >
-      <DDPattern id={`dd-svc-${id}`} opacity={0.018} scale={110} />
+      <DDPattern id={`dd-svc-${id}`} variant="fill" opacity={0.018} scale={110} />
 
       <span className="relative inline-flex h-20 w-20 items-center justify-center rounded-3xl border border-coral/25 bg-ink3/70 text-coral2 backdrop-blur-sm">
         <ServiceIconGlyph name={icon} className="h-10 w-10" />

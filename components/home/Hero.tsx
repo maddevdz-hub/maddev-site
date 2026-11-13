@@ -35,7 +35,7 @@ export function Hero({
 
   return (
     <section className="relative isolate overflow-hidden">
-      <AmbientBackground />
+      <AmbientBackground patternId="dd-hero" />
 
       <Container>
         <div className="grid items-center gap-12 py-10 sm:py-16 lg:grid-cols-[1.1fr_.9fr] lg:gap-10 lg:py-20">
