@@ -388,6 +388,12 @@ export function getService(slug: string): Service | undefined {
 /** Libellés communs de la page /services. */
 export const showcaseUi = {
   seeDemo: { fr: 'Voir la démonstration', ar: 'شاهد النموذج' },
+  tryHere: { fr: 'Essayez-la ici', ar: 'جرّبه هنا' },
+  openFull: { fr: 'Ouvrir en plein écran', ar: 'افتحه في شاشة كاملة' },
+  demoFrameTitle: {
+    fr: 'Démonstration essayable',
+    ar: 'نموذج توضيحي قابل للتجربة',
+  },
   demoNote: {
     fr: 'Démonstration — projet fictif conçu par MADDEV',
     ar: 'نموذج توضيحي — مشروع افتراضي من تصميم MADDEV',

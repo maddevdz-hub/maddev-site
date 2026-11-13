@@ -5,6 +5,7 @@ import { CheckIcon } from '@/components/ui/Check';
 import { Container } from '@/components/ui/Container';
 import { Reveal } from '@/components/ui/Reveal';
 import { ShowcaseFigure } from '@/components/services/ShowcaseVisuals';
+import { DemoEmbed } from '@/components/services/DemoEmbed';
 import { showcaseUi, type Service } from '@/content/services';
 import type { Locale } from '@/i18n/config';
 
@@ -54,11 +55,31 @@ export function ShowcaseBlock({
               className={imageFirst ? 'lg:order-1' : 'lg:order-2'}
               delay={0.05}
             >
-              <ShowcaseFigure
-                visual={item.visual}
-                alt={item.benefit[locale]}
-                locale={locale}
-              />
+              {/*
+                Service avec démo : la démo elle-même, essayable dans la page
+                sur grand écran ; la capture sur mobile.
+              */}
+              {item.demoHref ? (
+                <DemoEmbed
+                  src={item.demoHref}
+                  title={`${showcaseUi.demoFrameTitle[locale]} — ${item.name[locale]}`}
+                  tryLabel={showcaseUi.tryHere[locale]}
+                  openLabel={showcaseUi.openFull[locale]}
+                  fallback={
+                    <ShowcaseFigure
+                      visual={item.visual}
+                      alt={item.benefit[locale]}
+                      locale={locale}
+                    />
+                  }
+                />
+              ) : (
+                <ShowcaseFigure
+                  visual={item.visual}
+                  alt={item.benefit[locale]}
+                  locale={locale}
+                />
+              )}
             </Reveal>
           ) : null}
 

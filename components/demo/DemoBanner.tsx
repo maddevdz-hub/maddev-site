@@ -42,6 +42,9 @@ export function DemoBanner({
       {backLabel ? (
         <a
           href={backHref}
+          // Dans le cadre d'essai de /services, le retour remplace la page
+          // entière au lieu de charger le site à l'intérieur du téléphone.
+          target="_top"
           className="hidden min-h-[44px] items-center underline decoration-[#e0a44a] underline-offset-4 transition-opacity hover:opacity-80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#e0a44a] sm:inline-flex"
         >
           {backLabel}
