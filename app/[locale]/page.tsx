@@ -11,6 +11,7 @@ import { FaqSection } from '@/components/faq/FaqSection';
 import { CtaSection } from '@/components/ui/CtaSection';
 import { getDictionary } from '@/i18n/dictionaries';
 import { href, isLocale, routes, type Locale } from '@/i18n/config';
+import { site } from '@/content/site';
 
 export async function generateMetadata({
   params,
@@ -42,8 +43,33 @@ export default async function HomePage({
   const dict = await getDictionary(locale);
   const t = dict.home.finalCta;
 
+  /*
+   * Données structurées du studio. Uniquement ce qui est vrai et fourni :
+   * nom, adresse du site, téléphone, email, zone desservie, langues.
+   * Pas d'adresse postale, pas de note, pas d'avis, pas d'horaires.
+   */
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'ProfessionalService',
+    '@id': `${site.url}/#studio`,
+    name: site.name,
+    url: `${site.url}/${locale}`,
+    logo: `${site.url}/icons/icon-512.png`,
+    image: `${site.url}/${locale}/opengraph-image`,
+    description: dict.meta.home.description,
+    telephone: `+${site.whatsappNumber}`,
+    email: site.email,
+    areaServed: { '@type': 'Country', name: 'Algeria' },
+    availableLanguage: ['ar', 'fr'],
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        // Contenu généré par nous, à partir de content/site.ts.
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <Hero locale={locale} dict={dict} />
       <QuizEntry locale={locale} dict={dict} />
       <TrustBar dict={dict} />
