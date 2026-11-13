@@ -474,6 +474,15 @@ du tout. La carte de partage est donc en écriture latine pour les deux
 langues. Une version arabe demandera une image fixe préparée dans un outil
 graphique.
 
+**Remplacer l'image d'une langue.** Déposer un PNG 1200×630 dans
+`public/og/og-ar.png` (ou `og-fr.png`) : `ogImageUrl()` dans
+`lib/metadata.ts` le préfère à l'image générée, sur toutes les pages de la
+langue, au build suivant. L'image générée est servie par une route
+ordinaire, `app/[locale]/og/route.tsx` (URL `/{locale}/og`), et non par la
+convention de fichier `opengraph-image.tsx` : sur l'accueil, une image
+déclarée par convention de fichier passait devant celle des métadonnées, et
+un PNG déposé n'aurait jamais pu la remplacer.
+
 ### Le LCP est retardé par nos propres animations
 
 Chaque élément LCP mesuré est un bloc de texte, livré avec

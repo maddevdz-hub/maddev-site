@@ -10,6 +10,7 @@ import { LocaleProvider } from '@/i18n/LocaleProvider';
 import { getDictionary } from '@/i18n/dictionaries';
 import { isLocale, locales, localeDirection, type Locale } from '@/i18n/config';
 import { site } from '@/content/site';
+import { ogImageUrl, openGraph } from '@/lib/metadata';
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
@@ -43,19 +44,18 @@ export async function generateMetadata({
         'x-default': '/ar',
       },
     },
-    openGraph: {
-      type: 'website',
-      siteName: site.name,
-      locale: params.locale === 'ar' ? 'ar_DZ' : 'fr_FR',
-      alternateLocale: params.locale === 'ar' ? 'fr_FR' : 'ar_DZ',
+    // Même construction que les autres pages : l'image de partage passe par
+    // ogImageUrl(), donc un PNG déposé dans public/og/ la remplace partout.
+    openGraph: openGraph({
+      locale: params.locale,
       title: dict.meta.home.title,
       description: dict.meta.home.description,
-      url: `/${params.locale}`,
-    },
+    }),
     twitter: {
       card: 'summary_large_image',
       title: dict.meta.home.title,
       description: dict.meta.home.description,
+      images: [ogImageUrl(params.locale)],
     },
     robots: { index: true, follow: true },
   };

@@ -12,6 +12,7 @@ import { CtaSection } from '@/components/ui/CtaSection';
 import { getDictionary } from '@/i18n/dictionaries';
 import { href, isLocale, routes, type Locale } from '@/i18n/config';
 import { site } from '@/content/site';
+import { ogImageUrl } from '@/lib/metadata';
 
 export async function generateMetadata({
   params,
@@ -55,7 +56,7 @@ export default async function HomePage({
     name: site.name,
     url: `${site.url}/${locale}`,
     logo: `${site.url}/icons/icon-512.png`,
-    image: `${site.url}/${locale}/opengraph-image`,
+    image: `${site.url}${ogImageUrl(locale)}`,
     description: dict.meta.home.description,
     telephone: `+${site.whatsappNumber}`,
     email: site.email,

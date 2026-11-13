@@ -22,24 +22,27 @@ import {
  * générée du tout côté arabe. Une carte en écriture latine, lisible par
  * tous nos publics, vaut mieux qu'un lien sans aperçu.
  *
- * Pour une version arabe, il faudra une image fixe préparée dans un outil
- * graphique et déposée dans /public — le jour où elle existe, remplacer
- * cette route par un fichier opengraph-image.png suffit.
+ * Pour une version arabe (ou française) préparée à la main, déposer le PNG
+ * 1200×630 dans public/og/og-ar.png (ou og-fr.png) : lib/metadata.ts le
+ * préfère à cette route au prochain build, sur toutes les pages.
+ *
+ * Route ordinaire (/{locale}/og) et non convention de fichier
+ * opengraph-image.tsx : une image déclarée par convention de fichier passe
+ * DEVANT celle des métadonnées sur la page d'accueil, et un PNG déposé
+ * n'aurait jamais pu la remplacer.
  *
  * Runtime edge : la variante Node de @vercel/og résout mal ses ressources
  * internes et casse la construction sous Windows.
  */
 export const runtime = 'edge';
 
-export const size = { width: 1200, height: 630 };
-export const contentType = 'image/png';
-export const alt = 'MADDEV — studio digital algérien';
+const size = { width: 1200, height: 630 };
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
 }
 
-export default async function OpengraphImage() {
+export async function GET() {
   return new ImageResponse(
     (
       <div
@@ -111,6 +114,9 @@ export default async function OpengraphImage() {
         </div>
       </div>
     ),
-    size,
+    {
+      ...size,
+      headers: { 'Cache-Control': 'public, max-age=86400, immutable' },
+    },
   );
 }
