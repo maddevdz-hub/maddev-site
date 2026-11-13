@@ -530,8 +530,9 @@ apple-touch étaient recadrées sur un fragment, régénérées depuis la 512).
 
 - Le code est sur GitHub (`maddevdz-hub/maddev-site`, branche `main`), une
   étape = un commit poussé.
-- `RESEND_API_KEY` dans les variables Vercel — sans elle, le formulaire
-  fonctionne mais les demandes restent dans les logs.
+- `RESEND_API_KEY` dans les variables Vercel — sans elle, chaque envoi du
+  formulaire affiche « L'envoi a échoué » (la demande reste dans les logs).
+  Le formulaire n'affiche « envoyé » que si l'API répond `delivered: true`.
 - Relecture de tout l'arabe par un locuteur natif : la conversion en standard
   est faite et vérifiée par script, mais sans relecture humaine.
 - Test réel de l'ajout à l'écran d'accueil sur iOS et Android.

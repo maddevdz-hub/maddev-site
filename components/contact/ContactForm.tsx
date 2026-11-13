@@ -77,7 +77,13 @@ export function ContactForm({
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
       });
-      if (!res.ok) throw new Error(`Réponse ${res.status}`);
+      // « Envoyé » seulement si l'email est réellement parti.
+      const data = (await res.json().catch(() => null)) as {
+        delivered?: boolean;
+      } | null;
+      if (!res.ok || data?.delivered !== true) {
+        throw new Error(`Réponse ${res.status}`);
+      }
       setStatus('success');
       form.reset();
     } catch {

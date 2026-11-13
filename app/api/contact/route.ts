@@ -219,12 +219,20 @@ export async function POST(request: Request) {
   ].join('\n');
 
   const apiKey = process.env.RESEND_API_KEY;
-  const to = process.env.CONTACT_TO_EMAIL ?? site.email;
-  const from = process.env.CONTACT_FROM_EMAIL ?? 'MADDEV <onboarding@resend.dev>';
+  // `||` et non `??` : une variable déclarée vide dans l'hébergeur vaut "",
+  // et "" n'est pas une adresse.
+  const to = process.env.CONTACT_TO_EMAIL || site.email;
+  const from = process.env.CONTACT_FROM_EMAIL || 'MADDEV <onboarding@resend.dev>';
 
+  /*
+   * Sans clé, l'email ne peut pas partir : on le DIT. Répondre « ok » ici
+   * affichait « Message reçu » au visiteur alors que sa demande n'existait
+   * que dans les journaux du serveur. Le contenu reste journalisé pour
+   * qu'aucune demande ne soit perdue pendant la mise en place.
+   */
   if (!apiKey) {
-    console.info('[contact] RESEND_API_KEY absent — demande non envoyée\n' + body);
-    return NextResponse.json({ ok: true, delivered: false });
+    console.error('[contact] RESEND_API_KEY absent — demande NON envoyée\n' + body);
+    return NextResponse.json({ error: 'not_configured' }, { status: 503 });
   }
 
   try {

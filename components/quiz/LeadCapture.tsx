@@ -69,7 +69,13 @@ export function LeadCapture({
           formLoadedAt: formLoadedAt.current,
         }),
       });
-      if (!res.ok) throw new Error(`Réponse ${res.status}`);
+      // « C'est noté » seulement si l'email est réellement parti.
+      const data = (await res.json().catch(() => null)) as {
+        delivered?: boolean;
+      } | null;
+      if (!res.ok || data?.delivered !== true) {
+        throw new Error(`Réponse ${res.status}`);
+      }
       setStatus('success');
       form.reset();
     } catch {

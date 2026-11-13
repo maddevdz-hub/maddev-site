@@ -259,8 +259,10 @@ facultative : le résultat reste affiché quoi qu'il arrive.
 
 Il poste réellement sur `/api/contact` (`app/api/contact/route.ts`).
 
-- **Sans `RESEND_API_KEY`** : la demande est écrite dans les logs du serveur et
-  l'utilisateur voit quand même la confirmation. Pratique en local.
+- **Sans `RESEND_API_KEY`** : l'API répond 503, le formulaire affiche
+  « L'envoi a échoué » et renvoie vers WhatsApp. La demande est seulement
+  écrite dans les logs du serveur. Le visiteur ne voit **jamais** de
+  confirmation si l'email n'est pas parti — en local non plus.
 - **Avec `RESEND_API_KEY`** : la demande part par email via l'API HTTP de
   [Resend](https://resend.com) — aucune dépendance npm supplémentaire.
 
@@ -428,12 +430,13 @@ Avant de cliquer sur Deploy, dépliez **Environment Variables** :
 | Variable | Valeur | Obligatoire |
 | --- | --- | --- |
 | `NEXT_PUBLIC_SITE_URL` | `https://maddev.dev` | oui |
-| `RESEND_API_KEY` | votre clé Resend | pour recevoir les emails |
-| `CONTACT_TO_EMAIL` | `maddev.dz@gmail.com` | non |
-| `CONTACT_FROM_EMAIL` | `MADDEV <contact@maddev.dev>` | non |
+| `RESEND_API_KEY` | votre clé Resend | **oui** |
+| `CONTACT_TO_EMAIL` | `maddev.dz@gmail.com` | non (c'est le défaut) |
+| `CONTACT_FROM_EMAIL` | `MADDEV <contact@maddev.dev>` | oui, une fois `maddev.dev` vérifié chez Resend |
 
-Sans `RESEND_API_KEY`, le formulaire fonctionne mais les demandes ne partent
-pas par email — elles restent dans les logs Vercel. **Deploy.**
+Sans `RESEND_API_KEY`, le formulaire affiche une erreur à chaque envoi.
+Sans `CONTACT_FROM_EMAIL`, l'expéditeur est `onboarding@resend.dev`, qui ne
+livre qu'à l'adresse du compte Resend. **Deploy.**
 
 ### 4. Brancher maddev.dev
 
