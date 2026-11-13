@@ -22,7 +22,13 @@ export async function generateMetadata({
   return {
     title: dict.meta.home.title,
     description: dict.meta.home.description,
-    alternates: { canonical: `/${params.locale}` },
+    // Les langues sont répétées ici : un `alternates` de page REMPLACE celui
+    // du layout, il ne s'y ajoute pas. Sans elles, l'accueil partait sans
+    // aucun hreflang.
+    alternates: {
+      canonical: `/${params.locale}`,
+      languages: { ar: '/ar', fr: '/fr', 'x-default': '/ar' },
+    },
   };
 }
 
