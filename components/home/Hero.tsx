@@ -130,6 +130,96 @@ export function Hero({
   );
 }
 
+/**
+ * Anneau extérieur de l'emblème : le trait, le texte qui en fait le tour,
+ * et le point orbital.
+ *
+ * Le texte est posé sur un cercle de rayon plus petit que le trait : les
+ * capitales montent vers lui sans jamais le toucher.
+ *
+ * `REPETITIONS` et `LONGUEUR` ferment le cercle exactement. Mesuré dans le
+ * navigateur avec getComputedTextLength : à cette taille, trois motifs font
+ * 577 unités pour une circonférence de 565, soit 2 % de trop que
+ * `textLength` absorbe sur les espacements — l'interlettrage reste donc
+ * celui demandé. Sans cela, le dernier motif chevauchait le premier.
+ *
+ * La taille de police vient de cette mesure : à 7 unités, trois motifs
+ * dépassaient de 14 % et `textLength` les tassait visiblement.
+ *
+ * Police : `--font-space-grotesk` et non `--font-display`, qui devient
+ * Cairo en arabe. Le texte est le même, en écriture latine, dans les deux
+ * langues — d'où aussi la direction forcée sur le `<text>`.
+ */
+const MOTIF = 'MADDEV · DÉVELOPPEMENT WEB · ALGÉRIE · ';
+const REPETITIONS = 3;
+/**
+ * Rayon du cercle que suit le texte. Assez en retrait du trait (99,5) pour
+ * que les capitales accentuées montent vers lui sans le toucher.
+ */
+const RAYON_TEXTE = 90;
+/** Circonférence de ce cercle. */
+const LONGUEUR = 2 * Math.PI * RAYON_TEXTE;
+
+function OuterRing() {
+  return (
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 200 200"
+      // overflow visible : le point orbital déborde du trait, comme avant.
+      className="absolute inset-[4%] animate-spin-slow overflow-visible"
+    >
+      {/* Le trait de l'anneau : 1 px à l'écran, comme la bordure qu'il remplace. */}
+      <circle
+        cx="100"
+        cy="100"
+        r="99.5"
+        fill="none"
+        stroke="rgba(255,255,255,.14)"
+        strokeWidth="1"
+        vectorEffect="non-scaling-stroke"
+      />
+
+      <defs>
+        {/* Sens horaire depuis le haut : le texte se lit à l'endroit en
+            haut, et se retourne en bas — c'est le propre d'un texte qui
+            fait le tour complet. */}
+        <path
+          id="dd-orbit"
+          fill="none"
+          d={`M 100 ${100 - RAYON_TEXTE} A ${RAYON_TEXTE} ${RAYON_TEXTE} 0 1 1 99.99 ${100 - RAYON_TEXTE}`}
+        />
+      </defs>
+
+      <text
+        fill="#a8a4ad"
+        fillOpacity="0.55"
+        fontSize="6.2"
+        fontWeight="500"
+        letterSpacing="0.28em"
+        // direction forcée : en arabe, le <text> héritait du sens RTL de la
+        // page et le motif latin partait dans l'autre sens sur le tracé.
+        style={{
+          fontFamily: 'var(--font-space-grotesk), sans-serif',
+          direction: 'ltr',
+          unicodeBidi: 'isolate',
+        }}
+      >
+        <textPath
+          href="#dd-orbit"
+          textLength={LONGUEUR}
+          lengthAdjust="spacing"
+        >
+          {MOTIF.repeat(REPETITIONS)}
+        </textPath>
+      </text>
+
+      {/* Le point orbital et sa lueur, en haut de l'anneau. */}
+      <circle cx="100" cy="0.5" r="5" fill="#ff5a5f" opacity="0.25" />
+      <circle cx="100" cy="0.5" r="2.1" fill="#ff5a5f" />
+    </svg>
+  );
+}
+
 /** Le symbole de marque mis en scène : halo, anneaux, points orbitaux. */
 function HeroEmblem({ alt }: { alt: string }) {
   return (
@@ -144,13 +234,8 @@ function HeroEmblem({ alt }: { alt: string }) {
         }}
       />
 
-      {/* Anneau extérieur — tourne dans un sens */}
-      <div
-        aria-hidden="true"
-        className="absolute inset-[4%] rounded-full border border-line2 animate-spin-slow"
-      >
-        <span className="absolute -top-1 start-1/2 h-2 w-2 -translate-x-1/2 rounded-full bg-coral shadow-glow-sm" />
-      </div>
+      {/* Anneau extérieur, avec son texte — tourne dans un sens */}
+      <OuterRing />
 
       {/* Anneau intermédiaire — tourne dans l'autre sens */}
       <div
