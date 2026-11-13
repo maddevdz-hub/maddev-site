@@ -156,7 +156,7 @@ export const services: Service[] = [
     steps: [
       {
         src: '/services/etape-zitouna-1.png',
-        caption: { fr: 'Le client scanne', ar: 'الزبون يمسح الرمز' },
+        caption: { fr: 'Le client scanne', ar: 'الزبون يمسح الرمز ضوئيًا' },
       },
       {
         src: '/services/etape-zitouna-2.png',
@@ -264,7 +264,7 @@ export const services: Service[] = [
         title: { fr: 'Vous recevez une commande complète', ar: 'يصلك طلب مكتمل' },
         text: {
           fr: 'Elle arrive par WhatsApp ou dans votre espace, référence et options comprises. Vous préparez le colis.',
-          ar: 'يصلك عبر واتساب أو في مساحتك، بمرجعه وخياراته. ولا يبقى عليك سوى تجهيز الطرد.',
+          ar: 'يصلك عبر واتساب أو في لوحة التحكّم، بمرجعه وخياراته. ولا يبقى عليك سوى تجهيز الطرد.',
         },
       },
     ],
