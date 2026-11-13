@@ -1,8 +1,7 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-
 import { ServiceGlyph } from '@/components/services/ServiceGlyphs';
+import { useActiveService } from '@/components/services/useActiveService';
 import type { Service } from '@/content/services';
 import type { Locale } from '@/i18n/config';
 
@@ -30,36 +29,13 @@ export function ShowcaseSummary({
   items: Service[];
   locale: Locale;
 }) {
-  const [active, setActive] = useState<string | null>(null);
-
-  useEffect(() => {
-    const sections = items
-      .map((item) => document.getElementById(item.slug))
-      .filter((el): el is HTMLElement => el !== null);
-    if (sections.length === 0) return;
-
-    /*
-     * On ne marque pas « le bloc visible » — à mi-défilement il y en a deux —
-     * mais celui qui occupe la bande centrale de l'écran. C'est celui que le
-     * visiteur est en train de lire.
-     *
-     * Le repère reste discret : il indique où l'on se trouve, il ne réclame
-     * pas de clic. Une tuile qui s'allume franchement à chaque défilement
-     * transforme le sommaire en animation, et on regarde l'animation au lieu
-     * du service.
-     */
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) setActive(entry.target.id);
-        }
-      },
-      { rootMargin: '-42% 0px -50% 0px', threshold: 0 },
-    );
-
-    for (const section of sections) observer.observe(section);
-    return () => observer.disconnect();
-  }, [items]);
+  /*
+   * Le repère reste discret : il indique où l'on se trouve, il ne réclame
+   * pas de clic. Une tuile qui s'allume franchement à chaque défilement
+   * transforme le sommaire en animation, et on regarde l'animation au lieu
+   * du service.
+   */
+  const active = useActiveService(items.map((item) => item.slug));
 
   return (
     <nav

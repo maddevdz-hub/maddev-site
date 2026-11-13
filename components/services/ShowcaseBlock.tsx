@@ -2,6 +2,7 @@ import Link from 'next/link';
 
 import { ArrowIcon, ButtonLink } from '@/components/ui/Button';
 import { CheckIcon } from '@/components/ui/Check';
+import { AmbientBackground } from '@/components/ui/AmbientBackground';
 import { Container } from '@/components/ui/Container';
 import { Reveal } from '@/components/ui/Reveal';
 import { ShowcaseFigure } from '@/components/services/ShowcaseVisuals';
@@ -9,6 +10,7 @@ import { DemoEmbed } from '@/components/services/DemoEmbed';
 import { ShowcaseSteps } from '@/components/services/ShowcaseSteps';
 import { ServiceJourney } from '@/components/services/ServiceJourney';
 import { showcaseUi, type Service } from '@/content/services';
+import { cn } from '@/lib/utils';
 import type { Locale } from '@/i18n/config';
 
 /**
@@ -22,6 +24,11 @@ import type { Locale } from '@/i18n/config';
  * au-dessous est large, et l'écart entre l'image et le texte reste nettement
  * plus petit que l'écart entre deux blocs — sans quoi l'image semble
  * appartenir au bloc précédent.
+ *
+ * Les fonds alternent eux aussi, ink et ink2 : six blocs sur un même fond
+ * se lisent comme un seul bloc très long. Le filigrane DD ne court que sur
+ * les sections à fond ink — répété sur chaque section, il cesse d'être un
+ * fond pour devenir une texture.
  *
  * Les blocs alternent de côté. Ce n'est pas de la décoration : six blocs
  * identiques empilés se lisent comme une liste, et l'œil décroche au
@@ -38,12 +45,21 @@ export function ShowcaseBlock({
 }) {
   // Les blocs pairs mettent l'image en premier dans le sens de lecture.
   const imageFirst = index % 2 === 0;
+  // …et portent le fond sombre, donc le filigrane.
+  const fondSombre = index % 2 === 0;
 
   return (
     <section
       id={item.slug}
-      className="scroll-mt-24 border-t border-line py-20 first:border-t-0 sm:py-24 lg:py-36"
+      className={cn(
+        'relative isolate scroll-mt-24 overflow-hidden border-t border-line py-20 first:border-t-0 sm:py-24 lg:py-36',
+        fondSombre ? null : 'bg-ink2',
+      )}
     >
+      {fondSombre ? (
+        <AmbientBackground patternId={`dd-${item.slug}`} intensity="soft" />
+      ) : null}
+
       <Container>
         <div className="grid items-center gap-12 sm:gap-14 lg:grid-cols-[1.08fr_.92fr] lg:gap-20 xl:gap-24">
           {/*

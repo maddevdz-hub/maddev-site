@@ -8,6 +8,7 @@ import { CtaSection } from '@/components/ui/CtaSection';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 import { ShowcaseBlock } from '@/components/services/ShowcaseBlock';
 import { ShowcaseSummary } from '@/components/services/ShowcaseSummary';
+import { ServicesSubNav } from '@/components/services/ServicesSubNav';
 import { RealisationSection } from '@/components/services/RealisationSection';
 import { RecurringServices } from '@/components/services/RecurringServices';
 import { ServiceGlyph } from '@/components/services/ServiceGlyphs';
@@ -124,6 +125,9 @@ export default async function ServicesPage({
           <ShowcaseSummary items={primaryServices} locale={locale} />
         </Container>
       </section>
+
+      {/* La sous-navigation, collante sous l'en-tête une fois le sommaire passé */}
+      <ServicesSubNav items={primaryServices} locale={locale} />
 
       {/*
         Le sur-mesure — notre seule vraie différence face à la concurrence

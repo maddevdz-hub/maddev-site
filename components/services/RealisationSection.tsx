@@ -1,5 +1,6 @@
 import Image from 'next/image';
 
+import { AmbientBackground } from '@/components/ui/AmbientBackground';
 import { ArrowIcon, ButtonLink } from '@/components/ui/Button';
 import { CheckIcon } from '@/components/ui/Check';
 import { Container } from '@/components/ui/Container';
@@ -32,8 +33,12 @@ export function RealisationSection({
   return (
     <section
       id="realisation"
-      className="scroll-mt-24 border-t border-line bg-ink2 py-20 sm:py-24 lg:py-28"
+      // Fond sombre, comme les blocs pairs : la section arrive après le
+      // sixième service, qui porte le fond clair.
+      className="relative isolate scroll-mt-24 overflow-hidden border-t border-line py-20 sm:py-24 lg:py-28"
     >
+      <AmbientBackground patternId="dd-realisation" intensity="soft" />
+
       <Container>
         <Reveal className="grid gap-10 lg:grid-cols-[.9fr_1.1fr] lg:gap-16">
           <div className="flex flex-col items-start gap-5">
