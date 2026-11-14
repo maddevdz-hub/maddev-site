@@ -112,6 +112,16 @@
 }
 
 @layer components {
+  /*
+   * Un mot latin au milieu d'un texte arabe : « MADDEV » dans le titre de
+   * l'accueil. `font-display` ne convient pas — il vaut Cairo sous
+   * html[lang=ar], et le nom de la marque se serait écrit dans une autre
+   * police selon la langue de la page.
+   */
+  .font-display-latin {
+    font-family: var(--font-space-grotesk), system-ui, sans-serif;
+  }
+
   /* Carte standard : fond ink3, bordure discrète, ombre profonde. */
   .card {
     @apply rounded-3xl border border-line bg-ink3/70 shadow-card backdrop-blur-sm;

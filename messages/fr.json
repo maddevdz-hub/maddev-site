@@ -48,15 +48,15 @@
   "home": {
     "hero": {
       "eyebrow": "Studio web · Algérie",
-      "titleLine1": "Des sites qui rapportent",
-      "titleAccent": "des commandes",
-      "subtitle": "Votre client trouve le produit, choisit ses options, et vous envoie une commande complète. Vous n’avez plus qu’à préparer le colis.",
+      "titleLine1": "Bonjour, nous sommes MADDEV.",
+      "titleAccent": "Nous développons des sites web.",
+      "subtitle": "Un site pour votre commerce, votre cabinet ou votre activité : vous le voyez avant qu’il soit codé, et il vous appartient.",
       "ctaPrimary": "Démarrer un projet",
       "ctaSecondary": "Voir nos services",
       "stats": {
         "stack": {
-          "value": "0",
-          "label": "template utilisé"
+          "value": "Des sites",
+          "label": "qui rapportent des commandes, pas des pages qui se regardent"
         },
         "ratio": {
           "value": "1:1",

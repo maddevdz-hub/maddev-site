@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { Fragment } from 'react';
 import { DDMark } from '@/components/brand/DDMark';
 import { AmbientBackground } from '@/components/ui/AmbientBackground';
 import { ArrowIcon, ButtonLink } from '@/components/ui/Button';
@@ -44,9 +45,9 @@ export function Hero({
             <Eyebrow>{t.eyebrow}</Eyebrow>
 
             <h1
-              className="text-[clamp(2.3rem,7.5vw,4.2rem)] font-bold leading-[1.08] tracking-tight text-txt"
+              className="text-[clamp(1.95rem,6.4vw,4.2rem)] font-bold leading-[1.1] tracking-tight text-txt sm:text-[clamp(2.3rem,7.5vw,4.2rem)] sm:leading-[1.08]"
             >
-              {t.titleLine1}
+              <NomDeMarque texte={t.titleLine1} />
               <br />
               <span className="text-coral">{t.titleAccent}</span>
             </h1>
@@ -127,6 +128,36 @@ export function Hero({
         </div>
       </Container>
     </section>
+  );
+}
+
+/**
+ * Le titre, avec « MADDEV » écrit en latin.
+ *
+ * En arabe, le mot se retrouve au milieu d'un texte RTL : sans `dir="ltr"`,
+ * les signes qui l'entourent (le point final) se placent du mauvais côté. Et
+ * sans police latine explicite, il s'écrirait en Cairo — le nom de la marque
+ * changerait d'allure d'une langue à l'autre.
+ *
+ * La taille n'est pas touchée : le mot suit celle du titre.
+ */
+function NomDeMarque({ texte }: { texte: string }) {
+  const morceaux = texte.split('MADDEV');
+  if (morceaux.length === 1) return <>{texte}</>;
+
+  return (
+    <>
+      {morceaux.map((morceau, i) => (
+        <Fragment key={i}>
+          {i > 0 ? (
+            <span dir="ltr" className="font-display-latin">
+              MADDEV
+            </span>
+          ) : null}
+          {morceau}
+        </Fragment>
+      ))}
+    </>
   );
 }
 
