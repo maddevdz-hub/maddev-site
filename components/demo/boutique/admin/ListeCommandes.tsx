@@ -395,7 +395,7 @@ function Lignes({ commandes, alertes }: { commandes: Commande[]; alertes: Map<st
                   <span className="tabular-nums">{telephoneAffiche(c)}</span> · {lieu(c)}
                 </span>
                 <span className="mt-1.5 flex items-center gap-2 text-[13.5px]">
-                  <span className="nd-pastille mt-[6px]" style={{ ['--accent' as string]: produit(c.lignes[0].slug)?.accent }} />
+                  <span className="nd-pastille" style={{ ['--accent' as string]: produit(c.lignes[0].slug)?.accent }} />
                   <span className="min-w-0 truncate">{resumeArticles(c)}</span>
                 </span>
                 {s ? <span className="mt-1 block text-[12.5px] text-[var(--gris-texte)]">{s}</span> : null}
