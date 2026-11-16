@@ -122,6 +122,21 @@ export function Confirmation({ id }: { id: string }) {
           </Link>
         </div>
       </div>
+
+      {/* Pour qui visite la démo : l'autre côté de la commande. */}
+      <aside aria-labelledby="cote-marchand" className="mt-12 rounded-[18px] border border-dashed border-[var(--gris)] bg-[var(--creme-2)] p-5 sm:flex sm:items-center sm:justify-between sm:gap-8 sm:p-6">
+        <div>
+          <p className="text-[11px] font-bold uppercase tracking-[.2em] text-[var(--gris-texte)]">Démonstration — côté marchand</p>
+          <h2 id="cote-marchand" className="mt-1 text-[28px]">Cette commande vient d’arriver dans le registre</h2>
+          <p className="mt-1 max-w-[38em] text-[14.5px]">
+            Voyez ce que reçoit la boutique : la commande {commande.id} à confirmer, le script d’appel, l’expédition et les
+            chiffres.
+          </p>
+        </div>
+        <Link href={`/demo/boutique/admin/commande/${commande.id}`} className="nd-bouton mt-4 w-full flex-none sm:mt-0 sm:w-auto">
+          Ouvrir le registre
+        </Link>
+      </aside>
     </div>
   );
 }
