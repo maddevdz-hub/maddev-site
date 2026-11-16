@@ -5,7 +5,8 @@
  *
  * ── Source ──────────────────────────────────────────────────────────────
  * Jeu de données « Algeria Wilayas & Communes 2026 », ihahachi/algeria-cities
- * (https://github.com/ihahachi/algeria-cities), licence MIT selon son README.
+ * (https://github.com/ihahachi/algeria-cities), licence MIT selon son README
+ * (le dépôt n'a pas de fichier de licence séparé).
  * Fichier : json/algeria_cities.json, copié tel quel dans
  * data-sources/wilayas/ — on ne le modifie jamais à la main.
  * 69 wilayas, 1 541 communes : le découpage de 2026 (onze wilayas nouvelles,
@@ -81,8 +82,10 @@ writeFileSync(
   `/**
  * FICHIER GÉNÉRÉ — ne pas modifier à la main. Produit par \`npm run wilayas\`.
  *
- * Les 69 wilayas d'Algérie (découpage 2026). Source : ihahachi/algeria-cities,
- * licence MIT — détails, vérification et correction dans scripts/wilayas.mjs.
+ * Les 69 wilayas d'Algérie (découpage 2026).
+ * Source : ihahachi/algeria-cities (https://github.com/ihahachi/algeria-cities),
+ * licence MIT selon le README du dépôt (aucun fichier de licence séparé).
+ * Vérification et correction : scripts/wilayas.mjs.
  * Les communes de chaque wilaya se chargent à la demande depuis
  * /demo/boutique-communes/NN.json.
  */

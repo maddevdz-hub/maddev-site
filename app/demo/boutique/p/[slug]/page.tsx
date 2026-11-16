@@ -63,7 +63,9 @@ export default function FicheProduit({ params }: { params: { slug: string } }) {
           <span aria-current="page">{p.nom}</span>
         </nav>
 
-        <div className="grid gap-6 pt-5 sm:pt-0 lg:grid-cols-[1.08fr_.92fr] lg:items-start lg:gap-14">
+        {/* grid-cols-1 = minmax(0, 1fr) : sans cela, la colonne unique du téléphone
+            prend la largeur minimale de son contenu le plus large et déborde. */}
+        <div className="grid grid-cols-1 gap-6 pt-5 sm:pt-0 lg:grid-cols-[1.08fr_.92fr] lg:items-start lg:gap-14">
           <Galerie produit={p} />
           <Achat produit={p} />
         </div>

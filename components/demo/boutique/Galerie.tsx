@@ -51,7 +51,7 @@ export function Galerie({ produit }: { produit: Produit }) {
   const alt = (i: number) => `${produit.nom}, vue ${i + 1} sur ${vues.length}`;
 
   return (
-    <div className="lg:sticky lg:top-6 lg:grid lg:grid-cols-[84px_1fr] lg:gap-4" style={{ ['--accent' as string]: produit.accent }}>
+    <div className="px-2 lg:sticky lg:top-6 lg:grid lg:grid-cols-[84px_1fr] lg:gap-4 lg:px-0" style={{ ['--accent' as string]: produit.accent }}>
       {vues.length > 1 ? (
         <div className="hidden flex-col gap-2.5 lg:flex">
           {vues.map((v, i) => (

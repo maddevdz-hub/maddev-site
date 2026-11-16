@@ -95,7 +95,7 @@ export default function AccueilBoutique() {
                     {String(i + 1).padStart(2, '0')}
                   </span>
                   <span className="nd-pastille" aria-hidden="true" />
-                  <span className="nd-serif whitespace-nowrap text-[22px] font-semibold group-hover:underline group-hover:underline-offset-4 sm:text-[27px]">
+                  <span className="nd-serif min-w-0 text-[22px] font-semibold leading-tight group-hover:underline group-hover:underline-offset-4 sm:whitespace-nowrap sm:text-[27px]">
                     {p.nom}
                   </span>
                   <span className="hidden whitespace-nowrap text-[12.5px] text-[var(--gris-texte)] md:inline">

@@ -514,7 +514,7 @@ export function Achat({ produit }: { produit: Produit }) {
         <p className="sr-only" role="alert">{annonce}</p>
 
         <button type="submit" disabled={envoi || enRupture}
-          className="nd-bouton mt-4 w-full text-[16px] disabled:cursor-not-allowed disabled:opacity-60">
+          className="nd-bouton mt-4 w-full whitespace-normal px-5 text-center text-[16px] leading-tight disabled:cursor-not-allowed disabled:opacity-60">
           {enRupture ? 'En rupture de stock' : envoi ? 'Envoi de la commande…' : 'Commander — paiement à la livraison'}
         </button>
 
@@ -536,7 +536,7 @@ export function Achat({ produit }: { produit: Produit }) {
       {/* ── Le bouton collant du téléphone, et lui seul ── */}
       {!boutonVisible && aDefile && !enRupture ? (
         <div className="fixed inset-x-0 bottom-0 z-40 border-t border-[var(--ligne)] bg-[rgba(247,242,234,.96)] px-4 pb-[max(14px,env(safe-area-inset-bottom))] pt-2.5 backdrop-blur lg:hidden">
-          <button type="button" className="nd-bouton w-full text-[15px]"
+          <button type="button" className="nd-bouton w-full whitespace-normal px-5 text-center text-[15px] leading-tight"
             onClick={() => {
               formulaire.current?.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
               document.getElementById(`${id}-nom`)?.focus({ preventScroll: true });
