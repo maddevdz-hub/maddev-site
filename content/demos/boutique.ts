@@ -48,6 +48,8 @@ export type Produit = {
     notes: { tete: string; coeur: string; fond: string };
   };
   famille?: Famille;
+  /** Pour les produits sans page de carnet (coffret, soins) : deux phrases. */
+  description?: string;
   /**
    * Couleur du parfum : son ruban adhésif, sa pastille, ses filets. Jamais
    * un fond de page — le papier reste crème partout. Aplats seulement : ces
@@ -187,6 +189,8 @@ export const produits: Produit[] = [
     nom: 'Le coffret découverte',
     nature: 'Coffret',
     accent: '#a4672b',
+    description:
+      'Quatre pages du carnet en flacons de 10 ml : Rose de Blida, Ambre du Sahara, Néroli de Tipaza et Musc blanc. De quoi choisir le sien avant le grand flacon — ou l’offrir sans se tromper.',
     contenances: [{ ml: 40, prix: 9500, libelle: '4 × 10 ml' }],
     photos: ['coffret', 'coffret-2'],
     stock: 8,
@@ -196,6 +200,8 @@ export const produits: Produit[] = [
     nom: 'Crème mains',
     nature: 'Soin',
     accent: '#a4672b',
+    description:
+      'Une crème légère, au parfum de rose, qui pénètre vite et ne colle pas. Tube de 50 ml, à garder dans le sac.',
     contenances: [{ ml: 50, prix: 1600 }],
     photos: ['creme-mains'],
     stock: 25,
@@ -205,6 +211,8 @@ export const produits: Produit[] = [
     nom: 'Brume cheveux',
     nature: 'Soin',
     accent: '#a4672b',
+    description:
+      'Une brume au musc blanc, pour parfumer les cheveux sans les alourdir. Flacon de 100 ml.',
     contenances: [{ ml: 100, prix: 2200 }],
     photos: ['brume-cheveux'],
     stock: 18,

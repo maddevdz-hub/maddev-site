@@ -14,6 +14,7 @@
     "vues": "node scripts/verifie-vues.mjs",
     "photos": "node scripts/photos.mjs",
     "photos:boutique": "node scripts/photos-boutique.mjs",
+    "wilayas": "node scripts/wilayas.mjs",
     "contraste": "node scripts/contraste.mjs"
   },
   "engines": {

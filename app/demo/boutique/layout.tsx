@@ -43,6 +43,8 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
+  // Les images de partage des fiches doivent être des adresses absolues.
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? 'https://maddev.dev'),
   title: {
     default: 'Nadâ — parfums & soins',
     template: '%s — Nadâ',
