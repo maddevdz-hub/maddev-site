@@ -41,7 +41,7 @@ export default function AccueilBoutique() {
               Nadâ
             </h1>
             <p className="nd-italique mt-5 max-w-[22em] text-[24px] leading-snug text-[var(--gris-texte)] sm:text-[30px]">
-              Six parfums, et ce qu’ils racontent.
+              Six pages, et ce qu’elles racontent.
             </p>
             <p className="mt-5 max-w-[30em] text-[16px] text-[var(--gris-texte)] sm:text-[17px]">
               Une page par parfum : d’où il vient, ce qu’on sent d’abord, ce qui reste le soir. On vous livre dans
@@ -82,7 +82,7 @@ export default function AccueilBoutique() {
         <section id="sommaire" className="scroll-mt-6 pb-16 sm:ps-[110px]">
           <p className="nd-italique text-[18px] text-[var(--ambre-texte)]">Sommaire</p>
           <h2 className="mt-1 text-[40px] sm:text-[56px]">
-            Six parfums, <span className="nd-italique">six pages</span>
+            Le carnet, <span className="nd-italique">six pages</span>
           </h2>
           <ol className="mt-5">
             {pages.map((p, i) => (

@@ -209,7 +209,7 @@ export const produits: Produit[] = [
 /** Le contenu du coffret : quatre parfums en 10 ml. L'huile d'oud n'y est pas, elle n'existe qu'en 12 ml. */
 export const contenuCoffret = ['rose-de-blida', 'ambre-du-sahara', 'neroli-de-tipaza', 'musc-blanc'];
 
-/** Le sommaire de l'accueil : « Six parfums, six pages ». */
+/** Le sommaire de l'accueil : « Le carnet, six pages » — le coffret a sa page. */
 export const sommaire = [
   'rose-de-blida',
   'ambre-du-sahara',
