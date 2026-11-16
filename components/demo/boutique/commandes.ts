@@ -59,6 +59,10 @@ export type Commande = {
   appels?: { date: string; issue: IssueAppel }[];
   /** Motif d'annulation ou de retour, choisi dans une liste courte. */
   motif?: string;
+  /** Le stock a été retiré (à la confirmation) : à remettre si le colis revient. */
+  stockPris?: boolean;
+  /** Envoi simulé : numéro de suivi fictif et date de remise au livreur. */
+  envoi?: { numero: string; date: string };
   /** Commande d'exemple pré-remplie dans le tableau de bord. */
   exemple?: boolean;
 };

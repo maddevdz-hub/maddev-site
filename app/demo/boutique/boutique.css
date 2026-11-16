@@ -141,6 +141,10 @@
   .nd-serif {
     font-family: var(--font-cormorant), Georgia, serif;
   }
+  /* Un intertitre d'outil (h3 du registre) : la sans, pas le serif des titres. */
+  .nd-sans {
+    font-family: var(--font-manrope), system-ui, sans-serif;
+  }
   .nd-italique {
     font-family: var(--font-cormorant), Georgia, serif;
     font-style: italic;

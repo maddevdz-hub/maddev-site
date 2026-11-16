@@ -26,7 +26,9 @@ import { wilayas } from '@/content/demos/wilayas';
  * le stockage du navigateur.
  */
 
-export const CLE_EXEMPLES = 'nada-demo-exemples';
+// v2 : lignes au prix plein + remise en %, comme la vitrine. Un changement de
+// version réécrit les exemples (les vraies commandes restent).
+export const CLE_EXEMPLES = 'nada-demo-exemples-v3';
 export const CLE_LISTE_NOIRE = 'nada-demo-liste-noire';
 
 export const LIBELLE_STATUT: Record<Statut, string> = {
@@ -182,6 +184,8 @@ const GABARITS: Gabarit[] = [
 function construire(g: Gabarit, maintenant: number): Commande {
   const depart = maintenant - g.il * 60e3;
   const iso = (apres: number) => new Date(depart + apres * 60e3).toISOString();
+  // Même convention que la vitrine (Achat.tsx) : prix plein sur la ligne,
+  // remise de l'offre jointe en %, code promo sur les produits remisés.
   const lignes: Ligne[] = g.lignes.map(([slug, i, q, offre]) => {
     const p = produit(slug)!;
     const c = p.contenances[i];
@@ -189,14 +193,14 @@ function construire(g: Gabarit, maintenant: number): Commande {
       slug,
       nom: p.nom,
       contenance: libelleContenance(c),
-      prixUnitaire: offre ? Math.round(c.prix * (1 - OFFRE_JOINTE.remise / 100)) : c.prix,
+      prixUnitaire: c.prix,
       quantite: q,
       ...(offre ? { remise: OFFRE_JOINTE.remise } : {}),
     };
   });
   const articles = lignes.reduce((s, l) => s + l.quantite, 0);
-  const brut = g.lignes.reduce((s, [slug, i, q]) => s + produit(slug)!.contenances[i].prix * q, 0);
-  const net = lignes.reduce((s, l) => s + l.prixUnitaire * l.quantite, 0);
+  const brut = lignes.reduce((s, l) => s + l.prixUnitaire * l.quantite, 0);
+  const net = lignes.reduce((s, l) => s + montantLigne(l), 0);
   const promo = g.code ? Math.round((net * CODES_PROMO[g.code]) / 100) : 0;
   const frais = fraisLivraison(g.wilaya, g.mode, articles);
   return {
@@ -216,13 +220,17 @@ function construire(g: Gabarit, maintenant: number): Commande {
     },
     lignes,
     codePromo: g.code,
-    sousTotal: brut,
+    sousTotal: net,
     remise: brut - net + promo,
     total: net - promo + frais,
     statut: g.parcours[g.parcours.length - 1][0],
     historique: g.parcours.map(([statut, apres, note]) => ({ statut, date: iso(apres), ...(note ? { note } : {}) })),
     appels: g.appels?.map(([apres, issue]) => ({ date: iso(apres), issue })),
     motif: g.motif,
+    // Numéro de suivi d'un envoi simulé, jamais celui d'un vrai transporteur.
+    ...(g.parcours.some(([s]) => s === 'expediee')
+      ? { envoi: { numero: `SIM-${g.id.slice(3)}EX`, date: iso(g.parcours.find(([s]) => s === 'expediee')![1]) } }
+      : {}),
     exemple: true,
   };
 }
@@ -243,13 +251,68 @@ export function assurerExemples(): void {
 /** Remet la démo à zéro : commandes, stocks, liste noire, puis les exemples. */
 export function reinitialiserDemo(): void {
   try {
-    for (const k of [CLE_COMMANDES, CLE_EXEMPLES, CLE_LISTE_NOIRE, 'nada-demo-stocks']) window.localStorage.removeItem(k);
+    for (const k of [CLE_COMMANDES, CLE_EXEMPLES, 'nada-demo-exemples', 'nada-demo-exemples-v2', CLE_LISTE_NOIRE, 'nada-demo-stocks']) window.localStorage.removeItem(k);
   } catch {
     /* stockage indisponible */
   }
   assurerExemples();
   window.dispatchEvent(new Event('nada-commandes'));
   window.dispatchEvent(new Event('nada-stocks'));
+}
+
+/** Montant d'une ligne, remise de l'offre jointe comprise. */
+export function montantLigne(l: Ligne): number {
+  return Math.round(l.prixUnitaire * l.quantite * (1 - (l.remise ?? 0) / 100));
+}
+
+/** Remise du code promo : ce qui sépare le total des lignes et de la livraison. */
+export function remiseCode(c: Commande): number {
+  return c.lignes.reduce((s, l) => s + montantLigne(l), 0) + c.livraison.frais - c.total;
+}
+
+// ── Export ────────────────────────────────────────────────────────────────
+
+/**
+ * Les commandes en CSV, lisible tel quel par Excel en français :
+ * séparateur « ; », BOM UTF-8 pour les accents, une ligne par commande.
+ */
+export function commandesCSV(commandes: Commande[]): string {
+  const cellule = (v: string | number | undefined) => {
+    const t = v === undefined ? '' : String(v);
+    return /[;"\n]/.test(t) ? `"${t.replace(/"/g, '""')}"` : t;
+  };
+  const tete = ['Numéro', 'Date', 'Statut', 'Client', 'Téléphone', 'Wilaya', 'Commune', 'Mode', 'Adresse ou bureau', 'Articles', 'Livraison (DA)', 'Total (DA)', 'Code', 'Appels', 'Motif', 'Exemple'];
+  const lignes = commandes.map((c) => [
+    c.id,
+    new Date(c.date).toLocaleString('fr-FR'),
+    LIBELLE_STATUT[c.statut],
+    c.client.nom,
+    telephoneAffiche(c),
+    c.livraison.wilaya,
+    c.livraison.commune,
+    c.livraison.mode === 'domicile' ? 'Domicile' : 'Bureau',
+    c.livraison.mode === 'domicile' ? c.livraison.adresse : c.livraison.lieuBureau,
+    c.lignes.map((l) => `${l.nom} ${l.contenance} × ${l.quantite}`).join(' + '),
+    c.livraison.frais,
+    c.total,
+    c.codePromo,
+    c.appels?.length ?? 0,
+    c.motif,
+    c.exemple ? 'oui' : 'non',
+  ]);
+  return '﻿' + [tete, ...lignes].map((l) => l.map(cellule).join(';')).join('\r\n');
+}
+
+export function telechargerCSV(commandes: Commande[]): void {
+  const blob = new Blob([commandesCSV(commandes)], { type: 'text/csv;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `nada-commandes-${new Date().toISOString().slice(0, 10)}.csv`;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
 
 // ── Mise en forme ─────────────────────────────────────────────────────────
