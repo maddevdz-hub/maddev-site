@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 
 import {
   LIBELLE_STATUT,
@@ -11,8 +11,10 @@ import {
   reinitialiserDemo,
   telephoneAffiche,
   useRegistre,
+  telechargerCSV,
   type Alerte,
 } from '@/components/demo/boutique/admin/registre';
+import { Alertes, Exemple, PastilleStatut } from '@/components/demo/boutique/admin/elements';
 import type { Commande, Statut } from '@/components/demo/boutique/commandes';
 import { de } from '@/content/demos/boutique-livraison';
 import { formatDA, produit } from '@/content/demos/boutique';
@@ -129,8 +131,8 @@ export function ListeCommandes() {
       </ul>
 
       <div className="mt-7 flex flex-col gap-3 border-b border-[var(--ligne)] lg:flex-row lg:items-end lg:justify-between">
-        <div className="-mx-5 overflow-x-auto px-5 lg:mx-0 lg:px-0" role="tablist" aria-label="Vues">
-          <div className="flex gap-1">
+        <Defilant>
+          <div className="flex gap-1" role="tablist" aria-label="Vues">
             {ONGLETS.map((o) => {
               const n = o.vue === 'a-traiter' ? aTraiter : o.vue === 'toutes' ? triees.length : compte(o.vue as Statut);
               const sel = vue === o.vue;
@@ -150,7 +152,7 @@ export function ListeCommandes() {
               );
             })}
           </div>
-        </div>
+        </Defilant>
         <label className="relative mb-3 block lg:w-[300px]">
           <span className="sr-only">Chercher une commande</span>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="pointer-events-none absolute start-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--gris-texte)]" aria-hidden="true">
@@ -207,6 +209,15 @@ export function ListeCommandes() {
           Les commandes marquées <Exemple /> sont fictives, numéros masqués. Celles que vous passez sur la boutique, dans ce
           navigateur, arrivent ici en tête de liste.
         </p>
+        <div className="flex flex-wrap items-center gap-2">
+        <button
+          type="button"
+          onClick={() => telechargerCSV(visibles)}
+          disabled={!visibles.length}
+          className="min-h-[44px] whitespace-nowrap rounded-full border border-[var(--encre)] px-4 font-semibold text-[var(--encre)] disabled:opacity-40"
+        >
+          Exporter ces {visibles.length} commandes (CSV)
+        </button>
         {confirmerRaz ? (
           <span className="flex flex-wrap items-center gap-2">
             Tout effacer et remettre les exemples ?
@@ -234,48 +245,43 @@ export function ListeCommandes() {
             Réinitialiser la démo
           </button>
         )}
+        </div>
       </div>
     </div>
   );
 }
 
-function Exemple() {
+/**
+ * Rangée qui défile sur téléphone, avec un dégradé sur le bord droit tant
+ * qu'il reste quelque chose à faire défiler : sans lui, les onglets coupés
+ * ne disaient pas qu'il y en avait d'autres.
+ */
+function Defilant({ children }: { children: ReactNode }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [reste, setReste] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const mesurer = () => setReste(el.scrollLeft + el.clientWidth < el.scrollWidth - 2);
+    mesurer();
+    el.addEventListener('scroll', mesurer, { passive: true });
+    const ro = new ResizeObserver(mesurer);
+    ro.observe(el);
+    return () => {
+      el.removeEventListener('scroll', mesurer);
+      ro.disconnect();
+    };
+  }, []);
   return (
-    <span className="rounded-[5px] border border-[var(--ligne)] px-1.5 py-px text-[10.5px] font-bold uppercase tracking-[.12em] text-[var(--gris-texte)]">
-      exemple
-    </span>
-  );
-}
-
-const TON_STATUT: Record<Statut, string> = {
-  nouvelle: 'bg-[#f3e3cf] text-[#6e4317]',
-  'a-rappeler': 'bg-[#f6dccb] text-[#7a3a14]',
-  confirmee: 'bg-[#dbe6dd] text-[#22352c]',
-  expediee: 'bg-[#22352c] text-[#f7f2ea]',
-  livree: 'bg-transparent text-[#22352c] ring-1 ring-inset ring-[#22352c]',
-  retournee: 'bg-[#f1d9d4] text-[#7f2418]',
-  annulee: 'bg-transparent text-[var(--gris-texte)] ring-1 ring-inset ring-[var(--ligne)]',
-};
-
-function PastilleStatut({ statut }: { statut: Statut }) {
-  return (
-    <span className={`inline-flex items-center whitespace-nowrap rounded-full px-2.5 py-1 text-[12px] font-bold ${TON_STATUT[statut]}`}>
-      {statut === 'livree' ? '✓ ' : ''}
-      {LIBELLE_STATUT[statut]}
-    </span>
-  );
-}
-
-function Alertes({ liste }: { liste: Alerte[] }) {
-  if (!liste.length) return null;
-  return (
-    <ul className="mt-1.5 flex flex-wrap gap-1.5">
-      {liste.map((a) => (
-        <li key={a.type} className="inline-flex items-center gap-1 rounded-[6px] bg-[#f6e3df] px-2 py-0.5 text-[12px] font-bold text-[var(--erreur)]">
-          <span aria-hidden="true">!</span> {a.texte}
-        </li>
-      ))}
-    </ul>
+    <div className="relative -mx-5 lg:mx-0">
+      <div ref={ref} className="overflow-x-auto px-5 [scrollbar-width:none] lg:px-0 [&::-webkit-scrollbar]:hidden">
+        {children}
+      </div>
+      <span
+        aria-hidden="true"
+        className={`pointer-events-none absolute inset-y-0 end-0 w-14 bg-gradient-to-l from-[var(--creme)] to-transparent transition-opacity duration-200 ${reste ? 'opacity-100' : 'opacity-0'}`}
+      />
+    </div>
   );
 }
 

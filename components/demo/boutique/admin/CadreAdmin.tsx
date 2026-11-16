@@ -27,7 +27,7 @@ export function CadreAdmin({ children }: { children: ReactNode }) {
     href === '/demo/boutique/admin' ? chemin === href || chemin.startsWith('/demo/boutique/admin/commande') : chemin.startsWith(href);
 
   return (
-    <div className="flex min-h-dvh flex-col bg-[var(--creme)] pb-[72px] lg:pb-0">
+    <div className="flex min-h-dvh flex-col bg-[var(--creme)] pb-[calc(var(--barre-onglets)+1px+env(safe-area-inset-bottom))] [--barre-onglets:60px] lg:pb-0">
       <DemoBanner />
       <p className="border-b border-[var(--ligne)] bg-[var(--creme-2)] px-4 py-2 text-center text-[12.5px] text-[var(--gris-texte)]">
         Accès libre pour la démonstration — en production : comptes et droits par membre de l’équipe.
@@ -78,7 +78,7 @@ export function CadreAdmin({ children }: { children: ReactNode }) {
             key={o.href}
             href={o.href}
             aria-current={actif(o.href) ? 'page' : undefined}
-            className={`flex min-h-[60px] flex-col items-center justify-center gap-1 text-[11.5px] font-semibold ${
+            className={`flex h-[var(--barre-onglets)] flex-col items-center justify-center gap-1 text-[11.5px] font-semibold ${
               actif(o.href) ? 'text-[var(--encre)]' : 'text-[var(--gris-texte)]'
             }`}
           >
