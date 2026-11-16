@@ -502,6 +502,58 @@ chercher de l'arabe ou compter des motifs Unicode, passer par Node.
 
 ---
 
+## 6 bis. Décisions tranchées — plan V2 (novembre 2026)
+
+Décisions définitives : ne plus les remettre en discussion.
+
+**Ordre des chantiers** : A (démo Nadâ) → B (services) → C (pages
+`/e-commerce` et `/applications`) → D (reste du site) → E (production et
+mise en ligne).
+
+**Hero de l'accueil MADDEV** : on raccourcit le texte, on ne réduit jamais la
+taille du titre sur ordinateur.
+
+| | Ligne 1 | Ligne en corail |
+| --- | --- | --- |
+| FR | « Bonjour, nous sommes MADDEV. » | « Sites web et applications. » |
+| AR | « مرحبًا، نحن MADDEV. » | « نطوّر مواقع وتطبيقات. » |
+
+Si le français dépasse trois lignes à 1440 px, montrer la capture avant de
+toucher à la taille.
+
+**Service « Logo et identité visuelle »** : l'identité MADDEV y est présentée
+comme « notre propre identité » / « هويتنا », jamais comme une réalisation
+client. Nadâ y figure comme « marque fictive de démonstration ».
+
+**Suivi après la mise en ligne** : les deux formules actuelles,
+`services.recurring.maintenance` et `services.recurring.ads` dans
+`messages/*.json`, reprises telles quelles. La maintenance gagne un point :
+« Renouvellement du domaine et de l'hébergement, à votre nom » /
+« تجديد النطاق والاستضافة باسمك ». Aucun prix.
+
+**Démo Nadâ** :
+- concept unique, « le carnet de parfumeur » ; la carte de l'Algérie et les
+  changements de teinte de toute la page sont abandonnés (contour pas assez
+  fidèle) ;
+- le fond reste le papier crème partout ; la couleur de chaque parfum ne
+  sert qu'à son ruban adhésif, sa pastille et ses filets ;
+- chaque page porte son lieu en texte ; Timimoun pour l'ambre ; musc et oud
+  « Venu(e) de plus loin » ;
+- sommaire de l'accueil : « Le carnet, six pages » (le coffret a sa page) ;
+- fiche produit : galerie, prix, contenance et formulaire d'abord ; la page de
+  carnet (histoire, pyramide avec ses durées) dessous. Rien ne passe entre le
+  client et « Commander » ; seul le bouton « Commander » colle en bas d'écran
+  sur téléphone ;
+- papier ligné très léger, jamais derrière un formulaire ni un prix, retiré
+  sous 640 px ;
+- aucun numéro de téléphone : WhatsApp s'ouvre sans destinataire, message
+  pré-rempli ;
+- wilayas : jeu de données MIT à 69 wilayas, vérifié contre le Journal
+  officiel 2026 n° 25 avant intégration ; aucun chiffre affiché, « Livraison
+  dans toutes les wilayas » ;
+- ajouts retenus : 1 à 11, 13 à 21, 23 à 28, 30, 32, 39, 40, 41, 43 ;
+  écartés pour l'instant : 12, 22, 29, 31, 33 à 38, 42, 44 à 46.
+
 ## 7. Ce qui reste à faire, par priorité
 
 État au 4 septembre 2026. Ce qui figurait ici et n'y est plus a été fait :
