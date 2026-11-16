@@ -16,7 +16,8 @@
     "photos:boutique": "node scripts/photos-boutique.mjs",
     "wilayas": "node scripts/wilayas.mjs",
     "verifie:boutique": "node scripts/verifie-boutique.mjs",
-    "contraste": "node scripts/contraste.mjs"
+    "contraste": "node scripts/contraste.mjs",
+    "icones:registre": "node scripts/icones-registre.mjs"
   },
   "engines": {
     "node": ">=18.17"
