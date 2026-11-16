@@ -788,7 +788,7 @@ abandonnée.
 | Démo | Route | Ce qu'elle doit prouver | État |
 | --- | --- | --- | --- |
 | Café Zitouna | `/demo/menu` | la carte change en 30 s, sans réimprimer | **terminée** |
-| Zahra Cosmétiques | `/demo/boutique` | la commande arrive complète — produit, variante, quantité, wilaya — en un seul message WhatsApp | à faire |
+| Nadâ — parfums & soins | `/demo/boutique` | la commande arrive complète **et vérifiée avant l'envoi** : formulaire wilaya / commune sur la fiche produit, puis tableau de bord du marchand qui repère les commandes douteuses (numéro invalide, doublon, client qui a déjà refusé), confirme et expédie depuis un seul écran. La plus aboutie des démos | **en cours** (identité et photos faites) |
 | Clinique Dentaire El Yasmine (fictive) | `/demo/rendezvous` | le téléphone cesse de sonner. Le cœur n'est PAS la prise de rendez-vous : c'est le rappel WhatsApp la veille et l'annulation autonome | **terminée** |
 | Dar Immo | `/demo/annonces` | recherche wilaya / budget / type / pièces, fiche avec galerie et plan, demande de visite. Le client trouve sans appeler quinze fois | à faire |
 | Moncef & Lina | `/demo/mariage` | les invités confirment en un clic. **L'aperçu WhatsApp est vital** : des centaines de personnes le verront avant d'ouvrir. Registre littéraire | à faire |
@@ -1006,3 +1006,4 @@ Les tournants du projet, pour comprendre pourquoi le site est dans cet état.
 | Nettoyage `/services` | Plus de « en préparation », libellé du devis dans la source, captures qui échouent franchement |
 | Vrai logo | Source unique `public/logo/maddev-mark.svg`, deux aplats sans dégradé ; `npm run logo` régénère tracés, favicon, icônes et lockups |
 | Design : un accent par écran | Dégradé réservé au titre de tête et au bouton principal ; `/services` aéré, bouton pleine largeur sur mobile ; monochromes du logo en aplat plein |
+| Démo boutique : Nadâ remplace Zahra | Parfumerie fictive, paiement à la livraison, formulaire sur la fiche et tableau de bord ; photos Pexels et Unsplash sans marque (`photos-sources/boutique/CREDITS.md`), pipeline `npm run photos:boutique` ; livraison « dans toutes les wilayas » (69 depuis le JO 2026 n° 25) |

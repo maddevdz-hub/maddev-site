@@ -13,6 +13,7 @@
     "logo": "node scripts/logo.mjs",
     "vues": "node scripts/verifie-vues.mjs",
     "photos": "node scripts/photos.mjs",
+    "photos:boutique": "node scripts/photos-boutique.mjs",
     "contraste": "node scripts/contraste.mjs"
   },
   "engines": {

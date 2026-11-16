@@ -27,3 +27,9 @@ SOURCE.txt
 /*.jpg
 /*.jpeg
 /*.webp
+
+# Photos de la démo boutique : seules les retenues et CREDITS.md sont
+# versionnées. Les candidates examinées et les refusées restent sur le disque.
+photos-sources/boutique/candidats/
+photos-sources/boutique/refusees/
+photos-sources/boutique/PLANCHE.jpg

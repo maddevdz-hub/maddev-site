@@ -1,0 +1,107 @@
+/*
+ * Configuration Tailwind déclarée explicitement : voir menu.css. Sans cette
+ * ligne, le plugin Tailwind 3 réutilise la dernière configuration chargée
+ * par une autre feuille (la clinique a la sienne), et tout le site tombe.
+ */
+@config "../../../tailwind.config.ts";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+ * Identité « Nadâ — parfums & soins ». Marque FICTIVE de démonstration.
+ *
+ * Rien ici ne vient de la charte MADDEV : ni le corail, ni le filigrane DD,
+ * ni Space Grotesk / Outfit. Les jetons sont locaux et ne doivent jamais
+ * migrer vers tailwind.config.ts.
+ *
+ * Contrastes mesurés sur le fond crème #f7f2ea (WCAG 2.1) :
+ *   --encre        #1d1a17   15,5:1   tout le texte principal
+ *   --vert         #22352c   11,7:1   actions ; texte crème dessus : 11,7:1
+ *   --ambre-texte  #8a5521    5,5:1   prix, liens, accents en texte courant
+ *   --gris-texte   #6b6259    5,4:1   texte secondaire
+ *   --ambre        #a4672b    4,1:1   ⚠ sous AA en texte courant : aplats,
+ *                                     filets, pastilles, et texte ≥ 24 px
+ *                                     (ou ≥ 18,66 px gras) seulement
+ *   --gris         #8a8178    3,4:1   ⚠ sous AA en texte : bordures, icônes
+ *                                     décoratives, jamais de texte
+ *
+ * Les deux couleurs ⚠ viennent de la palette imposée. Elles restent, mais
+ * jamais pour un texte à lire : leurs variantes « -texte » s'en chargent.
+ */
+
+@layer base {
+  :root {
+    --creme: #f7f2ea;
+    --creme-2: #efe7da;
+    --creme-3: #e4d8c5;
+    --encre: #1d1a17;
+    --ambre: #a4672b;
+    --ambre-texte: #8a5521;
+    --vert: #22352c;
+    --vert-2: #2e463a;
+    --gris: #8a8178;
+    --gris-texte: #6b6259;
+    --ligne: rgba(29, 26, 23, 0.12);
+    --erreur: #9b2c1f;
+
+    --rayon: 14px;
+    --ombre: 0 18px 40px -24px rgba(29, 26, 23, 0.45);
+
+    color-scheme: light;
+  }
+
+  html {
+    background: var(--creme);
+    color: var(--encre);
+    font-family: var(--font-manrope), system-ui, sans-serif;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background: var(--creme);
+    color: var(--encre);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-cormorant), Georgia, serif;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /* Focus clavier visible sur le crème comme sur le vert. */
+  :focus-visible {
+    outline: 2px solid var(--vert);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+
+  ::selection {
+    background: rgba(164, 103, 43, 0.25);
+  }
+
+  /* Les prix restent en chiffres alignés, quelle que soit la largeur. */
+  .prix {
+    font-variant-numeric: tabular-nums;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 1ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 1ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
