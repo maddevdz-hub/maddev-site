@@ -83,6 +83,11 @@ export function delaiEstime(codeWilaya: number, aujourdhui = new Date()): string
   return `entre ${JOURS[a.getDay()]} ${a.getDate()} et ${JOURS[b.getDay()]} ${b.getDate()}`;
 }
 
+/** « de Blida », mais « d’Aougrout » : l'élision devant une voyelle ou un h. */
+export function de(nom: string): string {
+  return /^[aeiouyâàéèêëîïôöûüh]/i.test(nom) ? `d’${nom}` : `de ${nom}`;
+}
+
 /** Codes de réduction : ils arrivent par le lien de la publicité, jamais par un champ à remplir. */
 export const CODES_PROMO: Record<string, number> = { TIKTOK10: 10, INSTA10: 10 };
 

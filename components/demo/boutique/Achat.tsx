@@ -18,6 +18,7 @@ import { photosBoutique } from '@/content/demos/boutique-photos';
 import {
   ARTICLES_LIVRAISON_OFFERTE,
   CODES_PROMO,
+  de,
   delaiEstime,
   domicileDisponible,
   fraisLivraison,
@@ -38,11 +39,6 @@ type Sauvegarde = {
   mode?: Mode;
   adresse?: string;
 };
-
-/** « de Blida », mais « d’Aougrout » : l'élision devant une voyelle. */
-function de(nom: string): string {
-  return /^[aeiouyâàéèêëîïôöûüh]/i.test(nom) ? `d’${nom}` : `de ${nom}`;
-}
 
 function lireSauvegarde(): Sauvegarde {
   try {
