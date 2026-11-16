@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
 import { Achat } from '@/components/demo/boutique/Achat';
+import { AjoutRapide } from '@/components/demo/boutique/Compteurs';
 import { Cadre, Reassurance } from '@/components/demo/boutique/Cadre';
 import { Galerie } from '@/components/demo/boutique/Galerie';
 import { photosBoutique } from '@/content/demos/boutique-photos';
@@ -134,6 +135,7 @@ export default function FicheProduit({ params }: { params: { slug: string } }) {
                     {s.contenances.length > 1 ? 'dès ' : ''}{formatDA(prixDepart(s))}
                   </p>
                 </Link>
+                <AjoutRapide slug={s.slug} nom={s.nom} />
               </li>
             ))}
           </ul>

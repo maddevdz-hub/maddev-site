@@ -2,6 +2,7 @@ import Link from 'next/link';
 import type { ReactNode } from 'react';
 
 import { DemoBanner } from '@/components/demo/DemoBanner';
+import { CompteurPanier } from '@/components/demo/boutique/Compteurs';
 import { lienWhatsApp, marque } from '@/content/demos/boutique';
 
 /**
@@ -65,8 +66,9 @@ function Entete() {
           <Link
             href="/demo/boutique/panier"
             aria-label="Panier"
-            className="grid h-11 w-11 place-items-center rounded-full border border-[var(--ligne)]"
+            className="relative grid h-11 w-11 place-items-center rounded-full border border-[var(--ligne)]"
           >
+            <CompteurPanier />
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" className="h-[19px] w-[19px]" aria-hidden="true">
               <path d="M5 8h14l-1.2 11.2a1 1 0 0 1-1 .8H7.2a1 1 0 0 1-1-.8z" />
               <path d="M9 8V6a3 3 0 0 1 6 0v2" />

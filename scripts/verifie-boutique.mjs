@@ -39,6 +39,7 @@ const PAGES = [
   '/demo/boutique',
   '/demo/boutique/parfums',
   ...PRODUITS.map((p) => `/demo/boutique/p/${p}`),
+  '/demo/boutique/panier',
   ...(process.env.PAGES_EN_PLUS ? process.env.PAGES_EN_PLUS.split(',') : []),
 ];
 
