@@ -20,6 +20,8 @@ export type Statut =
   | 'livree'
   | 'retournee';
 
+export type IssueAppel = 'joint' | 'pas-de-reponse' | 'occupe' | 'eteint' | 'rappeler';
+
 export type Ligne = {
   slug: string;
   nom: string;
@@ -53,6 +55,10 @@ export type Commande = {
   total: number;
   statut: Statut;
   historique: { statut: Statut; date: string; note?: string }[];
+  /** Tentatives d'appel de confirmation, la plus ancienne d'abord. */
+  appels?: { date: string; issue: IssueAppel }[];
+  /** Motif d'annulation ou de retour, choisi dans une liste courte. */
+  motif?: string;
   /** Commande d'exemple pré-remplie dans le tableau de bord. */
   exemple?: boolean;
 };
