@@ -21,6 +21,8 @@ import './boutique.css';
 const cormorant = Cormorant_Garamond({
   subsets: ['latin'],
   weight: ['500', '600'],
+  // L'italique porte la voix du carnet : notes, en-têtes de page, légendes.
+  style: ['normal', 'italic'],
   variable: '--font-cormorant',
   display: 'swap',
 });
