@@ -22,10 +22,15 @@ export const familles: Record<Famille, string> = {
 };
 
 export type Contenance = {
-  /** Libellé affiché : « 50 ml ». */
   ml: number;
   prix: number;
+  /** Libellé quand « 50 ml » ne suffit pas : le coffret est « 4 × 10 ml ». */
+  libelle?: string;
 };
+
+export function libelleContenance(c: Contenance): string {
+  return c.libelle ?? `${c.ml} ml`;
+}
 
 export type Produit = {
   slug: string;
@@ -182,7 +187,7 @@ export const produits: Produit[] = [
     nom: 'Le coffret découverte',
     nature: 'Coffret',
     accent: '#a4672b',
-    contenances: [{ ml: 40, prix: 9500 }],
+    contenances: [{ ml: 40, prix: 9500, libelle: '4 × 10 ml' }],
     photos: ['coffret', 'coffret-2'],
     stock: 8,
   },
