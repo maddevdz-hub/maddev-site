@@ -41,6 +41,12 @@ const PAGES = [
   ...PRODUITS.map((p) => `/demo/boutique/p/${p}`),
   '/demo/boutique/panier',
   '/demo/boutique/livraison',
+  // Le registre du marchand (les commandes d'exemple s'écrivent à l'ouverture).
+  '/demo/boutique/admin',
+  '/demo/boutique/admin/commande/ND-7QK2D',
+  '/demo/boutique/admin/chiffres',
+  '/demo/boutique/admin/produits',
+  '/demo/boutique/admin/liste-noire',
   ...(process.env.PAGES_EN_PLUS ? process.env.PAGES_EN_PLUS.split(',') : []),
 ];
 
