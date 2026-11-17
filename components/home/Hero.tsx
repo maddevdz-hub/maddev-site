@@ -39,9 +39,14 @@ export function Hero({
       <AmbientBackground patternId="dd-hero" />
 
       <Container>
-        <div className="grid items-center gap-12 py-10 sm:py-16 lg:grid-cols-[1.1fr_.9fr] lg:gap-10 lg:py-20">
-          {/* Colonne texte */}
-          <div className="flex flex-col items-start gap-5 sm:gap-6">
+        {/*
+          Le titre occupe toute la largeur, au-dessus des deux colonnes : dans
+          la seule colonne texte (≈ 590 px à 1440), chaque phrase passait sur
+          deux lignes. Pleine largeur, chacune tient sur une ligne dès 1280 px,
+          sans toucher à la taille de la police (CONTEXTE §6 bis).
+        */}
+        <div className="grid items-center gap-y-5 py-10 sm:gap-y-6 sm:py-16 lg:grid-cols-[1.1fr_.9fr] lg:gap-x-10 lg:gap-y-8 lg:py-20">
+          <div className="flex flex-col items-start gap-5 sm:gap-6 lg:col-span-2">
             <Eyebrow>{t.eyebrow}</Eyebrow>
 
             <h1
@@ -51,7 +56,10 @@ export function Hero({
               <br />
               <span className="text-coral">{t.titleAccent}</span>
             </h1>
+          </div>
 
+          {/* Colonne texte */}
+          <div className="flex flex-col items-start gap-5 sm:gap-6">
             <p
               className="max-w-xl text-base leading-relaxed text-txt2 sm:text-lg"
             >
@@ -121,7 +129,7 @@ export function Hero({
 
           {/* Colonne visuelle : symbole DD, anneaux rotatifs, halo pulsant */}
           <div
-                        className="relative mx-auto flex aspect-square w-full max-w-[380px] items-center justify-center lg:max-w-none"
+            className="relative mx-auto mt-7 flex aspect-square w-full max-w-[380px] items-center justify-center lg:mt-0 lg:max-w-[460px]"
           >
             <HeroEmblem alt={t.logoAlt} />
           </div>
