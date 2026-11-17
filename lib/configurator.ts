@@ -138,11 +138,21 @@ export const questions: Question[] = [
       ar: 'اختر ما يصف نشاطك اليوم أفضل وصف.',
     },
     /*
-     * L'ordre suit celui de /services : du plus simple à se représenter au
-     * plus engageant. « J'ai déjà un site » ferme la liste — c'est la seule
-     * réponse qui parle d'un site plutôt que d'un métier.
+     * Dans l'ordre des groupes de /services : vendre (boutique, café),
+     * organiser (rendez-vous, outil métier), être trouvé (notoriété), puis
+     * l'offre secondaire (parc d'annonces). « J'ai déjà un site » ferme la
+     * liste — c'est la seule réponse qui parle d'un site plutôt que d'un
+     * métier.
      */
     options: [
+      {
+        value: 'boutique',
+        icon: 'cart',
+        label: {
+          fr: 'Un commerce avec des produits à vendre',
+          ar: 'متجر بمنتجات للبيع',
+        },
+      },
       {
         value: 'restauration',
         icon: 'couverts',
@@ -160,11 +170,11 @@ export const questions: Question[] = [
         },
       },
       {
-        value: 'boutique',
-        icon: 'cart',
+        value: 'outil',
+        icon: 'idea',
         label: {
-          fr: 'Un commerce avec des produits à vendre',
-          ar: 'متجر بمنتجات للبيع',
+          fr: 'Une idée d’outil métier',
+          ar: 'فكرة أداة لمهنتي',
         },
       },
       {
@@ -181,14 +191,6 @@ export const questions: Question[] = [
         label: {
           fr: 'Un parc de biens ou de véhicules à publier',
           ar: 'عقارات أو مركبات للنشر',
-        },
-      },
-      {
-        value: 'outil',
-        icon: 'idea',
-        label: {
-          fr: 'Une idée d’outil métier',
-          ar: 'فكرة أداة لمهنتي',
         },
       },
       {

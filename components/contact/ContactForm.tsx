@@ -4,7 +4,7 @@ import { useSearchParams } from 'next/navigation';
 import { useRef, useState, type FormEvent } from 'react';
 import { Button } from '@/components/ui/Button';
 import { HoneypotField } from '@/components/ui/Honeypot';
-import { services } from '@/content/services';
+import { primaryServices, secondaryServices, serviceGroups, showcaseUi } from '@/content/services';
 import { isBudget } from '@/lib/configurator';
 import type { Locale } from '@/i18n/config';
 import type { Dictionary } from '@/i18n/dictionaries';
@@ -162,11 +162,25 @@ export function ContactForm({
             className="w-full appearance-none rounded-xl border border-line bg-ink2 px-4 py-3 pe-10 text-[15px] text-txt transition-colors focus:border-coral/50"
           >
             <option value="">{t.servicePlaceholder}</option>
-            {services.map((service) => (
-              <option key={service.slug} value={service.slug}>
-                {service.name[locale]}
-              </option>
+            {/* Dans l'ordre de /services : les trois groupes, puis les secondaires. */}
+            {serviceGroups.map((groupe) => (
+              <optgroup key={groupe.id} label={groupe.name[locale]}>
+                {primaryServices
+                  .filter((service) => service.group === groupe.id)
+                  .map((service) => (
+                    <option key={service.slug} value={service.slug}>
+                      {service.name[locale]}
+                    </option>
+                  ))}
+              </optgroup>
             ))}
+            <optgroup label={showcaseUi.alsoKicker[locale]}>
+              {secondaryServices.map((service) => (
+                <option key={service.slug} value={service.slug}>
+                  {service.name[locale]}
+                </option>
+              ))}
+            </optgroup>
             <option value="autre">{t.serviceOther}</option>
           </select>
           <svg
