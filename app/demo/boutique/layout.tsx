@@ -54,6 +54,10 @@ export const metadata: Metadata = {
   // Une démonstration ne doit jamais apparaître dans les résultats de
   // recherche : une boutique fictive indexée finirait par être prise pour
   // une vraie.
+  // Aucun manifeste pour la vitrine : sans cette ligne, elle héritait de celui
+  // de MADDEV, et « installer » la boutique installait… MADDEV. Seul le
+  // registre (/demo/boutique/admin) est installable, avec le sien.
+  manifest: null,
   robots: {
     index: false,
     follow: false,
