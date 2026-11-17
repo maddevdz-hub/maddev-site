@@ -135,7 +135,7 @@ export function ShowcaseBlock({
                       sizes="(min-width: 1024px) 560px, 100vw"
                       className="h-auto w-full"
                     />
-                    <figcaption className="border-t border-line px-4 py-3 text-[13px] font-semibold uppercase tracking-[.12em] text-txt2">
+                    <figcaption className="border-t border-line px-4 py-3 text-[13px] font-semibold uppercase tracking-[.12em] text-txt2 rtl:text-[14px] rtl:tracking-normal">
                       {pl.caption[locale]}
                     </figcaption>
                   </figure>
@@ -155,7 +155,7 @@ export function ShowcaseBlock({
                 <span className="flex h-24 w-24 items-center justify-center rounded-3xl border border-coral/25 bg-brand-soft text-coral2">
                   <ServiceGlyph name={item.glyph} className="h-12 w-12" />
                 </span>
-                <p className="text-[13px] font-semibold uppercase tracking-[.14em] text-txt2">
+                <p className="text-[13px] font-semibold uppercase tracking-[.14em] text-txt2 rtl:text-[14px] rtl:tracking-normal">
                   {showcaseUi.demoOnRequest[locale]}
                 </p>
               </div>

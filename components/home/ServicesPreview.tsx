@@ -39,7 +39,7 @@ export function ServicesPreview({
         {serviceGroups.map((groupe) => (
           <div key={groupe.id} className="flex flex-col gap-4">
             <Reveal>
-              <h3 className="text-[13px] font-semibold uppercase tracking-[.14em] text-coral2">
+              <h3 className="text-[13px] font-semibold uppercase tracking-[.14em] text-coral2 rtl:text-[14px] rtl:tracking-normal">
                 {groupe.name[locale]}
               </h3>
             </Reveal>

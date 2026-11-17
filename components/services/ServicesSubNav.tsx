@@ -4,11 +4,12 @@ import { useEffect, useRef, useState } from 'react';
 
 import { useActiveService } from '@/components/services/useActiveService';
 import { Container } from '@/components/ui/Container';
-import type { Service } from '@/content/services';
+import { serviceGroups, type Service } from '@/content/services';
 import type { Locale } from '@/i18n/config';
 
 /**
- * Barre de sous-navigation des six services.
+ * Barre de sous-navigation des services, par groupe (plan V2) : le nom du
+ * groupe en petit, ses services dessous. Le nom mène à l'en-tête du groupe.
  *
  * Le sommaire en tuiles reste en haut de page ; il disparaît dès qu'on
  * défile, et le visiteur perd l'accès aux autres services au moment précis
@@ -64,25 +65,45 @@ export function ServicesSubNav({
             aria-label={locale === 'ar' ? 'الخدمات' : 'Nos services'}
             className={visible ? 'pointer-events-auto' : undefined}
           >
-            <ul className="flex items-center gap-1 overflow-x-auto py-2">
-              {items.map((item) => {
-                const on = active === item.slug;
+            <ul className="flex items-stretch gap-2 overflow-x-auto py-1.5">
+              {serviceGroups.map((groupe, i) => {
+                const membres = items.filter((item) => item.group === groupe.id);
+                if (!membres.length) return null;
                 return (
-                  <li key={item.slug}>
+                  <li
+                    key={groupe.id}
+                    className={['flex flex-col', i > 0 ? 'border-s border-line ps-2' : ''].join(' ')}
+                  >
                     <a
-                      href={`#${item.slug}`}
-                      aria-current={on ? 'true' : undefined}
-                      // Invisible : on la saute aussi au clavier.
+                      href={`#groupe-${groupe.id}`}
                       tabIndex={visible ? undefined : -1}
-                      className={[
-                        'inline-flex min-h-[44px] items-center whitespace-nowrap rounded-full px-3.5 text-[14px] font-semibold transition-colors duration-200',
-                        on
-                          ? 'bg-brand-soft text-txt'
-                          : 'text-txt2 hover:bg-white/[.05] hover:text-txt',
-                      ].join(' ')}
+                      className="px-3.5 pt-1 text-[10.5px] font-semibold uppercase tracking-[.14em] text-coral2 hover:text-coral rtl:text-[12px] rtl:tracking-normal"
                     >
-                      {item.name[locale]}
+                      {groupe.name[locale]}
                     </a>
+                    <ul className="flex items-center gap-1">
+                      {membres.map((item) => {
+                        const on = active === item.slug;
+                        return (
+                          <li key={item.slug}>
+                            <a
+                              href={`#${item.slug}`}
+                              aria-current={on ? 'true' : undefined}
+                              // Invisible : on la saute aussi au clavier.
+                              tabIndex={visible ? undefined : -1}
+                              className={[
+                                'inline-flex min-h-[40px] items-center whitespace-nowrap rounded-full px-3.5 text-[14px] font-semibold transition-colors duration-200',
+                                on
+                                  ? 'bg-brand-soft text-txt'
+                                  : 'text-txt2 hover:bg-white/[.05] hover:text-txt',
+                              ].join(' ')}
+                            >
+                              {item.name[locale]}
+                            </a>
+                          </li>
+                        );
+                      })}
+                    </ul>
                   </li>
                 );
               })}
