@@ -143,7 +143,8 @@
     },
     "recurring": {
       "eyebrow": "Suivi",
-      "title": "Et après la mise en ligne ?",
+      "title": "Après la mise en ligne",
+      "cta": "En parler",
       "subtitle": "Deux formules mensuelles, sans engagement long. À prendre ou à laisser — votre site vous appartient dans tous les cas.",
       "maintenance": {
         "title": "Maintenance mensuelle",
@@ -152,7 +153,8 @@
           "Mises à jour et sauvegardes",
           "Corrections et petits ajouts",
           "Surveillance des performances",
-          "Support prioritaire"
+          "Support prioritaire",
+          "Renouvellement du domaine et de l’hébergement, à votre nom"
         ]
       },
       "ads": {

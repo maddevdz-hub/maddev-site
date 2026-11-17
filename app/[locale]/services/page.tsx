@@ -211,7 +211,7 @@ export default async function ServicesPage({
         </Container>
       </section>
 
-      <RecurringServices dict={dict} />
+      <RecurringServices dict={dict} locale={locale} />
 
       <CtaSection
         title={t.finalCta.title}

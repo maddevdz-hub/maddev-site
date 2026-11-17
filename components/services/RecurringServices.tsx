@@ -1,15 +1,18 @@
+import { ButtonLink } from '@/components/ui/Button';
 import { CheckList } from '@/components/ui/Check';
 import { Reveal, RevealGroup, RevealItem } from '@/components/ui/Reveal';
 import { Section } from '@/components/ui/Section';
 import { SectionHeading } from '@/components/ui/SectionHeading';
+import { href, routes, type Locale } from '@/i18n/config';
 import type { Dictionary } from '@/i18n/dictionaries';
 
 /**
- * Les deux formules mensuelles, présentées comme des options de suivi
- * et non comme des services principaux — d'où le fond alterné et la
- * position en bas de page.
+ * « Après la mise en ligne » : les deux formules mensuelles, présentées
+ * comme des options de suivi et non comme des services principaux — d'où
+ * le fond alterné et la position en bas de page. Jamais de prix : on en
+ * parle (plan V2, B2).
  */
-export function RecurringServices({ dict }: { dict: Dictionary }) {
+export function RecurringServices({ dict, locale }: { dict: Dictionary; locale: Locale }) {
   const t = dict.services.recurring;
 
   const plans = [
@@ -44,6 +47,12 @@ export function RecurringServices({ dict }: { dict: Dictionary }) {
             </RevealItem>
           ))}
         </RevealGroup>
+
+        <Reveal>
+          <ButtonLink href={href(locale, routes.contact)} variant="secondary" size="lg">
+            {t.cta}
+          </ButtonLink>
+        </Reveal>
       </div>
     </Section>
   );
