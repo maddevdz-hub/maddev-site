@@ -67,6 +67,18 @@ export type ServiceJourneyStep = { title: Bilingual; text: Bilingual };
 /** Un écran du parcours d'une démo, avec sa légende. */
 export type ServiceStep = { src: string; caption: Bilingual };
 
+/**
+ * Les trois groupes de /services (plan V2, B). L'ordre du tableau est celui
+ * de la page. Les phrases d'introduction de chaque groupe restent à valider :
+ * pas de texte tant qu'il ne l'est pas.
+ */
+export type ServiceGroup = 'vendre' | 'organiser' | 'trouver';
+export const serviceGroups: { id: ServiceGroup; name: Bilingual }[] = [
+  { id: 'vendre', name: { fr: 'Pour vendre', ar: 'للبيع' } },
+  { id: 'organiser', name: { fr: 'Pour organiser votre travail', ar: 'لتنظيم عملك' } },
+  { id: 'trouver', name: { fr: 'Pour être trouvé et reconnu', ar: 'ليجدك الناس ويعرفوك' } },
+];
+
 export type Service = {
   /** Identifiant stable : ancre `/services#slug`, valeur du formulaire, clé d'email. */
   slug: string;
@@ -77,6 +89,8 @@ export type Service = {
    * déséquilibrerait la page en faveur d'une offre rare.
    */
   tier: 'principal' | 'secondaire';
+  /** Groupe de /services (plan V2) ; seuls les principaux en ont un. */
+  group?: ServiceGroup;
   glyph: ServiceGlyphName;
   /**
    * Étiquette courte : tuile du sommaire, pied de page, menu déroulant du
@@ -121,6 +135,7 @@ export const services: Service[] = [
   {
     slug: 'menu-qr',
     tier: 'principal',
+    group: 'vendre',
     glyph: 'qr',
     name: { fr: 'Menu QR', ar: 'قائمة QR' },
     solves: { fr: 'Votre carte, à jour', ar: 'قائمتك محدَّثة دائمًا' },
@@ -171,6 +186,7 @@ export const services: Service[] = [
   {
     slug: 'prise-de-rendez-vous',
     tier: 'principal',
+    group: 'organiser',
     glyph: 'agenda',
     name: { fr: 'Rendez-vous', ar: 'المواعيد' },
     solves: { fr: 'Fini les appels', ar: 'لا مزيد من المكالمات' },
@@ -221,6 +237,7 @@ export const services: Service[] = [
   {
     slug: 'boutique-en-ligne',
     tier: 'principal',
+    group: 'vendre',
     glyph: 'panier',
     name: { fr: 'Boutique', ar: 'متجر' },
     solves: { fr: 'Commander sans appeler', ar: 'الطلب دون مكالمة' },
@@ -272,6 +289,7 @@ export const services: Service[] = [
   {
     slug: 'site-vitrine',
     tier: 'principal',
+    group: 'trouver',
     glyph: 'vitrine',
     name: { fr: 'Site vitrine', ar: 'موقع تعريفي' },
     solves: { fr: 'Être trouvé sur Google', ar: 'الظهور في غوغل' },
@@ -315,7 +333,9 @@ export const services: Service[] = [
   },
   {
     slug: 'plateforme-annonces',
-    tier: 'principal',
+    // Secondaire depuis le plan V2 : un site qui présente les annonces d'une
+    // agence, sur demande. Son nouveau texte reste à valider.
+    tier: 'secondaire',
     glyph: 'recherche',
     name: { fr: 'Annonces', ar: 'إعلانات مبوّبة' },
     solves: { fr: 'Chercher, filtrer, trouver', ar: 'بحث سريع ونتيجة دقيقة' },
@@ -434,10 +454,17 @@ export const services: Service[] = [
   },
 ];
 
-/** Les services qui occupent un bloc entier de /services. */
-export const primaryServices = services.filter((s) => s.tier === 'principal');
+/**
+ * Les services qui occupent un bloc entier de /services, dans l'ordre des
+ * groupes puis de cette liste (plan V2) — accueil, pied de page et sommaire
+ * suivent le même ordre.
+ */
+const ORDRE_PRINCIPAL = ['boutique-en-ligne', 'menu-qr', 'prise-de-rendez-vous', 'site-vitrine'];
+const rang = (s: Service) =>
+  serviceGroups.findIndex((g) => g.id === s.group) * 100 + ORDRE_PRINCIPAL.indexOf(s.slug);
+export const primaryServices = services.filter((s) => s.tier === 'principal').sort((a, b) => rang(a) - rang(b));
 
-/** Les deux offres présentées en cartes, en bas de /services. */
+/** Les offres présentées en cartes, en bas de /services. */
 export const secondaryServices = services.filter((s) => s.tier === 'secondaire');
 
 export function getService(slug: string): Service | undefined {

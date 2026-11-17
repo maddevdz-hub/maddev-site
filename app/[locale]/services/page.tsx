@@ -15,6 +15,7 @@ import { ServiceGlyph } from '@/components/services/ServiceGlyphs';
 import {
   primaryServices,
   secondaryServices,
+  serviceGroups,
   showcaseUi,
 } from '@/content/services';
 import { getDictionary } from '@/i18n/dictionaries';
@@ -148,15 +149,34 @@ export default async function ServicesPage({
         </Container>
       </section>
 
-      {/* Les six services, chacun avec sa démonstration */}
-      {primaryServices.map((item, index) => (
-        <ShowcaseBlock
-          key={item.slug}
-          item={item}
-          index={index}
-          locale={locale}
-        />
-      ))}
+      {/*
+        Les services, par groupe (plan V2) : un en-tête de groupe, puis ses
+        blocs. L'alternance gauche/droite suit l'ordre global, pas le groupe.
+      */}
+      {serviceGroups.map((groupe) => {
+        const blocs = primaryServices.filter((s) => s.group === groupe.id);
+        if (!blocs.length) return null;
+        return (
+          <div key={groupe.id} id={`groupe-${groupe.id}`} className="scroll-mt-24">
+            <div className="border-t border-line bg-ink2/40 py-10 sm:py-12">
+              <Container>
+                <h2 className="text-[clamp(1.6rem,3.4vw,2.3rem)] font-bold leading-[1.12] tracking-tight text-txt">
+                  {groupe.name[locale]}
+                </h2>
+              </Container>
+            </div>
+            {blocs.map((item) => (
+              <ShowcaseBlock
+                key={item.slug}
+                item={item}
+                index={primaryServices.indexOf(item)}
+                locale={locale}
+                titleAs="h3"
+              />
+            ))}
+          </div>
+        );
+      })}
 
       {/*
         La réalisation : le seul client réel, hors de la liste des services.
@@ -175,9 +195,9 @@ export default async function ServicesPage({
       */}
       <section className="border-t border-line py-14 lg:py-16">
         <Container>
-          <ul className="mx-auto grid max-w-4xl gap-4 sm:grid-cols-2">
+          <ul className="mx-auto grid max-w-6xl gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {secondaryServices.map((service) => (
-              <li key={service.slug} className="h-full">
+              <li key={service.slug} id={service.slug} className="h-full scroll-mt-24">
                 <div className="flex h-full flex-col gap-3 rounded-2xl border border-line bg-ink2/60 p-6 sm:p-7">
                   <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-coral/25 bg-brand-soft">
                     <ServiceGlyph

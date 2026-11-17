@@ -38,10 +38,13 @@ export function ShowcaseBlock({
   item,
   index,
   locale,
+  titleAs: Titre = 'h2',
 }: {
   item: Service;
   index: number;
   locale: Locale;
+  /** h3 quand le bloc vit sous l'en-tête d'un groupe. */
+  titleAs?: 'h2' | 'h3';
 }) {
   // Les blocs pairs mettent l'image en premier dans le sens de lecture.
   const imageFirst = index % 2 === 0;
@@ -133,9 +136,9 @@ export function ShowcaseBlock({
               </p>
             ) : null}
 
-            <h2 className="text-[clamp(1.7rem,3.6vw,2.5rem)] font-bold leading-[1.12] tracking-tight text-txt">
+            <Titre className="text-[clamp(1.7rem,3.6vw,2.5rem)] font-bold leading-[1.12] tracking-tight text-txt">
               {item.benefit[locale]}
-            </h2>
+            </Titre>
 
             <p className="mt-5 max-w-lg text-[16px] leading-relaxed text-txt2 sm:text-[17px]">
               {item.lead[locale]}
