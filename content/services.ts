@@ -587,13 +587,11 @@ export const services: Service[] = [
     ],
   },
   /*
-   * Les deux offres secondaires.
+   * Les offres secondaires.
    *
-   * Elles n'ont pas de bloc sur /services : deux cartes en bas de page. Mais
+   * Elles n'ont pas de bloc sur /services : des cartes en bas de page. Mais
    * elles sont des services entiers, avec leur identifiant, leur délai et
-   * leur place dans le formulaire — `plateforme-sur-mesure` remplace
-   * l'ancien `application-web`, que le configurateur recommandait et que le
-   * visiteur ne trouvait sur aucune page.
+   * leur place dans le formulaire.
    */
   {
     slug: 'invitation-mariage',
