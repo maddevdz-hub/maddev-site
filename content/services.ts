@@ -50,7 +50,9 @@ export type ServiceGlyphName =
   | 'recherche'
   | 'megaphone'
   | 'engrenage'
-  | 'anneaux';
+  | 'anneaux'
+  | 'inscriptions'
+  | 'logo';
 
 /** Capture réelle de la démonstration, cadrée dans un mockup. */
 export type ServiceVisualSpec = {
@@ -73,10 +75,31 @@ export type ServiceStep = { src: string; caption: Bilingual };
  * pas de texte tant qu'il ne l'est pas.
  */
 export type ServiceGroup = 'vendre' | 'organiser' | 'trouver';
-export const serviceGroups: { id: ServiceGroup; name: Bilingual }[] = [
-  { id: 'vendre', name: { fr: 'Pour vendre', ar: 'للبيع' } },
-  { id: 'organiser', name: { fr: 'Pour organiser votre travail', ar: 'لتنظيم عملك' } },
-  { id: 'trouver', name: { fr: 'Pour être trouvé et reconnu', ar: 'ليجدك الناس ويعرفوك' } },
+export const serviceGroups: { id: ServiceGroup; name: Bilingual; intro: Bilingual }[] = [
+  {
+    id: 'vendre',
+    name: { fr: 'Pour vendre', ar: 'للبيع' },
+    intro: {
+      fr: 'Que vous vendiez par une publicité, sur une boutique en ligne ou dans votre local : le client commande seul, et la commande vous arrive complète.',
+      ar: 'سواء كنت تبيع عبر إعلان أو متجر إلكتروني أو داخل محلّك: الزبون يطلب بنفسه، والطلب يصلك مكتملًا.',
+    },
+  },
+  {
+    id: 'organiser',
+    name: { fr: 'Pour organiser votre travail', ar: 'لتنظيم عملك' },
+    intro: {
+      fr: 'Les rendez-vous, les inscriptions, les commandes à suivre : ce que vous gérez aujourd’hui au téléphone et sur papier passe dans un outil qui tient dans votre téléphone.',
+      ar: 'المواعيد والتسجيلات والطلبات التي تتابعها: ما تديره اليوم بالهاتف والورق ينتقل إلى أداة تحملها في هاتفك.',
+    },
+  },
+  {
+    id: 'trouver',
+    name: { fr: 'Pour être trouvé et reconnu', ar: 'ليجدك الناس ويعرفوك' },
+    intro: {
+      fr: 'Qu’on vous trouve sur Google quand on cherche votre métier dans votre ville, et qu’on vous reconnaisse au premier coup d’œil.',
+      ar: 'أن يجدك الناس على غوغل حين يبحثون عن مهنتك في مدينتك، وأن يعرفوك من أول نظرة.',
+    },
+  },
 ];
 
 export type Service = {
@@ -107,6 +130,8 @@ export type Service = {
   lead: Bilingual;
   /** Trois points concrets. Jamais plus : au-delà, une liste devient un mur. */
   points: BilingualList;
+  /** « Pour qui : » — trois cas d'usage, montrés sous le service. */
+  useCases: BilingualList;
   /** LE délai indicatif. Il n'en existe pas d'autre ailleurs. */
   timeline: Bilingual;
   visual?: ServiceVisualSpec;
@@ -118,6 +143,11 @@ export type Service = {
   journey?: ServiceJourneyStep[];
   /** Lien vers la démonstration, quand elle existe. */
   demoHref?: string;
+  /**
+   * Planches d'identité montrées comme preuve (logo) : des images, jamais
+   * un logo présenté comme travail client.
+   */
+  planches?: { src: string; width: number; height: number; caption: Bilingual }[];
   /**
    * Le parcours de la démo en trois écrans réels (`npm run captures`).
    * Réservé aux services qui ont une démo : on ne légende pas ce qu'on ne
@@ -158,6 +188,10 @@ export const services: Service[] = [
         'الصور والأسعار والتوفّر تديرها بنفسك',
         'تُقرأ بيد واحدة، حتى على هاتف قديم',
       ],
+    },
+    useCases: {
+      fr: ['Café et salon de thé', 'Restaurant et fast-food', 'Pâtisserie et glacier'],
+      ar: ['مقهى وصالون شاي', 'مطعم ووجبات سريعة', 'حلويات ومثلّجات'],
     },
     timeline: { fr: '1 semaine', ar: 'أسبوع واحد' },
     visual: {
@@ -210,6 +244,10 @@ export const services: Service[] = [
         'يلغي الزبون بنفسه، والموعد يُملأ من جديد',
       ],
     },
+    useCases: {
+      fr: ['Cabinet médical ou dentaire', 'Salon de coiffure et institut de beauté', 'Avocat, notaire, consultant'],
+      ar: ['عيادة طبية أو عيادة أسنان', 'صالون حلاقة ومعهد تجميل', 'محامٍ أو موثّق أو مستشار'],
+    },
     timeline: { fr: '2 à 3 semaines', ar: 'من أسبوعين إلى ثلاثة' },
     visual: {
       kind: 'capture',
@@ -235,6 +273,47 @@ export const services: Service[] = [
     ],
   },
   {
+    slug: 'page-produit',
+    tier: 'principal',
+    group: 'vendre',
+    glyph: 'megaphone',
+    name: { fr: 'Page produit', ar: 'صفحة منتج' },
+    solves: { fr: 'Vendre depuis une pub', ar: 'البيع من إعلان' },
+    benefit: {
+      fr: 'Le visiteur de votre publicité commande en une minute',
+      ar: 'زائر إعلانك يطلب في دقيقة',
+    },
+    lead: {
+      fr: 'Une page par produit, pensée pour celui qui arrive d’une publicité TikTok, Instagram ou Facebook : il commande sans vous écrire, livraison calculée selon sa wilaya.',
+      ar: 'صفحة لكل منتج، مصمَّمة لمن يأتي من إعلان على تيك توك أو إنستغرام أو فيسبوك: يطلب دون أن يراسلك، ومصاريف التوصيل تُحسب حسب ولايته.',
+    },
+    points: {
+      fr: [
+        'Formulaire court : nom, téléphone, wilaya et commune, livraison calculée',
+        'Une offre jointe proposée juste avant le bouton de commande',
+        'Pixel Meta et TikTok installés : vous savez quelles commandes chaque publicité a rapportées',
+      ],
+      ar: [
+        'استمارة قصيرة: الاسم والهاتف والولاية والبلدية، مع حساب التوصيل',
+        'عرض إضافي يُقترح قبل زر الطلب مباشرة',
+        'بيكسل ميتا وبيكسل تيك توك مثبَّتان: تعرف الطلبات التي جلبها كل إعلان',
+      ],
+    },
+    useCases: {
+      fr: ['Vente de cosmétiques et parfums par publicité', 'Vêtements et accessoires vendus sur TikTok', 'Un produit phare lancé avec une campagne'],
+      ar: ['بيع مستحضرات التجميل والعطور عبر الإعلانات', 'ملابس وإكسسوارات تُباع على تيك توك', 'منتج رئيسي يُطلق بحملة إعلانية'],
+    },
+    timeline: { fr: '1 à 2 semaines', ar: 'من أسبوع إلى أسبوعين' },
+    visual: {
+      kind: 'capture',
+      src: '/services/capture-nada-fiche.png',
+      frame: 'phone',
+      width: 828,
+      height: 1720,
+    },
+    demoHref: '/demo/boutique/p/rose-de-blida',
+  },
+  {
     slug: 'boutique-en-ligne',
     tier: 'principal',
     group: 'vendre',
@@ -242,49 +321,38 @@ export const services: Service[] = [
     name: { fr: 'Boutique', ar: 'متجر' },
     solves: { fr: 'Commander sans appeler', ar: 'الطلب دون مكالمة' },
     benefit: {
-      fr: 'La commande arrive complète',
-      ar: 'الطلب يصلك مكتملًا',
+      fr: 'La commande arrive complète, vérifiée avant l’envoi',
+      ar: 'الطلب يصلك مكتملًا، ومُتحقَّقًا منه قبل الشحن',
     },
     lead: {
-      fr: 'Le produit, la taille, la couleur, la quantité et la wilaya dans un seul message WhatsApp. Plus d’allers-retours pour reconstituer une commande.',
-      ar: 'المنتج والمقاس واللون والكمّية والولاية في رسالة واتساب واحدة. لا مزيد من الأخذ والردّ لإكمال الطلب.',
+      fr: 'Catalogue, panier et paiement à la livraison, avec un registre où vous confirmez chaque commande par téléphone avant d’expédier.',
+      ar: 'كتالوج وسلّة ودفع عند الاستلام، مع سجلّ تؤكّد فيه كل طلب بالهاتف قبل الشحن.',
     },
     points: {
       fr: [
-        'Catalogue avec filtres, recherche et variantes',
-        'Panier qui calcule le total et les frais de livraison',
-        'Vous gérez produits et stocks depuis votre téléphone',
+        'Commandes douteuses signalées : numéro invalide, doublon, client sur liste noire',
+        'Confirmation, expédition et retours suivis depuis un seul écran',
+        'Les retours par wilaya et ce qu’ils vous coûtent, calculés pour vous',
       ],
       ar: [
-        'كتالوج بفلاتر وبحث وخيارات',
-        'سلّة تحسب المجموع ومصاريف التوصيل',
-        'تدير المنتجات والمخزون من هاتفك',
+        'تنبيه على الطلبات المشبوهة: رقم غير صالح، طلب مكرَّر، زبون في القائمة السوداء',
+        'التأكيد والشحن والمرتجعات تتابعها من شاشة واحدة',
+        'المرتجعات حسب الولاية وما تكلّفك، محسوبة لك',
       ],
     },
+    useCases: {
+      fr: ['Magasin de vêtements ou de chaussures', 'Parfumerie et cosmétiques', 'Électroménager et accessoires de téléphone'],
+      ar: ['محلّ ملابس أو أحذية', 'عطور ومستحضرات تجميل', 'أجهزة منزلية وإكسسوارات الهواتف'],
+    },
     timeline: { fr: '4 à 6 semaines', ar: 'من 4 إلى 6 أسابيع' },
-    journey: [
-      {
-        title: { fr: 'Le client choisit', ar: 'الزبون يختار' },
-        text: {
-          fr: 'Il parcourt le catalogue, ouvre une fiche, choisit la taille, la couleur et la quantité.',
-          ar: 'يتصفّح الكتالوج، ويفتح صفحة المنتج، ويختار المقاس واللون والكمّية.',
-        },
-      },
-      {
-        title: { fr: 'Le site rassemble la commande', ar: 'الموقع يجمع الطلب' },
-        text: {
-          fr: 'Panier, wilaya de livraison, coordonnées : tout est réuni avant l’envoi, sans échange de messages.',
-          ar: 'السلّة وولاية التوصيل ومعلومات التواصل: كل شيء يُجمع قبل الإرسال، دون تبادل رسائل.',
-        },
-      },
-      {
-        title: { fr: 'Vous recevez une commande complète', ar: 'يصلك طلب مكتمل' },
-        text: {
-          fr: 'Elle arrive par WhatsApp ou dans votre espace, référence et options comprises. Vous préparez le colis.',
-          ar: 'يصلك عبر واتساب أو في لوحة التحكّم، بمرجعه وخياراته. ولا يبقى عليك سوى تجهيز الطرد.',
-        },
-      },
-    ],
+    visual: {
+      kind: 'capture',
+      src: '/services/capture-nada-accueil.png',
+      frame: 'phone',
+      width: 828,
+      height: 1720,
+    },
+    demoHref: '/demo/boutique',
   },
   {
     slug: 'site-vitrine',
@@ -303,15 +371,19 @@ export const services: Service[] = [
     },
     points: {
       fr: [
-        'Référencement local et fiche Google Maps',
+        'Création ou reprise de votre fiche Google : horaires, photos, lien vers le site',
         'Vos services et vos réalisations présentés page par page',
         'Contact WhatsApp en un geste, depuis chaque page',
       ],
       ar: [
-        'تحسين الظهور المحلي وبطاقة خرائط غوغل',
+        'إنشاء بطاقتك على غوغل أو تحديثها: ساعات العمل، والصور، ورابط الموقع',
         'خدماتك وأعمالك معروضة صفحة بصفحة',
         'تواصل عبر واتساب بلمسة، من كل صفحة',
       ],
+    },
+    useCases: {
+      fr: ['Artisan : menuisier, plombier, électricien', 'Entreprise de services ou de BTP', 'Showroom et commerce de quartier'],
+      ar: ['حرفي: نجّار، سبّاك، كهربائي', 'مؤسسة خدمات أو بناء وأشغال عمومية', 'معرض ومحلّ في الحيّ'],
     },
     timeline: { fr: '1 à 2 semaines', ar: 'من أسبوع إلى أسبوعين' },
     visual: {
@@ -332,20 +404,146 @@ export const services: Service[] = [
     },
   },
   {
+    slug: 'application',
+    tier: 'principal',
+    group: 'organiser',
+    glyph: 'engrenage',
+    name: { fr: 'Application', ar: 'تطبيق' },
+    solves: { fr: 'Un outil à vous', ar: 'أداة خاصة بك' },
+    benefit: {
+      fr: 'L’outil de votre métier, installé sur vos téléphones',
+      ar: 'أداة عملك، مثبَّتة على هواتفكم',
+    },
+    lead: {
+      fr: 'Quand aucun logiciel du marché ne correspond à votre façon de travailler, on construit celui qui manque : il s’ouvre dans le navigateur et s’installe sur l’écran d’accueil comme une application.',
+      ar: 'حين لا يناسب أي برنامج جاهز طريقتك في العمل، نبني الأداة الناقصة: تُفتح في المتصفّح، وتُثبَّت على الشاشة الرئيسية للهاتف كأي تطبيق.',
+    },
+    points: {
+      fr: [
+        'Le besoin cadré avec vous avant la première ligne de code',
+        'Comptes et droits d’accès pour chaque membre de l’équipe',
+        'Sur ordinateur, Android et iPhone, sans passer par les magasins d’applications',
+      ],
+      ar: [
+        'تحديد الحاجة معك قبل أول سطر برمجي',
+        'حسابات وصلاحيات لكل فرد في الفريق',
+        'على الحاسوب وأندرويد وآيفون، دون المرور بمتاجر التطبيقات',
+      ],
+    },
+    useCases: {
+      fr: ['Suivi des commandes et des livraisons d’un commerce', 'Gestion des chantiers ou des interventions d’une entreprise', 'Outil interne d’une équipe : stock, plannings, clients'],
+      ar: ['متابعة طلبات وتوصيلات متجر', 'تسيير الورشات أو التدخّلات لدى مؤسسة', 'أداة داخلية لفريق: المخزون، والجداول، والزبائن'],
+    },
+    timeline: { fr: 'Défini après le cadrage', ar: 'يُحدَّد بعد تحديد الحاجة' },
+    visual: {
+      kind: 'capture',
+      src: '/services/capture-nada-registre.png',
+      frame: 'phone',
+      width: 828,
+      height: 1720,
+    },
+    demoHref: '/demo/boutique/admin',
+  },
+  {
+    slug: 'inscriptions',
+    tier: 'principal',
+    group: 'organiser',
+    glyph: 'inscriptions',
+    name: { fr: 'Inscriptions', ar: 'التسجيل' },
+    solves: { fr: 'S’inscrire en ligne', ar: 'التسجيل عبر الإنترنت' },
+    benefit: {
+      fr: 'Les inscriptions arrivent rangées, groupe par groupe',
+      ar: 'التسجيلات تصلك مرتَّبة، فوجًا بفوج',
+    },
+    lead: {
+      fr: 'Pour les écoles, centres de formation et clubs : l’élève ou le parent s’inscrit seul, et vous retrouvez la liste des inscrits par groupe.',
+      ar: 'للمدارس ومراكز التكوين والنوادي: التلميذ أو وليّه يسجّل بنفسه، وتجد قائمة المسجَّلين حسب كل فوج.',
+    },
+    points: {
+      fr: [
+        'Formulaire d’inscription adapté à vos formations et à vos groupes',
+        'Liste des inscrits par groupe, exportable',
+        'Rappels avant la rentrée ou la séance, et paiement en ligne si vous le souhaitez',
+      ],
+      ar: [
+        'استمارة تسجيل حسب تكويناتك وأفواجك',
+        'قائمة المسجَّلين حسب الفوج، قابلة للتصدير',
+        'تذكير قبل الدخول أو الحصّة، ودفع عبر الإنترنت إن أردت',
+      ],
+    },
+    useCases: {
+      fr: ['École privée et crèche', 'Centre de formation et de langues', 'Club de sport et association'],
+      ar: ['مدرسة خاصة وروضة أطفال', 'مركز تكوين ومركز لغات', 'نادٍ رياضي وجمعية'],
+    },
+    timeline: { fr: '3 à 5 semaines', ar: 'من 3 إلى 5 أسابيع' },
+  },
+  {
+    slug: 'logo-identite',
+    tier: 'principal',
+    group: 'trouver',
+    glyph: 'logo',
+    name: { fr: 'Logo', ar: 'شعار' },
+    solves: { fr: 'Être reconnu', ar: 'أن يعرفك الناس' },
+    benefit: {
+      fr: 'Un logo à vous, prêt pour l’enseigne comme pour Instagram',
+      ar: 'شعار خاص بك، جاهز للافتة كما لإنستغرام',
+    },
+    lead: {
+      fr: 'Un logo dessiné pour votre activité, et tout ce qu’il faut pour l’utiliser partout : enseigne, réseaux sociaux, emballages, site.',
+      ar: 'شعار يُرسم لنشاطك، ومعه كل ما تحتاجه لاستعماله في كل مكان: اللافتة، ومواقع التواصل، والتغليف، والموقع.',
+    },
+    points: {
+      fr: [
+        'Deux ou trois pistes présentées : vous choisissez avant la finalisation',
+        'Fichiers en couleur et en noir et blanc (SVG, PDF, PNG), avec palette et polices',
+        'Déclinaisons prêtes : photo de profil, couverture Facebook, icône de site, et un guide d’une page',
+      ],
+      ar: [
+        'نعرض عليك اتجاهين أو ثلاثة، وتختار قبل الصيغة النهائية',
+        'ملفات بالألوان وبالأبيض والأسود (SVG وPDF وPNG)، مع الألوان والخطوط',
+        'نسخ جاهزة: صورة الحساب، وغلاف فيسبوك، وأيقونة الموقع، ودليل استعمال من صفحة واحدة',
+      ],
+    },
+    useCases: {
+      fr: ['Commerce qui ouvre ses portes', 'Marque qui se lance sur Instagram', 'Activité dont le logo actuel s’imprime mal'],
+      ar: ['محلّ يفتح أبوابه', 'علامة تنطلق على إنستغرام', 'نشاط شعاره الحالي لا يُطبع بشكل جيد'],
+    },
+    timeline: { fr: '2 à 3 semaines', ar: 'من أسبوعين إلى 3 أسابيع' },
+    /*
+     * La preuve : notre propre identité, et celle de la marque fictive de la
+     * démo boutique, chacune légendée pour ce qu'elle est. Aucun autre logo :
+     * on n'en présente aucun comme un travail fait pour un client.
+     */
+    planches: [
+      {
+        src: '/services/planche-maddev.png',
+        width: 1600,
+        height: 1000,
+        caption: { fr: 'Notre propre identité', ar: 'هويتنا' },
+      },
+      {
+        src: '/services/planche-nada.png',
+        width: 1600,
+        height: 1000,
+        caption: { fr: 'Marque fictive de démonstration', ar: 'علامة وهمية للعرض' },
+      },
+    ],
+  },
+  {
     slug: 'plateforme-annonces',
     // Secondaire depuis le plan V2 : un site qui présente les annonces d'une
     // agence, sur demande. Son nouveau texte reste à valider.
     tier: 'secondaire',
     glyph: 'recherche',
-    name: { fr: 'Annonces', ar: 'إعلانات مبوّبة' },
+    name: { fr: 'Site d’annonces', ar: 'موقع عروض' },
     solves: { fr: 'Chercher, filtrer, trouver', ar: 'بحث سريع ونتيجة دقيقة' },
     benefit: {
-      fr: 'Vos clients trouvent sans vous appeler',
-      ar: 'زبائنك يجدون دون أن يتّصلوا بك',
+      fr: 'Les biens de votre agence, consultables sans vous appeler',
+      ar: 'عروض وكالتك، يتصفّحها الزبون دون أن يتّصل بك',
     },
     lead: {
-      fr: 'Une recherche par wilaya, budget et type, une fiche complète, une demande de visite. Le même socle sert l’immobilier, l’automobile et le matériel professionnel.',
-      ar: 'بحث حسب الولاية والميزانية والنوع، بطاقة كاملة، وطلب زيارة. القاعدة نفسها تخدم العقار والسيارات والعتاد المهني.',
+      fr: 'Pour une agence immobilière ou automobile : vos annonces avec photos, filtres par wilaya et budget, et des demandes de visite qui arrivent avec le bien concerné.',
+      ar: 'لوكالة عقارية أو وكالة سيارات: عروضك بالصور، وتصفية حسب الولاية والميزانية، وطلبات معاينة تصلك ومعها العرض المعني.',
     },
     points: {
       fr: [
@@ -356,8 +554,12 @@ export const services: Service[] = [
       ar: [
         'فلاتر مركّبة: الولاية، الميزانية، النوع، المساحة',
         'بطاقة مفصّلة بمعرض صور وموقع',
-        'طلب زيارة يصلك بتفاصيله كاملة',
+        'طلب معاينة يصلك بتفاصيله كاملة',
       ],
+    },
+    useCases: {
+      fr: ['Agence immobilière', 'Concessionnaire et vendeur de voitures', 'Location de matériel'],
+      ar: ['وكالة عقارية', 'وكالة أو بائع سيارات', 'تأجير العتاد'],
     },
     timeline: { fr: '6 à 8 semaines', ar: 'من 6 إلى 8 أسابيع' },
     journey: [
@@ -394,37 +596,6 @@ export const services: Service[] = [
    * visiteur ne trouvait sur aucune page.
    */
   {
-    slug: 'plateforme-sur-mesure',
-    tier: 'secondaire',
-    glyph: 'engrenage',
-    name: { fr: 'Plateforme sur mesure', ar: 'منصّة خاصة' },
-    solves: { fr: 'Un outil à vous', ar: 'أداة خاصة بك' },
-    benefit: {
-      fr: 'L’outil suit votre façon de travailler',
-      ar: 'الأداة تتبع طريقتك في العمل',
-    },
-    lead: {
-      fr: 'Quand aucun logiciel du marché ne correspond à votre métier, on construit celui qui manque. On cadre d’abord ce dont vous vous servirez vraiment.',
-      ar: 'حين لا يناسب أي برنامج جاهز مهنتك، نبني الأداة الناقصة. نحدّد أولًا ما ستستعمله فعلًا.',
-    },
-    points: {
-      fr: [
-        'Le besoin cadré avec vous avant la première ligne de code',
-        'Comptes et droits d’accès pour chaque membre de l’équipe',
-        'Une base qui accepte les fonctions que vous ajouterez ensuite',
-      ],
-      ar: [
-        'تحديد الحاجة معك قبل أول سطر برمجي',
-        'حسابات وصلاحيات لكل فرد في الفريق',
-        'قاعدة تقبل الوظائف التي تضيفها لاحقًا',
-      ],
-    },
-    timeline: {
-      fr: 'Défini après le cadrage',
-      ar: 'يُحدَّد بعد تحديد الحاجة',
-    },
-  },
-  {
     slug: 'invitation-mariage',
     tier: 'secondaire',
     glyph: 'anneaux',
@@ -450,6 +621,10 @@ export const services: Service[] = [
         'قائمة الحضور، محدَّثة باستمرار',
       ],
     },
+    useCases: {
+      fr: ['Mariage', 'Fiançailles', 'Henné et fête familiale'],
+      ar: ['زفاف', 'خطوبة', 'حنّة وحفل عائلي'],
+    },
     timeline: { fr: 'Quelques jours', ar: 'بضعة أيام' },
   },
 ];
@@ -459,13 +634,28 @@ export const services: Service[] = [
  * groupes puis de cette liste (plan V2) — accueil, pied de page et sommaire
  * suivent le même ordre.
  */
-const ORDRE_PRINCIPAL = ['boutique-en-ligne', 'menu-qr', 'prise-de-rendez-vous', 'site-vitrine'];
+const ORDRE_PRINCIPAL = [
+  'page-produit',
+  'boutique-en-ligne',
+  'menu-qr',
+  'prise-de-rendez-vous',
+  'application',
+  'inscriptions',
+  'site-vitrine',
+  'logo-identite',
+];
 const rang = (s: Service) =>
   serviceGroups.findIndex((g) => g.id === s.group) * 100 + ORDRE_PRINCIPAL.indexOf(s.slug);
 export const primaryServices = services.filter((s) => s.tier === 'principal').sort((a, b) => rang(a) - rang(b));
 
 /** Les offres présentées en cartes, en bas de /services. */
 export const secondaryServices = services.filter((s) => s.tier === 'secondaire');
+
+/**
+ * Tous les services dans l'ordre de la page : groupes, puis secondaires.
+ * C'est l'ordre du formulaire de contact et du menu déroulant.
+ */
+export const servicesInPageOrder = [...primaryServices, ...secondaryServices];
 
 export function getService(slug: string): Service | undefined {
   return services.find((s) => s.slug === slug);
@@ -493,4 +683,5 @@ export const showcaseUi = {
   quote: { fr: 'Demander un devis', ar: 'اطلب عرض سعر' },
   alsoKicker: { fr: 'Et aussi', ar: 'وأيضًا' },
   alsoCta: { fr: 'En parler', ar: 'تحدّث معنا' },
+  forWho: { fr: 'Pour qui :', ar: 'لمن:' },
 } satisfies Record<string, Bilingual>;

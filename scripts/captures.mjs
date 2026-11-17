@@ -274,6 +274,113 @@ const SHOTS = [
       await cadrer(page, '[data-visite="rappel-whatsapp"]', 330);
     },
   },
+  /*
+   * ── Démo boutique Nadâ (plan V2) ───────────────────────────────────────
+   * Trois écrans pour trois services : la fiche produit (page produit),
+   * l'accueil de la boutique (boutique en ligne), le registre du marchand
+   * (application installable). Le registre écrit ses commandes d'exemple à
+   * l'ouverture : on attend qu'elles soient affichées.
+   */
+  {
+    file: 'capture-nada-fiche.png',
+    url: '/demo/boutique/p/rose-de-blida',
+    viewport: { width: 414, height: 860 },
+  },
+  {
+    file: 'capture-nada-accueil.png',
+    url: '/demo/boutique',
+    viewport: { width: 414, height: 860 },
+  },
+  {
+    file: 'capture-nada-registre.png',
+    url: '/demo/boutique/admin',
+    viewport: { width: 414, height: 860 },
+    async prepare(page) {
+      await page.waitForSelector('main h1', { timeout: 15000 });
+      await page.waitForFunction(() => document.querySelectorAll('main li a[href*="/commande/"]').length > 3, { timeout: 15000 });
+      await pause(600);
+    },
+  },
+  /*
+   * ── Planches d'identité, preuve du service « Logo » ────────────────────
+   * Composées dans le navigateur, avec les vraies polices et le vrai logo
+   * de chaque marque : la planche MADDEV sur le site (Space Grotesk, Outfit,
+   * Cairo, le DD de l'en-tête), la planche Nadâ dans la démo (Cormorant,
+   * Manrope). En image : la police serif de Nadâ ne se charge jamais sur le
+   * site MADDEV. Aucune phrase dans les planches — elles servent aux deux
+   * langues.
+   */
+  {
+    file: 'planche-maddev.png',
+    url: '/fr',
+    viewport: { width: 800, height: 500 },
+    async prepare(page) {
+      await page.evaluate(() => {
+        const dd = document.querySelector('header a svg').outerHTML;
+        const nuancier = [
+          ['ink', '#0e0f14'], ['ink2', '#14161c'], ['coral', '#ff5a5f'],
+          ['coral2', '#ff8a5f'], ['txt', '#f4f2ef'], ['txt2', '#a8a4ad'],
+        ];
+        const contour = dd.replace(/fill="[^"]*"/g, 'fill="none" stroke="#f4f2ef" stroke-width="2"');
+        const d = document.createElement('div');
+        d.style.cssText = 'position:fixed;inset:0;z-index:2147483647;background:#0e0f14;color:#f4f2ef;display:grid;grid-template-columns:1fr 1fr;overflow:hidden;font-family:var(--font-outfit),sans-serif';
+        d.innerHTML = `
+          <div style="position:relative;display:flex;flex-direction:column;justify-content:center;gap:22px;padding:0 48px;border-right:1px solid rgba(255,255,255,.08)">
+            <div style="position:absolute;right:-70px;bottom:-60px;width:260px;opacity:.10">${contour}</div>
+            <div style="width:150px">${dd}</div>
+            <div style="font-family:var(--font-space-grotesk);font-weight:700;font-size:46px;letter-spacing:-.02em;line-height:1">MADDEV</div>
+          </div>
+          <div style="display:flex;flex-direction:column;justify-content:center;gap:26px;padding:0 40px">
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px">
+              ${nuancier.map(([n, h]) => `<div><div style="height:46px;border-radius:10px;background:${h};border:1px solid rgba(255,255,255,.14)"></div><div style="margin-top:6px;font-size:12px;color:#a8a4ad">${n} · ${h}</div></div>`).join('')}
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;border-top:1px solid rgba(255,255,255,.08);padding-top:20px">
+              <div><div style="font-family:var(--font-space-grotesk);font-weight:700;font-size:44px;line-height:1">Aa</div><div style="margin-top:6px;font-size:12px;color:#a8a4ad">Space Grotesk · Outfit</div></div>
+              <div><div style="font-family:var(--font-cairo);font-weight:700;font-size:44px;line-height:1">أب</div><div style="margin-top:6px;font-size:12px;color:#a8a4ad">Cairo · Tajawal</div></div>
+            </div>
+          </div>`;
+        document.body.appendChild(d);
+      });
+      await page.evaluateHandle('document.fonts.ready');
+      await pause(500);
+    },
+  },
+  {
+    file: 'planche-nada.png',
+    url: '/demo/boutique/livraison',
+    viewport: { width: 800, height: 500 },
+    async prepare(page) {
+      await page.evaluate(() => {
+        const nuancier = [
+          ['crème', '#f7f2ea'], ['encre', '#1d1a17'], ['vert', '#22352c'],
+          ['ambre', '#a4672b'], ['papier', '#efe7da'], ['gris', '#6b6259'],
+        ];
+        const d = document.createElement('div');
+        d.style.cssText = 'position:fixed;inset:0;z-index:2147483647;background:#f7f2ea;color:#1d1a17;display:grid;grid-template-columns:1fr 1fr;overflow:hidden;font-family:var(--font-manrope),sans-serif';
+        d.innerHTML = `
+          <div style="display:flex;flex-direction:column;justify-content:center;gap:16px;padding:0 48px;border-right:1px solid rgba(29,26,23,.12)">
+            <div style="font-family:var(--font-cormorant);font-weight:600;font-size:92px;line-height:.9">Nadâ</div>
+            <div style="font-size:12px;font-weight:700;letter-spacing:.32em;text-transform:uppercase;color:#6b6259">Parfums &amp; soins</div>
+            <div style="margin-top:14px;display:flex;align-items:center;gap:14px">
+              <div style="width:58px;height:58px;border-radius:14px;background:#22352c;display:grid;place-items:center;position:relative"><span style="font-family:var(--font-cormorant);font-weight:600;font-size:44px;color:#f7f2ea;line-height:1">N</span><span style="position:absolute;right:9px;bottom:13px;width:7px;height:7px;border-radius:50%;background:#c69456"></span></div>
+              <div style="height:24px;width:86px;background:#b4566a;opacity:.55;transform:rotate(3deg)"></div>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;justify-content:center;gap:26px;padding:0 40px">
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px">
+              ${nuancier.map(([n, h]) => `<div><div style="height:46px;border-radius:10px;background:${h};border:1px solid rgba(29,26,23,.14)"></div><div style="margin-top:6px;font-size:12px;color:#6b6259">${n} · ${h}</div></div>`).join('')}
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;border-top:1px solid rgba(29,26,23,.12);padding-top:20px">
+              <div><div style="font-family:var(--font-cormorant);font-weight:600;font-size:48px;line-height:1">Aa</div><div style="margin-top:6px;font-size:12px;color:#6b6259">Cormorant Garamond</div></div>
+              <div><div style="font-weight:700;font-size:44px;line-height:1">Aa</div><div style="margin-top:6px;font-size:12px;color:#6b6259">Manrope</div></div>
+            </div>
+          </div>`;
+        document.body.appendChild(d);
+      });
+      await page.evaluateHandle('document.fonts.ready');
+      await pause(500);
+    },
+  },
   {
     file: 'capture-showroom.jpg',
     /*

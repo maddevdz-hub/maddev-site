@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Link from 'next/link';
 
 import { ArrowIcon, ButtonLink } from '@/components/ui/Button';
@@ -9,6 +10,7 @@ import { ShowcaseFigure } from '@/components/services/ShowcaseVisuals';
 import { DemoEmbed } from '@/components/services/DemoEmbed';
 import { ShowcaseSteps } from '@/components/services/ShowcaseSteps';
 import { ServiceJourney } from '@/components/services/ServiceJourney';
+import { ServiceGlyph } from '@/components/services/ServiceGlyphs';
 import { showcaseUi, type Service } from '@/content/services';
 import { cn } from '@/lib/utils';
 import type { Locale } from '@/i18n/config';
@@ -112,7 +114,53 @@ export function ShowcaseBlock({
                 />
               )}
             </Reveal>
-          ) : null}
+          ) : item.planches ? (
+            <Reveal
+              className={imageFirst ? 'lg:order-1' : 'lg:order-2'}
+              delay={0.05}
+            >
+              {/*
+                Logo : la preuve, ce sont deux planches d'identité légendées
+                pour ce qu'elles sont — la nôtre, et celle de la marque
+                fictive de la démo boutique. Aucun logo de client.
+              */}
+              <div className="grid gap-5">
+                {item.planches.map((pl) => (
+                  <figure key={pl.src} className="overflow-hidden rounded-2xl border border-line bg-ink2">
+                    <Image
+                      src={pl.src}
+                      alt={pl.caption[locale]}
+                      width={pl.width}
+                      height={pl.height}
+                      sizes="(min-width: 1024px) 560px, 100vw"
+                      className="h-auto w-full"
+                    />
+                    <figcaption className="border-t border-line px-4 py-3 text-[13px] font-semibold uppercase tracking-[.12em] text-txt2">
+                      {pl.caption[locale]}
+                    </figcaption>
+                  </figure>
+                ))}
+              </div>
+            </Reveal>
+          ) : (
+            <Reveal
+              className={imageFirst ? 'lg:order-1' : 'lg:order-2'}
+              delay={0.05}
+            >
+              {/*
+                Pas de démonstration en ligne : le pictogramme du service et
+                la mention « sur demande », sans fausse capture.
+              */}
+              <div className="flex aspect-[4/3] w-full flex-col items-center justify-center gap-5 rounded-3xl border border-line bg-ink2/70 p-8 text-center">
+                <span className="flex h-24 w-24 items-center justify-center rounded-3xl border border-coral/25 bg-brand-soft text-coral2">
+                  <ServiceGlyph name={item.glyph} className="h-12 w-12" />
+                </span>
+                <p className="text-[13px] font-semibold uppercase tracking-[.14em] text-txt2">
+                  {showcaseUi.demoOnRequest[locale]}
+                </p>
+              </div>
+            </Reveal>
+          )}
 
           {/* Le texte, qui accompagne l'image sans la remplacer */}
           <div className={imageFirst ? 'lg:order-2' : 'lg:order-1'}>
@@ -142,6 +190,12 @@ export function ShowcaseBlock({
 
             <p className="mt-5 max-w-lg text-[16px] leading-relaxed text-txt2 sm:text-[17px]">
               {item.lead[locale]}
+            </p>
+
+            {/* Pour qui : trois cas d'usage, pour se reconnaître d'un coup d'œil. */}
+            <p className="mt-5 max-w-lg text-[14.5px] leading-relaxed text-txt2">
+              <span className="font-semibold text-txt">{showcaseUi.forWho[locale]}</span>{' '}
+              {item.useCases[locale].join(' · ')}
             </p>
 
             {/* Trois points. Jamais plus : au-delà, la liste devient un mur. */}

@@ -33,19 +33,24 @@ const nextConfig = {
         statusCode: 301,
       },
       /*
-       * « Campagne publicitaire » a quitté l'offre (plan V2). Ses liens de
-       * devis (/contact?service=campagne-publicitaire) mènent au service le
-       * plus proche qui existe : la boutique, en attendant la « page
-       * produit » qui reprendra sa promesse — changer alors la destination.
-       * L'ancre /services#campagne-publicitaire ne passe pas par le serveur :
-       * components/ui/HashScroll.tsx la renvoie au même endroit.
+       * Services retirés ou renommés (plan V2) : leurs liens de devis
+       * (/contact?service=…) mènent au service qui a pris le relais.
+       *   campagne-publicitaire → page-produit (sa promesse : la page
+       *                           d'arrivée et le pixel)
+       *   plateforme-sur-mesure → application
+       * Les ancres /services#… ne passent jamais par le serveur (un
+       * fragment n'est pas envoyé) : components/ui/HashScroll.tsx les
+       * renvoie au même endroit, côté navigateur.
        */
-      {
+      ...[
+        ['campagne-publicitaire', 'page-produit'],
+        ['plateforme-sur-mesure', 'application'],
+      ].map(([ancien, nouveau]) => ({
         source: '/:locale(ar|fr)/contact',
-        has: [{ type: 'query', key: 'service', value: 'campagne-publicitaire' }],
-        destination: '/:locale/contact?service=boutique-en-ligne',
+        has: [{ type: 'query', key: 'service', value: ancien }],
+        destination: `/:locale/contact?service=${nouveau}`,
         statusCode: 301,
-      },
+      })),
     ];
   },
 };

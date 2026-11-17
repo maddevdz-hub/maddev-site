@@ -376,7 +376,7 @@ export type ConclusionKey =
   | 'boutique-en-ligne'
   | 'site-vitrine'
   | 'plateforme-annonces'
-  | 'plateforme-sur-mesure'
+  | 'application'
   | 'redesign';
 
 /**
@@ -472,12 +472,12 @@ export const conclusions: Record<ConclusionKey, Bilingual> = {
     ar: 'الموقع التعريفي يغطّي هذه الحاجة تمامًا: يقدّمك، ويطمئن زوّارك، ويحوّل اهتمامهم إلى مكالمة أو رسالة واتساب.',
   },
   'plateforme-annonces': {
-    fr: 'Une plateforme d’annonces traite cela à la source : vos clients filtrent par wilaya, par budget et par type, consultent la fiche complète, et ne vous appellent qu’une fois décidés.',
-    ar: 'منصّة إعلانات تعالج ذلك من جذوره: يصفّي زبائنك العروض حسب الولاية والميزانية والنوع، ويطّلعون على البطاقة الكاملة، ولا يتّصلون بك إلا بعد أن يقرّروا.',
+    fr: 'Un site d’annonces traite cela à la source : vos clients filtrent par wilaya, par budget et par type, consultent la fiche complète, et ne vous appellent qu’une fois décidés.',
+    ar: 'موقع عروض يعالج ذلك من جذوره: يصفّي زبائنك العروض حسب الولاية والميزانية والنوع، ويطّلعون على البطاقة الكاملة، ولا يتّصلون بك إلا بعد أن يقرّروا.',
   },
-  'plateforme-sur-mesure': {
-    fr: 'Une plateforme sur mesure est la bonne réponse : on cadre le besoin réel avec vous avant de développer, pour éviter de construire ce que personne n’utilisera.',
-    ar: 'المنصّة الخاصة هي الجواب الصحيح: نحدّد معك الحاجة الحقيقية قبل البرمجة، كي لا نبني ما لن يستعمله أحد.',
+  'application': {
+    fr: 'Une application conçue pour votre métier est la bonne réponse : on cadre le besoin réel avec vous avant de développer, pour éviter de construire ce que personne n’utilisera.',
+    ar: 'تطبيق مصمَّم لمهنتك هو الجواب الصحيح: نحدّد معك الحاجة الحقيقية قبل البرمجة، كي لا نبني ما لن يستعمله أحد.',
   },
   redesign: {
     fr: 'On repart de votre site existant : on garde ce qui marche, on refait ce qui bloque, et on l’oriente vers ce résultat précis.',
@@ -510,7 +510,7 @@ const exampleProject: Record<string, string | undefined> = {
   'prise-de-rendez-vous': undefined,
   'boutique-en-ligne': undefined,
   'plateforme-annonces': undefined,
-  'plateforme-sur-mesure': undefined,
+  'application': undefined,
 };
 
 // ---------------------------------------------------------------------------
@@ -542,7 +542,7 @@ const BASE_PAR_SITUATION: Record<Exclude<Situation, 'refonte'>, string> = {
   boutique: 'boutique-en-ligne',
   notoriete: 'site-vitrine',
   parc: 'plateforme-annonces',
-  outil: 'plateforme-sur-mesure',
+  outil: 'application',
 };
 
 /**
@@ -567,7 +567,7 @@ function pickPrimarySlug(answers: Answers): string {
    * réponse (URL trafiquée). On se rabat sur l'objectif.
    */
   if (goal === 'vente') return 'boutique-en-ligne';
-  if (goal === 'automatisation') return 'plateforme-sur-mesure';
+  if (goal === 'automatisation') return 'application';
   return 'site-vitrine';
 }
 
@@ -605,7 +605,7 @@ function pickSituation(answers: Answers, primarySlug: string): SituationKey {
    * même ici : le visiteur vient de dire quelque chose sur son commerce, et
    * un constat qui l'ignore lui apprend seulement qu'on ne l'a pas écouté.
    */
-  if (primarySlug === 'plateforme-sur-mesure') {
+  if (primarySlug === 'application') {
     if (invisible) return 'outilInvisible';
     return goal === 'automatisation' ? 'outilAutomatisation' : 'outilIdee';
   }

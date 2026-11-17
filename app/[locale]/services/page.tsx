@@ -163,6 +163,9 @@ export default async function ServicesPage({
                 <h2 className="text-[clamp(1.6rem,3.4vw,2.3rem)] font-bold leading-[1.12] tracking-tight text-txt">
                   {groupe.name[locale]}
                 </h2>
+                <p className="mt-3 max-w-3xl text-[16px] leading-relaxed text-txt2 sm:text-[17px]">
+                  {groupe.intro[locale]}
+                </p>
               </Container>
             </div>
             {blocs.map((item) => (
@@ -195,7 +198,7 @@ export default async function ServicesPage({
       */}
       <section className="border-t border-line py-14 lg:py-16">
         <Container>
-          <ul className="mx-auto grid max-w-6xl gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <ul className="mx-auto grid max-w-4xl gap-4 sm:grid-cols-2">
             {secondaryServices.map((service) => (
               <li key={service.slug} id={service.slug} className="h-full scroll-mt-24">
                 <div className="flex h-full flex-col gap-3 rounded-2xl border border-line bg-ink2/60 p-6 sm:p-7">
@@ -215,6 +218,10 @@ export default async function ServicesPage({
                     </h2>
                     <p className="mt-1.5 text-[15px] leading-relaxed text-txt2">
                       {service.lead[locale]}
+                    </p>
+                    <p className="mt-2 text-[14px] leading-relaxed text-txt2">
+                      <span className="font-semibold text-txt">{showcaseUi.forWho[locale]}</span>{' '}
+                      {service.useCases[locale].join(' · ')}
                     </p>
                   </div>
 

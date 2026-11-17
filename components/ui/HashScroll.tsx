@@ -21,7 +21,8 @@ import { useEffect } from 'react';
  * next.config.mjs (un fragment # n'arrive jamais au serveur).
  */
 const ANCRES_REMPLACEES: Record<string, string> = {
-  'campagne-publicitaire': 'boutique-en-ligne',
+  'campagne-publicitaire': 'page-produit',
+  'plateforme-sur-mesure': 'application',
 };
 
 export function HashScroll() {
