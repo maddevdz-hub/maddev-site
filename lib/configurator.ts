@@ -367,9 +367,8 @@ export type SituationKey =
 /**
  * Une conclusion par service atteignable en recommandation principale.
  *
- * `campagne-publicitaire` n'y figure pas : la publicité ne vient jamais
- * seule, elle s'ajoute en second à un service qui l'accueille. Une campagne
- * qui mène à une page inexistante ne rapporte rien.
+ * (La campagne publicitaire n'y a jamais figuré, et a quitté l'offre : son
+ * adresse redirige en 301, voir next.config.mjs.)
  */
 export type ConclusionKey =
   | 'menu-qr'
@@ -621,15 +620,12 @@ export function getRecommendation(answers: Answers): Recommendation {
   const isRedesign = answers.situation === 'refonte';
 
   /*
-   * La publicité ne remplace jamais la recommandation principale : elle la
-   * complète. Le garde-fou vaut pour le jour où une situation la
-   * désignerait en premier — une campagne qui mène à une page inexistante
-   * ne rapporte rien.
+   * Service complémentaire (« on recommande aussi ») : aucun pour l'instant.
+   * La campagne publicitaire, seule candidate jusqu'ici, a quitté l'offre
+   * (plan V2) ; ce qu'elle promettait rejoindra la future « page produit ».
+   * Le mécanisme reste, pour le logo proposé en complément (plan V2, D).
    */
-  const secondary =
-    answers.goal === 'trafic' && primarySlug !== 'campagne-publicitaire'
-      ? getService('campagne-publicitaire')
-      : undefined;
+  const secondary: Service | undefined = undefined;
 
   return {
     service,

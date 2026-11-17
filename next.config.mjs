@@ -32,6 +32,20 @@ const nextConfig = {
         destination: '/:locale/services',
         statusCode: 301,
       },
+      /*
+       * « Campagne publicitaire » a quitté l'offre (plan V2). Ses liens de
+       * devis (/contact?service=campagne-publicitaire) mènent au service le
+       * plus proche qui existe : la boutique, en attendant la « page
+       * produit » qui reprendra sa promesse — changer alors la destination.
+       * L'ancre /services#campagne-publicitaire ne passe pas par le serveur :
+       * components/ui/HashScroll.tsx la renvoie au même endroit.
+       */
+      {
+        source: '/:locale(ar|fr)/contact',
+        has: [{ type: 'query', key: 'service', value: 'campagne-publicitaire' }],
+        destination: '/:locale/contact?service=boutique-en-ligne',
+        statusCode: 301,
+      },
     ];
   },
 };

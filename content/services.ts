@@ -364,61 +364,6 @@ export const services: Service[] = [
       },
     ],
   },
-  {
-    slug: 'campagne-publicitaire',
-    tier: 'principal',
-    glyph: 'megaphone',
-    name: { fr: 'Campagne', ar: 'حملة إعلانية' },
-    solves: { fr: 'Amener des clients', ar: 'جلب الزبائن إليك' },
-    benefit: {
-      fr: 'On amène les clients jusqu’à vous',
-      ar: 'نجلب الزبائن إليك',
-    },
-    lead: {
-      fr: 'Des campagnes Facebook, Instagram et TikTok qui mènent à une page conçue pour convertir. La page fait partie du service — une publicité qui tombe dans le vide ne rapporte rien.',
-      ar: 'حملات على فيسبوك وإنستغرام وتيك توك تقود إلى صفحة مصمَّمة لتحويل الزائر إلى زبون. الصفحة جزء من الخدمة — إعلان يقود إلى الفراغ لا يعود بشيء.',
-    },
-    points: {
-      fr: [
-        'Page d’arrivée dessinée pour un seul objectif',
-        'Pixel et suivi posés proprement, mesure fiable',
-        'Rapport clair : dépensé, contacts, ventes',
-      ],
-      ar: [
-        'صفحة وصول مصمَّمة لهدف واحد',
-        'تتبّع مضبوط للزيارات والطلبات، وقياس موثوق',
-        'تقرير واضح: المصروف، الاتصالات، المبيعات',
-      ],
-    },
-    timeline: {
-      fr: 'Mise en place en quelques jours',
-      ar: 'الإعداد في بضعة أيام',
-    },
-    journey: [
-      {
-        title: { fr: 'La publicité touche votre public', ar: 'الإعلان يصل إلى جمهورك' },
-        text: {
-          fr: 'Facebook, Instagram ou TikTok, ciblés sur votre wilaya et votre clientèle.',
-          ar: 'فيسبوك أو إنستغرام أو تيك توك، موجّهة إلى ولايتك وزبائنك.',
-        },
-      },
-      {
-        title: { fr: 'Elle mène à une page faite pour ça', ar: 'يقود إلى صفحة مصمّمة لذلك' },
-        text: {
-          fr: 'Un seul message, une seule action. La page fait partie du service : une publicité qui tombe dans le vide ne rapporte rien.',
-          ar: 'رسالة واحدة وإجراء واحد. الصفحة جزء من الخدمة: إعلان يقود إلى الفراغ لا يعود بشيء.',
-        },
-      },
-      {
-        title: { fr: 'Vous voyez ce que chaque dinar a donné', ar: 'ترى ما حقّقه كل دينار' },
-        text: {
-          fr: 'Dépense, contacts reçus, ventes : un rapport clair, pas des graphiques décoratifs.',
-          ar: 'المصروف والاتصالات والمبيعات: تقرير واضح، لا رسوم بيانية للزينة.',
-        },
-      },
-    ],
-  },
-
   /*
    * Les deux offres secondaires.
    *
@@ -489,7 +434,7 @@ export const services: Service[] = [
   },
 ];
 
-/** Les six services qui occupent un bloc entier de /services. */
+/** Les services qui occupent un bloc entier de /services. */
 export const primaryServices = services.filter((s) => s.tier === 'principal');
 
 /** Les deux offres présentées en cartes, en bas de /services. */
