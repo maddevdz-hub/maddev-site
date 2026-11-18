@@ -18,7 +18,8 @@
     "verifie:boutique": "node scripts/verifie-boutique.mjs",
     "contraste": "node scripts/contraste.mjs",
     "icones:registre": "node scripts/icones-registre.mjs",
-    "verifie:liens": "node scripts/verifie-liens.mjs"
+    "verifie:liens": "node scripts/verifie-liens.mjs",
+    "parcours:boutique": "node scripts/parcours-boutique.mjs"
   },
   "engines": {
     "node": ">=18.17"
