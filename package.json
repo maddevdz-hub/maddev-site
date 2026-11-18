@@ -17,7 +17,8 @@
     "wilayas": "node scripts/wilayas.mjs",
     "verifie:boutique": "node scripts/verifie-boutique.mjs",
     "contraste": "node scripts/contraste.mjs",
-    "icones:registre": "node scripts/icones-registre.mjs"
+    "icones:registre": "node scripts/icones-registre.mjs",
+    "verifie:liens": "node scripts/verifie-liens.mjs"
   },
   "engines": {
     "node": ">=18.17"
