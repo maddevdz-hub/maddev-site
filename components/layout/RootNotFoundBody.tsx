@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation';
 import { ButtonLink } from '@/components/ui/Button';
 import { SystemScreen } from '@/components/layout/SystemScreen';
 import { href, localeDirection, routes } from '@/i18n/config';
-import { localeFromPathname } from '@/i18n/systemMessages';
+import { localeFromPathname, systemMessages } from '@/i18n/systemMessages';
 
 /**
  * Corps de la 404 racine.
@@ -27,6 +27,7 @@ export function RootNotFoundBody() {
   useEffect(() => {
     document.documentElement.lang = locale;
     document.documentElement.dir = localeDirection[locale];
+    document.title = `${systemMessages[locale].notFoundTitle} — MADDEV`;
   }, [locale]);
 
   return (
